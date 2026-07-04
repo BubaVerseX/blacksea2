@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Black Sea 2 | Swimming and Fitness in Gldani",
+  title: "Black Sea 2 | ფიტნესი და აუზი გლდანში",
   description:
-    "Black Sea 2 is a sports and swimming complex in Gldani, Tbilisi with swimming pools, gym, aqua aerobics, aerobics, and CrossFit.",
+    "Black Sea 2 არის სპორტულ-გამაჯანსაღებელი კომპლექსი გლდანში: აუზი, ფიტნესი, Aqua Aerobics, აერობიკა და CrossFit.",
   openGraph: {
     title: "Black Sea 2",
     description:
-      "Swimming, fitness, aqua aerobics, and CrossFit in Gldani, Tbilisi.",
+      "ფიტნესი, ცურვა, Aqua Aerobics და CrossFit გლდანში, თბილისში.",
     type: "website",
   },
 };
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="ka" className="h-full antialiased">
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
