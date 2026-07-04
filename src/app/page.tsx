@@ -71,10 +71,30 @@ const showcaseItems = [
 ];
 
 const galleryItems = [
-  { title: "Lap Pool", position: "object-[42%_center]" },
-  { title: "Fitness Floor", position: "object-[64%_center]" },
-  { title: "Aqua Sessions", position: "object-[36%_center]" },
-  { title: "Evening Training", position: "object-[70%_center]" },
+  {
+    title: "25m Pool",
+    src: "/black-sea-2-gallery-pool.jpg",
+    alt: "Official Black Sea 2 25m swimming pool photo",
+    position: "object-[48%_center]",
+  },
+  {
+    title: "Starting Blocks",
+    src: "/black-sea-2-gallery-blocks.jpg",
+    alt: "Official Black Sea 2 pool starting blocks photo",
+    position: "object-[45%_center]",
+  },
+  {
+    title: "Blue Lockers",
+    src: "/black-sea-2-gallery-lockers.jpg",
+    alt: "Official Black Sea 2 blue locker room photo",
+    position: "object-[56%_center]",
+  },
+  {
+    title: "Changing Rooms",
+    src: "/black-sea-2-gallery-changing.jpg",
+    alt: "Official Black Sea 2 changing room photo",
+    position: "object-[50%_center]",
+  },
 ];
 
 const hours = [
@@ -106,9 +126,7 @@ function Navbar() {
         className="mx-auto flex h-18 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8"
       >
         <a href="#top" className="flex items-center gap-3" aria-label="Black Sea 2 home">
-          <span className="flex size-10 items-center justify-center rounded-lg border border-cyan-300/35 bg-cyan-300/12 text-sm font-semibold text-cyan-100 shadow-[0_0_28px_rgba(34,211,238,0.2)]">
-            BS2
-          </span>
+          <BrandLogo className="size-10" />
           <span className="text-lg font-semibold">Black Sea 2</span>
         </a>
 
@@ -325,7 +343,7 @@ function GallerySection() {
         <SectionIntro
           eyebrow="Gallery"
           title="A visual direction built around blue water and athletic energy"
-          description="The demo uses premium, high-contrast imagery and simple overlays to make the complex feel immediate and memorable."
+          description="Official venue photos keep the demo grounded while the overlays preserve the premium dark-blue mood."
         />
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -337,8 +355,8 @@ function GallerySection() {
               }`}
             >
               <Image
-                src="/black-sea-2-hero.png"
-                alt={`${item.title} visual for Black Sea 2`}
+                src={item.src}
+                alt={item.alt}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className={`object-cover ${item.position}`}
@@ -463,7 +481,10 @@ function Footer() {
   return (
     <footer className="border-t border-white/10 py-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 text-sm text-white/58 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <p>Black Sea 2. Swimming, fitness, aqua aerobics, and CrossFit in Gldani.</p>
+        <div className="flex items-center gap-3">
+          <BrandLogo className="size-9 opacity-85" />
+          <p>Black Sea 2. Swimming, fitness, aqua aerobics, and CrossFit in Gldani.</p>
+        </div>
         <div className="flex gap-5">
           <a href={`tel:${phoneNumbers[0]}`} className="transition hover:text-white">
             Call
@@ -487,6 +508,22 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function BrandLogo({ className }: { className: string }) {
+  return (
+    <span
+      className={`relative flex shrink-0 overflow-hidden rounded-lg border border-cyan-300/35 bg-white shadow-[0_0_28px_rgba(34,211,238,0.18)] ${className}`}
+    >
+      <Image
+        src="/black-sea-2-logo.png"
+        alt=""
+        fill
+        sizes="40px"
+        className="object-contain p-1"
+      />
+    </span>
   );
 }
 
