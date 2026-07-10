@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Black Sea 2 | ფიტნესი და აუზი გლდანში",
+  title: "Black Sea Complex | Tbilisi & Zestafoni",
   description:
-    "Black Sea 2 არის სპორტულ-გამაჯანსაღებელი კომპლექსი გლდანში: აუზი, ფიტნესი, Aqua Aerobics, აერობიკა და CrossFit.",
+    "Black Sea Complex — premium sport complexes in Tbilisi (Gldani) and Zestafoni. Pools, gym, group classes, and an on-site hotel in Zestafoni.",
   openGraph: {
-    title: "Black Sea 2",
+    title: "Black Sea Complex",
     description:
-      "ფიტნესი, ცურვა, Aqua Aerobics და CrossFit გლდანში, თბილისში.",
+      "Two premium sport complexes in Georgia — Tbilisi and Zestafoni.",
     type: "website",
   },
 };
