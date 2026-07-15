@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   type Bi,
+  type IconKind,
   type Lang,
   type LocationId,
   instagramUrl,
@@ -10,6 +11,90 @@ import {
   locations,
   ui,
 } from "./content";
+
+const ICON_STYLE: Record<IconKind, { bg: string; fg: string }> = {
+  wave: { bg: "rgba(30,167,255,0.16)", fg: "#5cc4ff" },
+  aqua: { bg: "rgba(20,200,170,0.18)", fg: "#4be3c9" },
+  kids: { bg: "rgba(255,138,92,0.18)", fg: "#ff9d70" },
+  dumbbell: { bg: "rgba(242,195,0,0.18)", fg: "#ffd84d" },
+  crossfit: { bg: "rgba(255,110,110,0.18)", fg: "#ff8a8a" },
+  aerobics: { bg: "rgba(20,200,170,0.18)", fg: "#4be3c9" },
+  hotel: { bg: "rgba(30,167,255,0.16)", fg: "#5cc4ff" },
+};
+
+const TINT_GRADIENT: Record<string, string> = {
+  gold: "linear-gradient(135deg,rgba(242,195,0,0.28),#1e1e20)",
+  blue: "linear-gradient(135deg,rgba(30,167,255,0.28),#1e1e20)",
+  teal: "linear-gradient(135deg,rgba(20,200,170,0.28),#1e1e20)",
+  coral: "linear-gradient(135deg,rgba(255,138,92,0.28),#1e1e20)",
+};
+
+function ServiceIcon({ kind, className }: { kind: IconKind; className?: string }) {
+  const c = className || "h-full w-full";
+  switch (kind) {
+    case "wave":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <path d="M2 17c1.6 1.6 3.2 1.6 4.8 0s3.2-1.6 4.8 0 3.2 1.6 4.8 0 3.2-1.6 4.8 0" />
+          <path d="M2 12c1.6 1.6 3.2 1.6 4.8 0s3.2-1.6 4.8 0 3.2 1.6 4.8 0 3.2-1.6 4.8 0" />
+        </svg>
+      );
+    case "aqua":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <path d="M12 2s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z" />
+        </svg>
+      );
+    case "kids":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <circle cx="12" cy="6" r="2.4" />
+          <path d="M6 21c0-3 2.5-5.5 6-5.5s6 2.5 6 5.5M9 12l3 1 3-1" />
+        </svg>
+      );
+    case "dumbbell":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <path d="M4 9v6M2 10.5v3M20 9v6M22 10.5v3M7 12h10" />
+        </svg>
+      );
+    case "crossfit":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <circle cx="7" cy="15" r="3" />
+          <path d="M9.5 12.5 15 7M17 5l2 2-2 2-2-2 2-2Z" />
+        </svg>
+      );
+    case "aerobics":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <circle cx="12" cy="4.5" r="2" />
+          <path d="M12 7v6l4 4M12 13l-4 4M8 9l4 1 4-1" />
+        </svg>
+      );
+    case "hotel":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className={c}>
+          <path d="M3 20V9l7-4 7 4v11M3 20h18M8 20v-5h5v5" />
+        </svg>
+      );
+  }
+}
+
+function tiltHandlers() {
+  return {
+    onMouseMove: (e: React.MouseEvent<HTMLDivElement>) => {
+      const el = e.currentTarget;
+      const rect = el.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      el.style.transform = `perspective(900px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateY(-4px)`;
+    },
+    onMouseLeave: (e: React.MouseEvent<HTMLDivElement>) => {
+      e.currentTarget.style.transform = "perspective(900px) rotateY(0deg) rotateX(0deg) translateY(0)";
+    },
+  };
+}
 
 function t(bi: Bi, lang: Lang) {
   return bi[lang];
@@ -36,6 +121,71 @@ function useReveal(deps: unknown[]) {
   }, deps);
 
   return rootRef;
+}
+
+function useScrollProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop;
+      const max = h.scrollHeight - h.clientHeight;
+      setPct(max > 0 ? Math.min(100, (scrolled / max) * 100) : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return pct;
+}
+
+function AnimatedNumber({ value, decimals = 0 }: { value: number; decimals?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [display, setDisplay] = useState(0);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !started.current) {
+            started.current = true;
+            const duration = 1200;
+            const start = performance.now();
+            const tick = (now: number) => {
+              const progress = Math.min(1, (now - start) / duration);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              setDisplay(value * eased);
+              if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [value]);
+
+  return (
+    <span ref={ref}>
+      {display.toFixed(decimals)}
+    </span>
+  );
+}
+
+function glowHandlers(color: string) {
+  return {
+    onMouseMove: (e: React.MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+      e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      e.currentTarget.style.setProperty("--glow-color", color);
+    },
+  };
 }
 
 function FacebookIcon({ className }: { className?: string }) {
@@ -95,11 +245,19 @@ function GhostButton({ children, ...props }: React.ComponentPropsWithoutRef<"a">
   );
 }
 
+const PARTICLES = Array.from({ length: 10 }).map((_, i) => ({
+  left: `${(i * 9.7) % 100}%`,
+  top: `${(i * 17.3) % 100}%`,
+  size: 2 + (i % 3),
+  delay: `${(i * 0.7).toFixed(1)}s`,
+}));
+
 export default function Page() {
   const [lang, setLang] = useState<Lang>("ka");
   const [active, setActive] = useState<LocationId>("tbilisi");
   const [scrolled, setScrolled] = useState(false);
   const revealRef = useReveal([active, lang]);
+  const progress = useScrollProgress();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -116,9 +274,18 @@ export default function Page() {
 
   const loc = locations[active];
   const accentVar = loc.accent === "gold" ? "var(--gold)" : "var(--blue)";
+  const glowColor = loc.accent === "gold" ? "rgba(242,195,0,0.18)" : "rgba(30,167,255,0.2)";
+  const totalPools = useMemo(() => locations.tbilisi.poolCount + locations.zestafoni.poolCount, []);
 
   return (
-    <div ref={revealRef}>
+    <div ref={revealRef} className="relative">
+      <div className="aurora-field">
+        <div className="aurora-blob gold" />
+        <div className="aurora-blob blue" />
+        <div className="aurora-blob teal" />
+      </div>
+      <div className="progress-bar" style={{ width: `${progress}%`, background: accentVar }} />
+
       {/* NAV */}
       <nav
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
@@ -146,14 +313,14 @@ export default function Page() {
             <div className="flex gap-1.5 text-[12px] text-white/60">
               <span
                 onClick={() => setLang("en")}
-                className={`cursor-pointer rounded px-1.5 py-0.5 ${lang === "en" ? "border border-white/20 text-white" : ""}`}
+                className={`cursor-pointer rounded px-1.5 py-0.5 transition-all duration-300 ${lang === "en" ? "border border-white/20 text-white" : ""}`}
               >
                 {ui.langEn}
               </span>
               <span>|</span>
               <span
                 onClick={() => setLang("ka")}
-                className={`cursor-pointer rounded px-1.5 py-0.5 ${lang === "ka" ? "border border-white/20 text-white" : ""}`}
+                className={`cursor-pointer rounded px-1.5 py-0.5 transition-all duration-300 ${lang === "ka" ? "border border-white/20 text-white" : ""}`}
               >
                 {ui.langKa}
               </span>
@@ -166,12 +333,26 @@ export default function Page() {
       </nav>
 
       {/* HERO / GATE */}
-      <section className="px-8 pb-16 pt-44 text-center">
+      <section className="relative overflow-hidden px-8 pb-16 pt-44 text-center">
+        {PARTICLES.map((p, i) => (
+          <span
+            key={i}
+            className="hero-particle"
+            style={{
+              left: p.left,
+              top: p.top,
+              width: p.size,
+              height: p.size,
+              background: i % 2 === 0 ? "rgba(242,195,0,0.5)" : "rgba(30,167,255,0.5)",
+              animationDelay: p.delay,
+            }}
+          />
+        ))}
         <div className="mx-auto max-w-6xl">
           <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-[11px] uppercase tracking-[2px] text-white/60">
             {t(ui.heroBadge, lang)}
           </span>
-          <h1 className="mx-auto max-w-3xl text-[38px] leading-[1.08] tracking-wide md:text-[60px]" style={{ fontFamily: "Georgia, serif" }}>
+          <h1 className="gradient-text mx-auto max-w-3xl text-[38px] leading-[1.08] tracking-wide md:text-[60px]" style={{ fontFamily: "Georgia, serif" }}>
             {t(ui.heroTitle, lang)}
           </h1>
           <p className="mx-auto mt-5 max-w-md text-[16px] text-white/60">{t(ui.heroSub, lang)}</p>
@@ -184,8 +365,9 @@ export default function Page() {
                 <div
                   key={id}
                   onClick={() => goTo(id, true)}
-                  className="gate-card group relative h-[440px] cursor-pointer overflow-hidden rounded-md border border-white/10 text-left"
+                  className="gate-card tilt-card group relative h-[440px] cursor-pointer overflow-hidden rounded-md border border-white/10 text-left"
                   style={{ background: "linear-gradient(150deg,var(--panel),var(--background))" }}
+                  {...tiltHandlers()}
                 >
                   <div
                     className="gate-bg absolute inset-0 transition-transform duration-700"
@@ -195,6 +377,7 @@ export default function Page() {
                         : "radial-gradient(circle at 70% 30%, rgba(30,167,255,0.18), transparent 55%), linear-gradient(160deg,var(--panel),var(--background))",
                     }}
                   />
+                  <div className={isGold ? "gold-sheen" : "water-lines"} />
                   <div
                     className="absolute inset-0"
                     style={{ background: "linear-gradient(180deg, transparent 30%, rgba(27,27,29,0.92) 100%)" }}
@@ -218,6 +401,50 @@ export default function Page() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* AMENITY TICKER */}
+      <div className="ticker-strip border-y border-white/10 py-4" style={{ background: "var(--panel)" }}>
+        <div className="ticker-track">
+          {Array.from({ length: 2 }).flatMap((_, rep) =>
+            loc.tickerItems.map((item, i) => (
+              <span key={`${rep}-${i}`} className="flex shrink-0 items-center gap-6 pr-6 text-[12px] uppercase tracking-[2px]">
+                <span style={{ color: i % 2 === 0 ? accentVar : "rgba(255,255,255,0.75)" }}>{t(item, lang)}</span>
+                <span className="text-white/25">·</span>
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+
+      {/* TRUST STATS */}
+      <section className="border-y border-white/10 px-8 py-12" style={{ background: "var(--panel)" }}>
+        <div className="mx-auto grid max-w-4xl grid-cols-2 gap-8 text-center md:grid-cols-4">
+          <div data-reveal>
+            <div className="text-[34px] font-medium" style={{ fontFamily: "Georgia, serif", color: accentVar }}>
+              <AnimatedNumber value={loc.rating} decimals={2} />
+            </div>
+            <div className="mt-1 text-[11px] uppercase tracking-[1.5px] text-white/50">{t(ui.statRating, lang)}</div>
+          </div>
+          <div data-reveal style={{ ["--reveal-delay" as string]: "80ms" }}>
+            <div className="text-[34px] font-medium" style={{ fontFamily: "Georgia, serif" }}>
+              <AnimatedNumber value={loc.reviewCount} />+
+            </div>
+            <div className="mt-1 text-[11px] uppercase tracking-[1.5px] text-white/50">{t(ui.statReviews, lang)}</div>
+          </div>
+          <div data-reveal style={{ ["--reveal-delay" as string]: "160ms" }}>
+            <div className="text-[34px] font-medium" style={{ fontFamily: "Georgia, serif" }}>
+              <AnimatedNumber value={loc.poolCount} />
+            </div>
+            <div className="mt-1 text-[11px] uppercase tracking-[1.5px] text-white/50">{t(ui.statPools, lang)}</div>
+          </div>
+          <div data-reveal style={{ ["--reveal-delay" as string]: "240ms" }}>
+            <div className="text-[34px] font-medium" style={{ fontFamily: "Georgia, serif" }}>
+              <AnimatedNumber value={totalPools} />
+            </div>
+            <div className="mt-1 text-[11px] uppercase tracking-[1.5px] text-white/50">{lang === "en" ? "Pools total" : "სულ აუზი"}</div>
           </div>
         </div>
       </section>
@@ -248,7 +475,7 @@ export default function Page() {
       </div>
 
       {/* LOCATION PANEL */}
-      <div id="locations">
+      <div id="locations" key={active} className="panel-fade">
         <section className="px-8 pt-6 pb-20">
           <div className="mx-auto max-w-6xl" data-reveal>
             <div className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar }}>
@@ -276,28 +503,29 @@ export default function Page() {
         </section>
 
         {/* WHAT'S INCLUDED */}
-        <section className="border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
-          <div className="mx-auto max-w-6xl">
+        <section className="relative overflow-hidden border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
+          <div className={loc.accent === "gold" ? "gold-sheen" : "water-lines"} style={{ opacity: 0.25 }} />
+          <div className="relative mx-auto max-w-6xl">
             <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar }}>
               {t(ui.includedEyebrow, lang)}
             </div>
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
               {t(ui.includedHeading, lang)}
             </h2>
-            <div data-reveal className="mt-12 grid grid-cols-1 gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
               {loc.services.map((s, i) => {
-                const isGold = s.category === "gym";
+                const style = ICON_STYLE[s.icon];
                 return (
-                  <div key={i} className="premium-card bg-[var(--panel)] p-9 transition-colors duration-300 hover:bg-[var(--panel-2)]">
-                    <span
-                      className="mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]"
-                      style={{
-                        color: isGold ? "var(--gold)" : "var(--blue)",
-                        borderColor: isGold ? "rgba(242,195,0,.35)" : "rgba(30,167,255,.35)",
-                      }}
-                    >
-                      {s.category === "gym" ? (lang === "en" ? "Gym" : "დარბაზი") : lang === "en" ? "Pool" : "აუზი"}
-                    </span>
+                  <div
+                    key={i}
+                    data-reveal
+                    style={{ ["--reveal-delay" as string]: `${i * 70}ms` }}
+                    className="premium-card card-glow bg-[var(--panel)] p-9 transition-colors duration-300 hover:bg-[var(--panel-2)]"
+                    {...glowHandlers(style.bg.replace("0.16", "0.22").replace("0.18", "0.22"))}
+                  >
+                    <div className="icon-badge mb-5 h-12 w-12 p-3" style={{ background: style.bg, color: style.fg }}>
+                      <ServiceIcon kind={s.icon} />
+                    </div>
                     <h3 className="mb-2.5 text-[22px]" style={{ fontFamily: "Georgia, serif" }}>
                       {t(s.title, lang)}
                     </h3>
@@ -306,14 +534,16 @@ export default function Page() {
                 );
               })}
               {loc.hotel && (
-                <div className="premium-card tone-blue col-span-1 grid grid-cols-1 items-center gap-7 bg-[var(--panel-2)] p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2">
+                <div
+                  data-reveal
+                  style={{ ["--reveal-delay" as string]: `${loc.services.length * 70}ms` }}
+                  className="premium-card tone-blue card-glow col-span-1 grid grid-cols-1 items-center gap-7 bg-[var(--panel-2)] p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2"
+                  {...glowHandlers("rgba(30,167,255,0.2)")}
+                >
                   <div>
-                    <span
-                      className="mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]"
-                      style={{ color: "var(--blue)", borderColor: "rgba(30,167,255,.35)" }}
-                    >
-                      {lang === "en" ? "Hotel" : "სასტუმრო"}
-                    </span>
+                    <div className="icon-badge mb-5 h-12 w-12 p-3" style={{ background: "rgba(30,167,255,0.16)", color: "#5cc4ff" }}>
+                      <ServiceIcon kind="hotel" />
+                    </div>
                     <h3 className="mb-2.5 text-[22px]" style={{ fontFamily: "Georgia, serif" }}>
                       {t(loc.hotel.title, lang)}
                     </h3>
@@ -335,15 +565,28 @@ export default function Page() {
               {t(ui.membershipEyebrow, lang)}
             </div>
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
-              {t(ui.pricingHeading(loc.hoursShort.en ? { en: loc.id === "tbilisi" ? "Tbilisi" : "Zestafoni", ka: loc.id === "tbilisi" ? "თბილისი" : "ზესტაფონი" } : { en: "", ka: "" }), lang)}
+              {t(ui.pricingHeading(loc.id === "tbilisi" ? { en: "Tbilisi", ka: "თბილისი" } : { en: "Zestafoni", ka: "ზესტაფონი" }), lang)}
             </h2>
-            <div data-reveal className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+            <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
               {loc.pricing.map((p, i) => (
                 <div
                   key={i}
-                  className="rounded-md border border-white/10 bg-[var(--panel)] p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/20"
-                  style={p.accent ? { borderColor: accentVar } : undefined}
+                  data-reveal
+                  style={{ ["--reveal-delay" as string]: `${i * 90}ms`, ...(p.accent ? { borderColor: accentVar } : {}) }}
+                  className="card-glow relative overflow-hidden rounded-md border border-white/10 bg-[var(--panel)] p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/20"
+                  {...glowHandlers(glowColor)}
                 >
+                  <div
+                    className="absolute inset-x-0 top-0 h-[3px]"
+                    style={{
+                      background:
+                        i === 0
+                          ? "linear-gradient(90deg,#4be3c9,transparent)"
+                          : i === 1
+                            ? "linear-gradient(90deg,var(--gold),var(--blue))"
+                            : "linear-gradient(90deg,#ff9d70,transparent)",
+                    }}
+                  />
                   <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
                   <div className="mb-1 text-[40px]" style={{ fontFamily: "Georgia, serif" }}>
                     —<span className="text-[14px] font-sans text-white/60">{t(p.unit, lang)}</span>
@@ -389,15 +632,17 @@ export default function Page() {
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
               {t(ui.galleryHeading(loc.id === "tbilisi" ? { en: "Tbilisi", ka: "თბილისი" } : { en: "Zestafoni", ka: "ზესტაფონი" }), lang)}
             </h2>
-            <div data-reveal className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
+            <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
               {loc.gallery.map((g, i) => (
                 <div
                   key={i}
+                  data-reveal
+                  style={{ ["--reveal-delay" as string]: `${i * 60}ms` }}
                   className={`gallery-card relative overflow-hidden rounded border border-white/10 ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
                 >
                   <div
-                    className="flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105"
-                    style={{ background: "linear-gradient(135deg,#2a2a2c,#1e1e20)" }}
+                    className="flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/60 transition-transform duration-500 hover:scale-105"
+                    style={{ background: TINT_GRADIENT[g.tint] }}
                   >
                     {t(g.label, lang)}
                   </div>
