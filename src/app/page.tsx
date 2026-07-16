@@ -97,7 +97,7 @@ function GhostButton({ children, ...props }: React.ComponentPropsWithoutRef<"a">
 
 export default function Page() {
   const [lang, setLang] = useState<Lang>("ka");
-  const [active, setActive] = useState<LocationId>("tbilisi");
+  const [active, setActive] = useState<LocationId>("blacksea1");
   const [scrolled, setScrolled] = useState(false);
   const revealRef = useReveal([active, lang]);
 
@@ -138,7 +138,7 @@ export default function Page() {
                   active === id ? "border-white/20 bg-white/5 text-white" : "border-transparent text-white/60"
                 }`}
               >
-                {id === "tbilisi" ? "Tbilisi" : "Zestafoni"}
+                {t(locations[id].shortName, lang)}
               </button>
             ))}
           </div>
@@ -158,9 +158,11 @@ export default function Page() {
                 {ui.langKa}
               </span>
             </div>
-            <GhostButton href={`tel:${loc.phones[0].replace(/\s/g, "")}`} className="!px-5 !py-2.5 !text-[12px]">
-              {t(ui.navCall, lang)}
-            </GhostButton>
+            {loc.phones[0] && (
+              <GhostButton href={`tel:${loc.phones[0].replace(/\s/g, "")}`} className="!px-5 !py-2.5 !text-[12px]">
+                {t(ui.navCall, lang)}
+              </GhostButton>
+            )}
           </div>
         </div>
       </nav>
@@ -176,7 +178,7 @@ export default function Page() {
           </h1>
           <p className="mx-auto mt-5 max-w-md text-[16px] text-white/60">{t(ui.heroSub, lang)}</p>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {locationOrder.map((id) => {
               const l = locations[id];
               const isGold = l.accent === "gold";
@@ -240,7 +242,7 @@ export default function Page() {
                   isActive ? bg : "text-white/60"
                 }`}
               >
-                {id === "tbilisi" ? "Tbilisi" : "Zestafoni"}
+                {t(l.shortName, lang)}
               </button>
             );
           })}
@@ -265,7 +267,7 @@ export default function Page() {
               </div>
               <div>
                 <b className="mb-1 block font-medium text-white">{t(ui.phoneLabel, lang)}</b>
-                {loc.phones.join(" / ")}
+                {loc.phones.length ? loc.phones.join(" / ") : t(ui.phoneTbc, lang)}
               </div>
               <div>
                 <b className="mb-1 block font-medium text-white">{t(ui.hoursLabel, lang)}</b>
@@ -335,48 +337,88 @@ export default function Page() {
               {t(ui.membershipEyebrow, lang)}
             </div>
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
-              {t(ui.pricingHeading(loc.hoursShort.en ? { en: loc.id === "tbilisi" ? "Tbilisi" : "Zestafoni", ka: loc.id === "tbilisi" ? "თბილისი" : "ზესტაფონი" } : { en: "", ka: "" }), lang)}
+              {t(ui.pricingHeading(loc.shortName), lang)}
             </h2>
-            <div data-reveal className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-              {loc.pricing.map((p, i) => (
-                <div
-                  key={i}
-                  className="rounded-md border border-white/10 bg-[var(--panel)] p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/20"
-                  style={p.accent ? { borderColor: accentVar } : undefined}
-                >
-                  <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
-                  <div className="mb-1 text-[40px]" style={{ fontFamily: "Georgia, serif" }}>
-                    —<span className="text-[14px] font-sans text-white/60">{t(p.unit, lang)}</span>
+
+            {loc.pricingGroups ? (
+              <>
+                {loc.visitorNote && (
+                  <div
+                    data-reveal
+                    className="mt-10 inline-block rounded-md border border-dashed px-4 py-2.5 text-[13px] leading-relaxed"
+                    style={{
+                      borderColor: loc.accent === "gold" ? "rgba(242,195,0,0.35)" : "rgba(30,167,255,0.35)",
+                      background: loc.accent === "gold" ? "rgba(242,195,0,0.06)" : "rgba(30,167,255,0.08)",
+                      color: accentVar,
+                    }}
+                  >
+                    {t(loc.visitorNote, lang)}
                   </div>
-                  <div className="mb-6 text-[12px] text-white/60">{t(p.note, lang)}</div>
-                  <ul className="mb-6 flex flex-col gap-2.5 text-[13px] text-white/60">
-                    {p.features.map((f, fi) => (
-                      <li key={fi}>— {t(f, lang)}</li>
-                    ))}
-                  </ul>
-                  {p.accent ? (
-                    <PrimaryButton tone={loc.accent} href="#contact" className="w-full">
-                      {t(ui.contactUs, lang)}
-                    </PrimaryButton>
-                  ) : (
-                    <GhostButton href="#contact" className="w-full">
-                      {t(ui.contactUs, lang)}
-                    </GhostButton>
-                  )}
+                )}
+                <div data-reveal className="mt-8 flex flex-col gap-6">
+                  {loc.pricingGroups.map((group, gi) => (
+                    <div key={gi} className="premium-card tone-blue rounded-md border border-white/10 bg-[var(--panel)] p-6 md:p-8">
+                      <h3 className="mb-5 text-[18px]" style={{ fontFamily: "Georgia, serif", color: accentVar }}>
+                        {t(group.category, lang)}
+                      </h3>
+                      <div className="flex flex-col divide-y divide-white/10">
+                        {group.rows.map((row, ri) => (
+                          <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
+                            <span className="text-white/70">{t(row.tier, lang)}</span>
+                            <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "Georgia, serif" }}>
+                              {row.price}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            <div
-              data-reveal
-              className="mt-10 rounded-md border border-dashed p-4 text-[13px] leading-relaxed"
-              style={{
-                borderColor: loc.accent === "gold" ? "rgba(242,195,0,0.35)" : "rgba(30,167,255,0.35)",
-                background: loc.accent === "gold" ? "rgba(242,195,0,0.06)" : "rgba(30,167,255,0.08)",
-                color: accentVar,
-              }}
-            >
-              {t(ui.pricingNote, lang)}
-            </div>
+              </>
+            ) : (
+              <>
+                <div data-reveal className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+                  {loc.pricing?.map((p, i) => (
+                    <div
+                      key={i}
+                      className="rounded-md border border-white/10 bg-[var(--panel)] p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/20"
+                      style={p.accent ? { borderColor: accentVar } : undefined}
+                    >
+                      <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
+                      <div className="mb-1 text-[40px]" style={{ fontFamily: "Georgia, serif" }}>
+                        —<span className="text-[14px] font-sans text-white/60">{t(p.unit, lang)}</span>
+                      </div>
+                      <div className="mb-6 text-[12px] text-white/60">{t(p.note, lang)}</div>
+                      <ul className="mb-6 flex flex-col gap-2.5 text-[13px] text-white/60">
+                        {p.features.map((f, fi) => (
+                          <li key={fi}>— {t(f, lang)}</li>
+                        ))}
+                      </ul>
+                      {p.accent ? (
+                        <PrimaryButton tone={loc.accent} href="#contact" className="w-full">
+                          {t(ui.contactUs, lang)}
+                        </PrimaryButton>
+                      ) : (
+                        <GhostButton href="#contact" className="w-full">
+                          {t(ui.contactUs, lang)}
+                        </GhostButton>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div
+                  data-reveal
+                  className="mt-10 rounded-md border border-dashed p-4 text-[13px] leading-relaxed"
+                  style={{
+                    borderColor: loc.accent === "gold" ? "rgba(242,195,0,0.35)" : "rgba(30,167,255,0.35)",
+                    background: loc.accent === "gold" ? "rgba(242,195,0,0.06)" : "rgba(30,167,255,0.08)",
+                    color: accentVar,
+                  }}
+                >
+                  {t(ui.pricingNote, lang)}
+                </div>
+              </>
+            )}
           </div>
         </section>
 
@@ -387,7 +429,7 @@ export default function Page() {
               {t(ui.galleryEyebrow, lang)}
             </div>
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
-              {t(ui.galleryHeading(loc.id === "tbilisi" ? { en: "Tbilisi", ka: "თბილისი" } : { en: "Zestafoni", ka: "ზესტაფონი" }), lang)}
+              {t(ui.galleryHeading(loc.shortName), lang)}
             </h2>
             <div data-reveal className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
               {loc.gallery.map((g, i) => (
@@ -424,21 +466,40 @@ export default function Page() {
                 </div>
               ))}
             </div>
+
+            {loc.rules && (
+              <div data-reveal className="mt-10 max-w-md">
+                <b className="mb-3 block text-[15px] font-medium text-white">{t(ui.rulesHeading, lang)}</b>
+                <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
+                  {loc.rules.map((r, i) => (
+                    <li key={i} className="flex gap-2.5">
+                      <span style={{ color: accentVar }}>{i + 1}.</span>
+                      <span>{t(r, lang)}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
             <div data-reveal className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-md border border-white/10 bg-[var(--panel)] p-8">
               <div className="text-[14px] text-white/60">
                 <b className="mb-1 block text-[16px] font-medium text-white">{loc.brandName}</b>
                 {t(loc.address, lang)}
               </div>
               <div className="flex items-center gap-3">
-                <PrimaryButton tone={loc.accent} href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
-                  {t(ui.navCall, lang)}
-                </PrimaryButton>
+                {loc.phones[0] && (
+                  <PrimaryButton tone={loc.accent} href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
+                    {t(ui.navCall, lang)}
+                  </PrimaryButton>
+                )}
                 <GhostButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.brandName)}`}>
                   {t(ui.directions, lang)}
                 </GhostButton>
-                <SocialLink href={loc.facebook} tone={loc.accent} label={`Facebook — ${loc.brandName}`}>
-                  <FacebookIcon className="h-full w-full" />
-                </SocialLink>
+                {loc.facebook && (
+                  <SocialLink href={loc.facebook} tone={loc.accent} label={`Facebook — ${loc.brandName}`}>
+                    <FacebookIcon className="h-full w-full" />
+                  </SocialLink>
+                )}
               </div>
             </div>
           </div>
@@ -455,11 +516,11 @@ export default function Page() {
             <div className="flex items-center gap-6 text-[13px] text-white/60">
               {locationOrder.map((id) => (
                 <button key={id} onClick={() => goTo(id, true)}>
-                  {id === "tbilisi" ? "Tbilisi" : "Zestafoni"}
+                  {t(locations[id].shortName, lang)}
                 </button>
               ))}
               <div className="flex gap-2.5">
-                <SocialLink href={locations.tbilisi.facebook} tone="gold" label="Facebook">
+                <SocialLink href={locations.blacksea1.facebook!} tone="gold" label="Facebook">
                   <FacebookIcon className="h-full w-full" />
                 </SocialLink>
                 <SocialLink href={instagramUrl || "#"} tone="gold" label="Instagram">
