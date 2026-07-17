@@ -9,6 +9,17 @@
   --blue: #1ea7ff;
   --line: rgba(255, 255, 255, 0.09);
   --line-strong: rgba(255, 255, 255, 0.18);
+
+  /* Spa tone — pool & hotel/wellness services: soft, warm, grounding */
+  --spa-sage: #9caf88;
+  --spa-sand: #d9c6a3;
+  --spa-lavender: #c3b8dd;
+  --spa-text: #f3efe6;
+  --spa-text-muted: rgba(243, 239, 230, 0.68);
+
+  /* Fitness tone — gym services: crisp, energizing */
+  --fit-graphite: #2b2c30;
+  --fit-steel: #b9c0c9;
 }
 
 @theme inline {
@@ -104,6 +115,89 @@ body {
     rgba(30, 167, 255, 0.16),
     transparent 42%
   );
+}
+
+.premium-card.tone-spa::before {
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 0%),
+    rgba(156, 175, 136, 0.2),
+    transparent 42%
+  );
+}
+
+.premium-card.tone-fit::before {
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 0%),
+    rgba(185, 192, 201, 0.18),
+    transparent 42%
+  );
+}
+
+/* Glassmorphism — floating panels (cards, badges, pills) */
+.glass-panel {
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 12px 40px rgba(0, 0, 0, 0.28);
+}
+
+/* Glassmorphism — edge-to-edge bars (nav, footer); directional border comes from the caller.
+   Tinted toward --background (not white) at higher opacity, since these sit over
+   scrolling page content and need to actually obscure it, not just fog it. */
+.glass-bar {
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  background: rgba(27, 27, 29, 0.68);
+}
+
+.glass-spa {
+  background: linear-gradient(
+    135deg,
+    rgba(156, 175, 136, 0.14),
+    rgba(217, 198, 163, 0.1) 45%,
+    rgba(195, 184, 221, 0.12)
+  );
+  border-color: rgba(217, 198, 163, 0.22);
+}
+
+.glass-fit {
+  background: linear-gradient(135deg, rgba(43, 44, 48, 0.55), rgba(185, 192, 201, 0.08));
+  border-color: rgba(185, 192, 201, 0.22);
+}
+
+/* Dual-tone typography — spa: thin, elegant serif */
+.spa-heading {
+  color: var(--spa-text);
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+
+.spa-body {
+  color: var(--spa-text-muted);
+}
+
+.badge-spa {
+  border-color: rgba(217, 198, 163, 0.4);
+  color: var(--spa-sand);
+}
+
+/* Dual-tone typography — fitness: clean, sharp sans-serif */
+.fit-heading {
+  color: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.badge-fit {
+  border-color: rgba(185, 192, 201, 0.4);
+  color: var(--fit-steel);
 }
 
 .gallery-card::after {

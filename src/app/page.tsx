@@ -121,8 +121,8 @@ export default function Page() {
     <div ref={revealRef}>
       {/* NAV */}
       <nav
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled ? "border-b border-white/10 bg-[var(--background)]/75 py-3.5 backdrop-blur-xl" : "border-b border-transparent py-5.5"
+        className={`glass-bar fixed inset-x-0 top-0 z-50 border-b border-white/10 transition-all duration-300 ${
+          scrolled ? "py-3.5" : "py-5.5"
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-8">
@@ -170,7 +170,7 @@ export default function Page() {
       {/* HERO / GATE */}
       <section className="px-8 pb-16 pt-44 text-center">
         <div className="mx-auto max-w-6xl">
-          <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 px-3.5 py-1.5 text-[11px] uppercase tracking-[2px] text-white/60">
+          <span className="glass-panel mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[2px] text-white/60">
             {t(ui.heroBadge, lang)}
           </span>
           <h1 className="mx-auto max-w-3xl text-[38px] leading-[1.08] tracking-wide md:text-[60px]" style={{ fontFamily: "Georgia, serif" }}>
@@ -186,8 +186,7 @@ export default function Page() {
                 <div
                   key={id}
                   onClick={() => goTo(id, true)}
-                  className="gate-card group relative h-[440px] cursor-pointer overflow-hidden rounded-md border border-white/10 text-left"
-                  style={{ background: "linear-gradient(150deg,var(--panel),var(--background))" }}
+                  className="gate-card glass-panel group relative h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
                   <div
                     className="gate-bg absolute inset-0 transition-transform duration-700"
@@ -229,7 +228,7 @@ export default function Page() {
         className="sticky top-[70px] z-40 flex justify-center py-6"
         style={{ background: "linear-gradient(var(--background) 60%, transparent)" }}
       >
-        <div className="inline-flex gap-1 rounded-full border border-white/20 bg-[var(--panel-2)]/90 p-1 backdrop-blur-md">
+        <div className="glass-panel inline-flex gap-1 rounded-full p-1">
           {locationOrder.map((id) => {
             const l = locations[id];
             const isActive = active === id;
@@ -286,40 +285,32 @@ export default function Page() {
             <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "Georgia, serif" }}>
               {t(ui.includedHeading, lang)}
             </h2>
-            <div data-reveal className="mt-12 grid grid-cols-1 gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
+            <div data-reveal className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {loc.services.map((s, i) => {
-                const isGold = s.category === "gym";
+                const tone = s.category === "gym" ? "fit" : "spa";
                 return (
-                  <div key={i} className="premium-card bg-[var(--panel)] p-9 transition-colors duration-300 hover:bg-[var(--panel-2)]">
-                    <span
-                      className="mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]"
-                      style={{
-                        color: isGold ? "var(--gold)" : "var(--blue)",
-                        borderColor: isGold ? "rgba(242,195,0,.35)" : "rgba(30,167,255,.35)",
-                      }}
-                    >
+                  <div
+                    key={i}
+                    className={`premium-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
+                  >
+                    <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${tone === "fit" ? "badge-fit" : "badge-spa"}`}>
                       {s.category === "gym" ? (lang === "en" ? "Gym" : "დარბაზი") : lang === "en" ? "Pool" : "აუზი"}
                     </span>
-                    <h3 className="mb-2.5 text-[22px]" style={{ fontFamily: "Georgia, serif" }}>
+                    <h3 className={`mb-2.5 text-[22px] ${tone === "fit" ? "fit-heading" : "spa-heading"}`}>
                       {t(s.title, lang)}
                     </h3>
-                    <p className="text-[13px] leading-relaxed text-white/60">{t(s.desc, lang)}</p>
+                    <p className={`text-[13px] leading-relaxed ${tone === "fit" ? "text-white/70" : "spa-body"}`}>{t(s.desc, lang)}</p>
                   </div>
                 );
               })}
               {loc.hotel && (
-                <div className="premium-card tone-blue col-span-1 grid grid-cols-1 items-center gap-7 bg-[var(--panel-2)] p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2">
+                <div className="premium-card tone-spa glass-panel glass-spa col-span-1 grid grid-cols-1 items-center gap-7 rounded-md p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2">
                   <div>
-                    <span
-                      className="mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]"
-                      style={{ color: "var(--blue)", borderColor: "rgba(30,167,255,.35)" }}
-                    >
+                    <span className="badge-spa mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]">
                       {lang === "en" ? "Hotel" : "სასტუმრო"}
                     </span>
-                    <h3 className="mb-2.5 text-[22px]" style={{ fontFamily: "Georgia, serif" }}>
-                      {t(loc.hotel.title, lang)}
-                    </h3>
-                    <p className="text-[13px] leading-relaxed text-white/60">{t(loc.hotel.desc, lang)}</p>
+                    <h3 className="spa-heading mb-2.5 text-[22px]">{t(loc.hotel.title, lang)}</h3>
+                    <p className="spa-body text-[13px] leading-relaxed">{t(loc.hotel.desc, lang)}</p>
                   </div>
                   <div className="flex h-[150px] items-center justify-center rounded text-[11px] uppercase tracking-[1.5px] text-white/50" style={{ background: "linear-gradient(135deg,#28282a,#1e1e20)" }}>
                     {lang === "en" ? "Photo pending — hotel" : "ფოტო მალე — სასტუმრო"}
@@ -345,19 +336,15 @@ export default function Page() {
                 {loc.visitorNote && (
                   <div
                     data-reveal
-                    className="mt-10 inline-block rounded-md border border-dashed px-4 py-2.5 text-[13px] leading-relaxed"
-                    style={{
-                      borderColor: loc.accent === "gold" ? "rgba(242,195,0,0.35)" : "rgba(30,167,255,0.35)",
-                      background: loc.accent === "gold" ? "rgba(242,195,0,0.06)" : "rgba(30,167,255,0.08)",
-                      color: accentVar,
-                    }}
+                    className="glass-panel mt-10 inline-block rounded-md px-4 py-2.5 text-[13px] leading-relaxed"
+                    style={{ color: accentVar }}
                   >
                     {t(loc.visitorNote, lang)}
                   </div>
                 )}
                 <div data-reveal className="mt-8 flex flex-col gap-6">
                   {loc.pricingGroups.map((group, gi) => (
-                    <div key={gi} className="premium-card tone-blue rounded-md border border-white/10 bg-[var(--panel)] p-6 md:p-8">
+                    <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
                       <h3 className="mb-5 text-[18px]" style={{ fontFamily: "Georgia, serif", color: accentVar }}>
                         {t(group.category, lang)}
                       </h3>
@@ -381,7 +368,7 @@ export default function Page() {
                   {loc.pricing?.map((p, i) => (
                     <div
                       key={i}
-                      className="rounded-md border border-white/10 bg-[var(--panel)] p-8 transition-all duration-300 hover:-translate-y-1.5 hover:border-white/20"
+                      className="glass-panel rounded-md p-8 transition-all duration-300 hover:-translate-y-1.5"
                       style={p.accent ? { borderColor: accentVar } : undefined}
                     >
                       <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
@@ -406,15 +393,7 @@ export default function Page() {
                     </div>
                   ))}
                 </div>
-                <div
-                  data-reveal
-                  className="mt-10 rounded-md border border-dashed p-4 text-[13px] leading-relaxed"
-                  style={{
-                    borderColor: loc.accent === "gold" ? "rgba(242,195,0,0.35)" : "rgba(30,167,255,0.35)",
-                    background: loc.accent === "gold" ? "rgba(242,195,0,0.06)" : "rgba(30,167,255,0.08)",
-                    color: accentVar,
-                  }}
-                >
+                <div data-reveal className="glass-panel mt-10 rounded-md p-4 text-[13px] leading-relaxed" style={{ color: accentVar }}>
                   {t(ui.pricingNote, lang)}
                 </div>
               </>
@@ -435,12 +414,9 @@ export default function Page() {
               {loc.gallery.map((g, i) => (
                 <div
                   key={i}
-                  className={`gallery-card relative overflow-hidden rounded border border-white/10 ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
+                  className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
                 >
-                  <div
-                    className="flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105"
-                    style={{ background: "linear-gradient(135deg,#2a2a2c,#1e1e20)" }}
-                  >
+                  <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
                     {t(g.label, lang)}
                   </div>
                 </div>
@@ -481,7 +457,7 @@ export default function Page() {
               </div>
             )}
 
-            <div data-reveal className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-md border border-white/10 bg-[var(--panel)] p-8">
+            <div data-reveal className="glass-panel mt-12 flex flex-wrap items-center justify-between gap-6 rounded-md p-8">
               <div className="text-[14px] text-white/60">
                 <b className="mb-1 block text-[16px] font-medium text-white">{loc.brandName}</b>
                 {t(loc.address, lang)}
@@ -507,7 +483,7 @@ export default function Page() {
       </div>
 
       {/* FOOTER */}
-      <footer className="border-t border-white/10 px-8 pb-10 pt-12">
+      <footer className="glass-bar border-t border-white/10 px-8 pb-10 pt-12">
         <div className="mx-auto max-w-6xl">
           <div className="flex flex-wrap items-center justify-between gap-5">
             <div className="text-[17px] tracking-[2px]" style={{ fontFamily: "Georgia, serif" }}>
