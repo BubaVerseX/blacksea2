@@ -207,7 +207,7 @@ export const locations: Record<LocationId, LocationContent> = {
     areaLabel: { en: "Zestafoni", ka: "ზესტაფონი" },
     hoursShort: { en: "Daily 09:00–20:00", ka: "ყოველდღე 09:00–20:00" },
     address: { en: "Aghmashenebeli St 37, Zestafoni, Georgia", ka: "აღმაშენებლის 37, ზესტაფონი, საქართველო" },
-    phones: ["+995 596 20 40 90", "032 2 560276"],
+    phones: ["+995 596 20 40 90", "032 2 560276", "+995 32 256 02 76"],
     hoursDetailed: [{ day: { en: "Every day", ka: "ყოველდღე" }, time: "09:00 – 20:00" }],
     introHeading: { en: "Three pools, a gym, and a hotel.", ka: "სამი აუზი, დარბაზი და სასტუმრო." },
     introLede: {
