@@ -108,8 +108,8 @@ export const ui = {
 export const locations: Record<LocationId, LocationContent> = {
   blacksea1: {
     id: "blacksea1",
-    brandName: "Black Sea 1",
-    shortName: { en: "Black Sea 1", ka: "შავი ზღვა 1" },
+    brandName: "Black Sea",
+    shortName: { en: "Black Sea", ka: "ბლექ სი" },
     accent: "gold",
     facebook: "https://www.facebook.com/bscomplex.ge",
     gateTag: { en: "Gym · Pool · CrossFit", ka: "დარბაზი · აუზი · CrossFit" },
@@ -157,7 +157,7 @@ export const locations: Record<LocationId, LocationContent> = {
   blackseakids: {
     id: "blackseakids",
     brandName: "Black Sea Kids",
-    shortName: { en: "Black Sea Kids", ka: "შავი ზღვა კიდსი" },
+    shortName: { en: "Black Sea Kids", ka: "ბლექ სი კიდსი" },
     accent: "gold",
     gateTag: { en: "Kids Swim · Kids Fitness", ka: "ცურვა ბავშვებისთვის · ფიტნესი ბავშვებისთვის" },
     gateBlurb: {
@@ -234,8 +234,8 @@ export const locations: Record<LocationId, LocationContent> = {
         rows: [
           { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "20 ₾" },
           { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "100 ₾" },
-          { tier: { en: "Unlimited until 15:00", ka: "უსასრულო 15:00 საათამდე" }, price: "120 ₾" },
-          { tier: { en: "Unlimited", ka: "უსასრულო" }, price: "140 ₾" },
+          { tier: { en: "Unlimited until 15:00", ka: "ულიმიტო 15:00 საათამდე" }, price: "120 ₾" },
+          { tier: { en: "Unlimited", ka: "ულიმიტო" }, price: "140 ₾" },
         ],
       },
       {
@@ -243,8 +243,8 @@ export const locations: Record<LocationId, LocationContent> = {
         rows: [
           { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "20 ₾" },
           { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "70 ₾" },
-          { tier: { en: "Unlimited until 15:00", ka: "უსასრულო 15:00 საათამდე" }, price: "70 ₾" },
-          { tier: { en: "Unlimited", ka: "უსასრულო" }, price: "90 ₾" },
+          { tier: { en: "Unlimited until 15:00", ka: "ულიმიტო 15:00 საათამდე" }, price: "70 ₾" },
+          { tier: { en: "Unlimited", ka: "ულიმიტო" }, price: "90 ₾" },
         ],
       },
       {
@@ -252,23 +252,23 @@ export const locations: Record<LocationId, LocationContent> = {
         rows: [
           { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "25 ₾" },
           { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "130 ₾" },
-          { tier: { en: "Unlimited until 15:00", ka: "უსასრულო 15:00 საათამდე" }, price: "150 ₾" },
-          { tier: { en: "Unlimited", ka: "უსასრულო" }, price: "180 ₾" },
+          { tier: { en: "Unlimited until 15:00", ka: "ულიმიტო 15:00 საათამდე" }, price: "150 ₾" },
+          { tier: { en: "Unlimited", ka: "ულიმიტო" }, price: "180 ₾" },
         ],
       },
       {
         category: { en: "Group classes", ka: "ჯგუფური ვარჯიშები" },
         rows: [
-          { tier: { en: "Swimming — 1 visit", ka: "ცურვა — 1 ვიზიტი" }, price: "15 ₾" },
-          { tier: { en: "Swimming — 12 visits", ka: "ცურვა — 12 ვიზიტი" }, price: "75 ₾" },
+          { tier: { en: "Swimming — 1 visit", ka: "აუზი — 1 ვიზიტი" }, price: "15 ₾" },
+          { tier: { en: "Swimming — 12 visits", ka: "აუზი — 12 ვიზიტი" }, price: "75 ₾" },
           { tier: { en: "Boxing", ka: "ბოქსი" }, price: "50 ₾" },
         ],
       },
       {
         category: { en: "Personal / individual training", ka: "პერსონალური ვარჯიშები" },
         rows: [
-          { tier: { en: "Swimming — 1 visit", ka: "ცურვა — 1 ვიზიტი" }, price: "30 ₾" },
-          { tier: { en: "Swimming — 12 visits", ka: "ცურვა — 12 ვიზიტი" }, price: "180 ₾" },
+          { tier: { en: "Swimming — 1 visit", ka: "აუზი — 1 ვიზიტი" }, price: "30 ₾" },
+          { tier: { en: "Swimming — 12 visits", ka: "აუზი — 12 ვიზიტი" }, price: "180 ₾" },
           { tier: { en: "Fitness — 12 visits", ka: "ფიტნესი — 12 ვიზიტი" }, price: "150 ₾" },
         ],
       },
