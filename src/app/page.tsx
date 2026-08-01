@@ -1,171 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  type Bi,
-  type Lang,
-  type LocationId,
-  instagramUrl,
-  locationOrder,
-  locations,
-  ui,
-} from "./content";
-
-function t(bi: Bi, lang: Lang) {
-  return bi[lang];
-}
-
-function useReveal(deps: unknown[]) {
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const els = root.querySelectorAll<HTMLElement>("[data-reveal]");
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("is-visible");
-        });
-      },
-      { threshold: 0.15 }
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps);
-
-  return rootRef;
-}
-
-function FacebookIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className={className}>
-      <circle cx="12" cy="12" r="9.3" />
-      <path d="M13.8 21v-7.2h2.3l.4-2.8h-2.7v-1.8c0-.8.2-1.4 1.4-1.4h1.4V5.3c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2h-2.4v2.8h2.4V21" />
-    </svg>
-  );
-}
-
-function InstagramIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className={className}>
-      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-      <circle cx="12" cy="12" r="4.1" />
-      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function SocialLink({ href, tone, children, label }: { href: string; tone: "gold" | "blue"; children: React.ReactNode; label: string }) {
-  const hoverClass = tone === "gold" ? "hover:text-[var(--gold)] hover:border-[var(--gold)]" : "hover:text-[var(--blue)] hover:border-[var(--blue)]";
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all duration-300 ${hoverClass}`}
-    >
-      <span className="h-4 w-4">{children}</span>
-    </a>
-  );
-}
-
-function PrimaryButton({ tone, children, ...props }: React.ComponentPropsWithoutRef<"a"> & { tone: "gold" | "blue" }) {
-  const bg = tone === "gold" ? "bg-[var(--gold)] text-black" : "bg-[var(--blue)] text-black";
-  return (
-    <a
-      {...props}
-      className={`premium-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border px-6 py-3 text-[13px] font-semibold tracking-wide transition-all duration-300 ${bg} border-transparent hover:-translate-y-px hover:shadow-[0_0_28px_rgba(0,245,208,0.45)]`}
-    >
-      {children}
-    </a>
-  );
-}
-
-function GhostButton({ children, ...props }: React.ComponentPropsWithoutRef<"a">) {
-  return (
-    <a
-      {...props}
-      className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-[rgba(0,245,208,0.35)] px-6 py-3 text-[13px] tracking-wide text-white transition-all duration-300 hover:border-white hover:shadow-[0_0_20px_rgba(0,245,208,0.25)]"
-    >
-      {children}
-    </a>
-  );
-}
+import Link from "next/link";
+import { locationOrder, locationSlugs, locations, ui } from "./content";
+import SiteFooter from "./SiteFooter";
+import SiteNav from "./SiteNav";
+import { ArrowIcon, t, useLang, useReveal } from "./site-ui";
 
 export default function Page() {
-  const [lang, setLang] = useState<Lang>("ka");
-  const [active, setActive] = useState<LocationId>("blacksea1");
-  const [scrolled, setScrolled] = useState(false);
-  const revealRef = useReveal([active, lang]);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const goTo = (loc: LocationId, scroll?: boolean) => {
-    setActive(loc);
-    if (scroll) {
-      document.getElementById("locations")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
-  const loc = locations[active];
-  const accentVar = loc.accent === "gold" ? "var(--gold)" : "var(--blue)";
+  const [lang, setLang] = useLang();
+  const revealRef = useReveal([lang]);
 
   return (
     <div ref={revealRef}>
-      {/* NAV */}
-      <nav
-        className={`glass-bar fixed inset-x-0 top-0 z-50 border-b border-white/10 transition-all duration-300 ${
-          scrolled ? "py-3.5" : "py-5.5"
-        }`}
-      >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-8">
-          <div className="whitespace-nowrap text-[16px] tracking-[2.5px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
-            BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
-          </div>
-          <div className="hidden gap-2 text-[13px] md:flex">
-            {locationOrder.map((id) => (
-              <button
-                key={id}
-                onClick={() => goTo(id)}
-                className={`rounded-full border px-4 py-2 transition-all duration-300 ${
-                  active === id ? "border-white/20 bg-white/5 text-white" : "border-transparent text-white/60"
-                }`}
-              >
-                {t(locations[id].shortName, lang)}
-              </button>
-            ))}
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex gap-1.5 text-[12px] text-white/60">
-              <span
-                onClick={() => setLang("en")}
-                className={`cursor-pointer rounded px-1.5 py-0.5 ${lang === "en" ? "border border-white/20 text-white" : ""}`}
-              >
-                {ui.langEn}
-              </span>
-              <span>|</span>
-              <span
-                onClick={() => setLang("ka")}
-                className={`cursor-pointer rounded px-1.5 py-0.5 ${lang === "ka" ? "border border-white/20 text-white" : ""}`}
-              >
-                {ui.langKa}
-              </span>
-            </div>
-            {loc.phones[0] && (
-              <GhostButton href={`tel:${loc.phones[0].replace(/\s/g, "")}`} className="!px-5 !py-2.5 !text-[12px]">
-                {t(ui.navCall, lang)}
-              </GhostButton>
-            )}
-          </div>
-        </div>
-      </nav>
+      <SiteNav lang={lang} setLang={setLang} />
 
       {/* HERO / GATE */}
       <section className="px-8 pb-16 pt-44 text-center">
@@ -183,10 +30,11 @@ export default function Page() {
               const l = locations[id];
               const isGold = l.accent === "gold";
               return (
-                <div
+                <Link
                   key={id}
-                  onClick={() => goTo(id, true)}
-                  className="gate-card glass-panel group relative h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
+                  href={`/${locationSlugs[id]}`}
+                  data-reveal
+                  className="gate-card glass-panel group relative block h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
                   <div
                     className="gate-bg absolute inset-0 transition-transform duration-700"
@@ -211,303 +59,28 @@ export default function Page() {
                       {l.brandName}
                     </h3>
                     <p className="mb-5 max-w-xs text-[14px] text-white/60">{t(l.gateBlurb, lang)}</p>
-                    <div className="flex gap-4 text-[12px] text-white/60">
-                      <span>{t(l.areaLabel, lang)}</span>
-                      <span>{t(l.hoursShort, lang)}</span>
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex gap-4 text-[12px] text-white/60">
+                        <span>{t(l.areaLabel, lang)}</span>
+                        <span>{t(l.hoursShort, lang)}</span>
+                      </div>
+                      <span
+                        className="flex items-center gap-1.5 text-[12px] font-medium opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0.5"
+                        style={{ color: isGold ? "var(--gold)" : "var(--blue)" }}
+                      >
+                        {t(ui.viewLocation, lang)}
+                        <ArrowIcon className="h-3.5 w-3.5" />
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* SEGMENT CONTROL */}
-      <div
-        className="sticky top-[70px] z-40 flex justify-center py-6"
-        style={{ background: "linear-gradient(var(--background) 60%, transparent)" }}
-      >
-        <div className="glass-panel inline-flex gap-1 rounded-full p-1">
-          {locationOrder.map((id) => {
-            const l = locations[id];
-            const isActive = active === id;
-            const bg = l.accent === "gold" ? "bg-[var(--gold)] text-black" : "bg-[var(--blue)] text-black";
-            return (
-              <button
-                key={id}
-                onClick={() => goTo(id)}
-                className={`rounded-full px-6 py-2.5 text-[13px] font-semibold transition-all duration-300 ${
-                  isActive ? bg : "text-white/60"
-                }`}
-              >
-                {t(l.shortName, lang)}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* LOCATION PANEL */}
-      <div id="locations">
-        <section className="px-8 pt-6 pb-20">
-          <div className="mx-auto max-w-6xl" data-reveal>
-            <div className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
-              {loc.brandName}
-            </div>
-            <h2 className="max-w-2xl text-[30px] md:text-[44px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(loc.introHeading, lang)}
-            </h2>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/60">{t(loc.introLede, lang)}</p>
-            <div className="mt-7 flex flex-wrap gap-7 text-[14px] text-white/60">
-              <div>
-                <b className="mb-1 block font-medium text-white">{t(ui.addressLabel, lang)}</b>
-                {t(loc.address, lang)}
-              </div>
-              <div>
-                <b className="mb-1 block font-medium text-white">{t(ui.phoneLabel, lang)}</b>
-                {loc.phones.length ? loc.phones.join(" / ") : t(ui.phoneTbc, lang)}
-              </div>
-              <div>
-                <b className="mb-1 block font-medium text-white">{t(ui.hoursLabel, lang)}</b>
-                {t(loc.hoursShort, lang)}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* WHAT'S INCLUDED */}
-        <section className="border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
-          <div className="mx-auto max-w-6xl">
-            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
-              {t(ui.includedEyebrow, lang)}
-            </div>
-            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(ui.includedHeading, lang)}
-            </h2>
-            <div data-reveal className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {loc.services.map((s, i) => {
-                const tone = s.category === "gym" ? "fit" : "spa";
-                return (
-                  <div
-                    key={i}
-                    className={`premium-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
-                  >
-                    <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${tone === "fit" ? "badge-fit" : "badge-spa"}`}>
-                      {s.category === "gym" ? (lang === "en" ? "Gym" : "დარბაზი") : lang === "en" ? "Pool" : "აუზი"}
-                    </span>
-                    <h3 className={`mb-2.5 text-[22px] ${tone === "fit" ? "fit-heading" : "spa-heading"}`}>
-                      {t(s.title, lang)}
-                    </h3>
-                    <p className={`text-[13px] leading-relaxed ${tone === "fit" ? "text-white/70" : "spa-body"}`}>{t(s.desc, lang)}</p>
-                  </div>
-                );
-              })}
-              {loc.hotel && (
-                <div className="premium-card tone-spa glass-panel glass-spa col-span-1 grid grid-cols-1 items-center gap-7 rounded-md p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2">
-                  <div>
-                    <span className="badge-spa mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]">
-                      {lang === "en" ? "Hotel" : "სასტუმრო"}
-                    </span>
-                    <h3 className="spa-heading mb-2.5 text-[22px]">{t(loc.hotel.title, lang)}</h3>
-                    <p className="spa-body text-[13px] leading-relaxed">{t(loc.hotel.desc, lang)}</p>
-                  </div>
-                  <div className="flex h-[150px] items-center justify-center rounded text-[11px] uppercase tracking-[1.5px] text-white/50" style={{ background: "linear-gradient(135deg,#12151c,#08090c)" }}>
-                    {lang === "en" ? "Photo pending — hotel" : "ფოტო მალე — სასტუმრო"}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* PRICING */}
-        <section className="px-8 py-20">
-          <div className="mx-auto max-w-6xl">
-            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
-              {t(ui.membershipEyebrow, lang)}
-            </div>
-            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(ui.pricingHeading(loc.shortName), lang)}
-            </h2>
-
-            {loc.pricingGroups ? (
-              <>
-                {loc.visitorNote && (
-                  <div
-                    data-reveal
-                    className="glass-panel mt-10 inline-block rounded-md px-4 py-2.5 text-[13px] leading-relaxed"
-                    style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}
-                  >
-                    {t(loc.visitorNote, lang)}
-                  </div>
-                )}
-                <div data-reveal className="mt-8 flex flex-col gap-6">
-                  {loc.pricingGroups.map((group, gi) => (
-                    <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
-                      <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
-                        {t(group.category, lang)}
-                      </h3>
-                      <div className="flex flex-col divide-y divide-white/10">
-                        {group.rows.map((row, ri) => (
-                          <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
-                            <span className="text-white/70">{t(row.tier, lang)}</span>
-                            <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
-                              {row.price}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <>
-                <div data-reveal className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-                  {loc.pricing?.map((p, i) => (
-                    <div
-                      key={i}
-                      className="glass-panel rounded-md p-8 transition-all duration-300 hover:-translate-y-1.5"
-                      style={p.accent ? { borderColor: accentVar } : undefined}
-                    >
-                      <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
-                      <div className="mb-1 text-[40px]" style={{ fontFamily: "var(--font-head)" }}>
-                        —<span className="text-[14px] font-sans text-white/60">{t(p.unit, lang)}</span>
-                      </div>
-                      <div className="mb-6 text-[12px] text-white/60">{t(p.note, lang)}</div>
-                      <ul className="mb-6 flex flex-col gap-2.5 text-[13px] text-white/60">
-                        {p.features.map((f, fi) => (
-                          <li key={fi}>— {t(f, lang)}</li>
-                        ))}
-                      </ul>
-                      {p.accent ? (
-                        <PrimaryButton tone={loc.accent} href="#contact" className="w-full">
-                          {t(ui.contactUs, lang)}
-                        </PrimaryButton>
-                      ) : (
-                        <GhostButton href="#contact" className="w-full">
-                          {t(ui.contactUs, lang)}
-                        </GhostButton>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div data-reveal className="glass-panel mt-10 rounded-md p-4 text-[13px] leading-relaxed" style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>
-                  {t(ui.pricingNote, lang)}
-                </div>
-              </>
-            )}
-          </div>
-        </section>
-
-        {/* GALLERY */}
-        <section className="border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
-          <div className="mx-auto max-w-6xl">
-            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
-              {t(ui.galleryEyebrow, lang)}
-            </div>
-            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(ui.galleryHeading(loc.shortName), lang)}
-            </h2>
-            <div data-reveal className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
-              {loc.gallery.map((g, i) => (
-                <div
-                  key={i}
-                  className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
-                >
-                  <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
-                    {t(g.label, lang)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* HOURS + CONTACT */}
-        <section id="contact" className="px-8 py-20">
-          <div className="mx-auto max-w-6xl">
-            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
-              {t(ui.hoursContactEyebrow, lang)}
-            </div>
-            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(ui.planVisit, lang)}
-            </h2>
-            <div data-reveal className="mt-10 max-w-md">
-              {loc.hoursDetailed.map((h, i) => (
-                <div key={i} className="flex justify-between border-b border-white/10 py-4 text-[15px]">
-                  <span className="text-white/60">{t(h.day, lang)}</span>
-                  <span>{h.time}</span>
-                </div>
-              ))}
-            </div>
-
-            {loc.rules && (
-              <div data-reveal className="mt-10 max-w-md">
-                <b className="mb-3 block text-[15px] font-medium text-white">{t(ui.rulesHeading, lang)}</b>
-                <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
-                  {loc.rules.map((r, i) => (
-                    <li key={i} className="flex gap-2.5">
-                      <span style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
-                      <span>{t(r, lang)}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
-            <div data-reveal className="glass-panel mt-12 flex flex-wrap items-center justify-between gap-6 rounded-md p-8">
-              <div className="text-[14px] text-white/60">
-                <b className="mb-1 block text-[16px] font-medium text-white">{loc.brandName}</b>
-                {t(loc.address, lang)}
-              </div>
-              <div className="flex items-center gap-3">
-                {loc.phones[0] && (
-                  <PrimaryButton tone={loc.accent} href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
-                    {t(ui.navCall, lang)}
-                  </PrimaryButton>
-                )}
-                <GhostButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.brandName)}`}>
-                  {t(ui.directions, lang)}
-                </GhostButton>
-                {loc.facebook && (
-                  <SocialLink href={loc.facebook} tone={loc.accent} label={`Facebook — ${loc.brandName}`}>
-                    <FacebookIcon className="h-full w-full" />
-                  </SocialLink>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* FOOTER */}
-      <footer className="glass-bar border-t border-white/10 px-8 pb-10 pt-12">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-wrap items-center justify-between gap-5">
-            <div className="text-[15px] tracking-[2px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
-              BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
-            </div>
-            <div className="flex items-center gap-6 text-[13px] text-white/60">
-              {locationOrder.map((id) => (
-                <button key={id} onClick={() => goTo(id, true)}>
-                  {t(locations[id].shortName, lang)}
-                </button>
-              ))}
-              <div className="flex gap-2.5">
-                <SocialLink href={locations.blacksea1.facebook!} tone="gold" label="Facebook">
-                  <FacebookIcon className="h-full w-full" />
-                </SocialLink>
-                <SocialLink href={instagramUrl || "#"} tone="gold" label="Instagram">
-                  <InstagramIcon className="h-full w-full" />
-                </SocialLink>
-              </div>
-            </div>
-          </div>
-          <div className="mt-6 text-[12px] text-white/50">{t(ui.footNote, lang)}</div>
-        </div>
-      </footer>
+      <SiteFooter lang={lang} />
     </div>
   );
 }

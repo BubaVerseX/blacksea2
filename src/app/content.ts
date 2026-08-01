@@ -64,6 +64,13 @@ export interface LocationContent {
 // TODO: replace with real Instagram handle once available
 export const instagramUrl = "";
 
+// Route slugs for the multi-page structure — one dedicated page per location.
+export const locationSlugs: Record<LocationId, string> = {
+  blacksea1: "black-sea",
+  blackseakids: "black-sea-kids",
+  zestafoni: "zestafoni",
+};
+
 export const ui = {
   navCall: { en: "Call", ka: "დარეკვა" } as Bi,
   langEn: "EN",
@@ -74,6 +81,8 @@ export const ui = {
     en: "Three sport complexes across Georgia, each built around a different kind of visit — pick a location to see what's inside, what it costs, and how to visit.",
     ka: "სამი სპორტული კომპლექსი საქართველოში, თითოეული განსხვავებული ვიზიტისთვისაა აგებული — აირჩიეთ ლოკაცია და ნახეთ, რა არის შიგნით, რა ღირს და როგორ ეწვიოთ.",
   } as Bi,
+  viewLocation: { en: "View location", ka: "ლოკაციის ნახვა" } as Bi,
+  backToLocations: { en: "All locations", ka: "ყველა ლოკაცია" } as Bi,
   includedEyebrow: { en: "What's included", ka: "რას მოიცავს" } as Bi,
   includedHeading: { en: "Everything on one membership.", ka: "ყველაფერი ერთ საწევრო ბარათში." } as Bi,
   membershipEyebrow: { en: "Membership", ka: "საწევრო" } as Bi,
