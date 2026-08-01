@@ -257,7 +257,16 @@ body {
 }
 
 .gate-card {
-  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition:
+    transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 400ms ease,
+    box-shadow 400ms ease;
+}
+
+.gate-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 245, 208, 0.35);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
 }
 
 .gate-card:hover .gate-bg {
