@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { type Lang, type LocationId, locations, ui } from "./content";
+import LocationBackground from "./LocationBackground";
 import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal } from "./site-ui";
 
 export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang }) {
@@ -11,6 +12,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
 
   return (
     <div ref={revealRef}>
+      <LocationBackground id={id} />
+
       {/* BREADCRUMB */}
       <div className="px-8 pt-28">
         <div className="mx-auto max-w-6xl">
