@@ -43,10 +43,6 @@ html {
 
 body {
   background-color: var(--background);
-  background-image: linear-gradient(rgba(0, 245, 208, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 245, 208, 0.055) 1px, transparent 1px);
-  background-size: 44px 44px;
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -290,166 +286,27 @@ body {
   -webkit-backdrop-filter: blur(10px) saturate(140%);
 }
 
-/* Black Sea — kinetic lines + shockwave pulses (cyan, fast, energetic) */
-.bg-ring {
+/* Editorial glass system — bold diagonal color glimpses + stacked frosted glass
+   panes + an oversized outlined type mark, weighted toward the right/lower half
+   of the screen so headings and cards (left-aligned) stay in clear space. */
+.bg-block {
   position: absolute;
-  width: 24px;
-  height: 24px;
-  margin: -12px 0 0 -12px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(0, 245, 208, 0.75);
-  animation: bg-ring-pulse 3.4s ease-out infinite;
+  filter: blur(0.5px);
 }
 
-@keyframes bg-ring-pulse {
-  0% {
-    transform: scale(0.3);
-    opacity: 0.7;
-  }
-
-  100% {
-    transform: scale(3.2);
-    opacity: 0;
-  }
-}
-
-.bg-streak {
+.bg-mark {
   position: absolute;
-  left: -30%;
-  height: 3px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0, 245, 208, 0.85), transparent);
-  animation: bg-streak-move 5s linear infinite;
+  font-family: var(--font-head);
+  font-weight: 800;
+  line-height: 0.8;
+  color: transparent;
+  white-space: nowrap;
+  font-size: clamp(90px, 15vw, 280px);
 }
 
-@keyframes bg-streak-move {
-  0% {
-    transform: translateX(-10vw) rotate(-8deg);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(120vw) rotate(-8deg);
-    opacity: 0;
-  }
-}
-
-/* Black Sea Kids — bubbles rising and swaying (pastel, playful) */
-.bg-bubble {
+.bg-pane {
   position: absolute;
-  bottom: -40px;
-  border-radius: 50%;
-  animation: bg-rise 8s ease-in infinite, bg-sway 4s ease-in-out infinite;
-}
-
-@keyframes bg-rise {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 0.9;
-  }
-
-  90% {
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: translateY(-100vh) scale(1.2);
-    opacity: 0;
-  }
-}
-
-@keyframes bg-sway {
-  0%,
-  100% {
-    margin-left: 0;
-  }
-
-  50% {
-    margin-left: 26px;
-  }
-}
-
-/* Zestafoni — warm drifting glow + aurora sweep + sparkle (slow, elegant, hotel-grade) */
-.bg-orb-warm {
-  position: absolute;
-  width: 46vw;
-  max-width: 520px;
-  height: 46vw;
-  max-height: 520px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 47, 176, 0.34), transparent 68%);
-  filter: blur(10px);
-  animation: bg-drift-slow 14s ease-in-out infinite;
-}
-
-.bg-orb-warm--gold {
-  background: radial-gradient(circle, rgba(250, 199, 117, 0.3), transparent 68%);
-  animation-duration: 18s;
-  animation-delay: 2s;
-}
-
-@keyframes bg-drift-slow {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate(3%, -4%) scale(1.06);
-  }
-}
-
-.bg-aurora {
-  position: absolute;
-  left: -20%;
-  top: 22%;
-  width: 140%;
-  height: 90px;
-  background: linear-gradient(90deg, transparent, rgba(255, 47, 176, 0.28), rgba(250, 199, 117, 0.24), transparent);
-  filter: blur(14px);
-  animation: bg-aurora-sweep 9s ease-in-out infinite alternate;
-}
-
-@keyframes bg-aurora-sweep {
-  0% {
-    transform: translateX(-8%);
-  }
-
-  100% {
-    transform: translateX(8%);
-  }
-}
-
-.bg-sparkle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #ffffff;
-  animation: bg-sparkle-twinkle 2.6s ease-in-out infinite;
-}
-
-@keyframes bg-sparkle-twinkle {
-  0%,
-  100% {
-    opacity: 0.1;
-  }
-
-  50% {
-    opacity: 0.9;
-  }
+  border-radius: 20px;
 }
 
 @media (prefers-reduced-motion: reduce) {
