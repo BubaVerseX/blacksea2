@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { locationOrder, locationSlugs, locations, ui } from "./content";
+import HomeBackground from "./HomeBackground";
+import { PALETTES } from "./LocationBackground";
 import SiteFooter from "./SiteFooter";
 import SiteNav from "./SiteNav";
 import { ArrowIcon, t, useLang, useReveal } from "./site-ui";
@@ -12,6 +14,7 @@ export default function Page() {
 
   return (
     <div ref={revealRef}>
+      <HomeBackground />
       <SiteNav lang={lang} setLang={setLang} />
 
       {/* HERO / GATE */}
@@ -29,6 +32,7 @@ export default function Page() {
             {locationOrder.map((id) => {
               const l = locations[id];
               const isGold = l.accent === "gold";
+              const pal = PALETTES[id];
               return (
                 <Link
                   key={id}
@@ -36,14 +40,37 @@ export default function Page() {
                   data-reveal
                   className="gate-card glass-panel group relative block h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
-                  <div
-                    className="gate-bg absolute inset-0 transition-transform duration-700"
-                    style={{
-                      background: isGold
-                        ? "radial-gradient(circle at 30% 20%, rgba(0,245,208,0.22), transparent 55%), linear-gradient(160deg,var(--panel),var(--background))"
-                        : "radial-gradient(circle at 70% 30%, rgba(255,47,176,0.22), transparent 55%), linear-gradient(160deg,var(--panel),var(--background))",
-                    }}
-                  />
+                  <div className="gate-bg absolute inset-0 overflow-hidden transition-transform duration-700" style={{ background: pal.baseGradient }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "30%",
+                        top: "-12%",
+                        width: "62%",
+                        height: "62%",
+                        background: pal.pane1Bg,
+                        border: `1px solid ${pal.pane1Border}`,
+                        borderRadius: 14,
+                        transform: "rotate(-3deg)",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: "-6%",
+                        bottom: "-10%",
+                        fontFamily: "var(--font-head)",
+                        fontWeight: 800,
+                        lineHeight: 0.8,
+                        fontSize: pal.cardMarkSize,
+                        color: "transparent",
+                        WebkitTextStroke: `1px ${pal.markStroke}`,
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {pal.mark}
+                    </div>
+                  </div>
                   <div
                     className="absolute inset-0"
                     style={{ background: "linear-gradient(180deg, transparent 30%, rgba(3,4,5,0.92) 100%)" }}
