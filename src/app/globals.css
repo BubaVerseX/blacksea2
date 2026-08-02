@@ -309,6 +309,37 @@ body {
   border-radius: 20px;
 }
 
+/* Cosmos starfield — faint white dots that twinkle and drift very slowly,
+   shared across the home hub and every location page for a consistent,
+   quiet sense of depth and motion behind the glass composition. */
+.bg-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: bg-star-twinkle var(--twinkle-dur, 3s) ease-in-out infinite, bg-star-drift var(--drift-dur, 60s) linear infinite;
+}
+
+@keyframes bg-star-twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes bg-star-drift {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(var(--dx, 24px), var(--dy, -20px));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
