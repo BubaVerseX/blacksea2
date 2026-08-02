@@ -55,7 +55,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section className="border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
+      <section className="section-glass border-y border-white/10 px-8 py-20">
         <div className="mx-auto max-w-6xl">
           <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
             {t(ui.includedEyebrow, lang)}
@@ -180,7 +180,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       </section>
 
       {/* GALLERY */}
-      <section className="border-y border-white/10 px-8 py-20" style={{ background: "var(--panel-2)" }}>
+      <section className="section-glass border-y border-white/10 px-8 py-20">
         <div className="mx-auto max-w-6xl">
           <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
             {t(ui.galleryEyebrow, lang)}

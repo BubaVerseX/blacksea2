@@ -282,6 +282,14 @@ body {
   pointer-events: none;
 }
 
+/* Translucent section bands — let the animated background stay visible under
+   content bands that need a readability scrim, instead of a flat opaque panel. */
+.section-glass {
+  background: rgba(6, 7, 10, 0.58);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+
 /* Black Sea — kinetic lines + shockwave pulses (cyan, fast, energetic) */
 .bg-ring {
   position: absolute;
@@ -289,7 +297,7 @@ body {
   height: 24px;
   margin: -12px 0 0 -12px;
   border-radius: 50%;
-  border: 1.5px solid rgba(0, 245, 208, 0.55);
+  border: 1.5px solid rgba(0, 245, 208, 0.75);
   animation: bg-ring-pulse 3.4s ease-out infinite;
 }
 
@@ -310,7 +318,7 @@ body {
   left: -30%;
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0, 245, 208, 0.65), transparent);
+  background: linear-gradient(90deg, transparent, rgba(0, 245, 208, 0.85), transparent);
   animation: bg-streak-move 5s linear infinite;
 }
 
@@ -381,13 +389,13 @@ body {
   height: 46vw;
   max-height: 520px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 47, 176, 0.22), transparent 68%);
+  background: radial-gradient(circle, rgba(255, 47, 176, 0.34), transparent 68%);
   filter: blur(10px);
   animation: bg-drift-slow 14s ease-in-out infinite;
 }
 
 .bg-orb-warm--gold {
-  background: radial-gradient(circle, rgba(250, 199, 117, 0.2), transparent 68%);
+  background: radial-gradient(circle, rgba(250, 199, 117, 0.3), transparent 68%);
   animation-duration: 18s;
   animation-delay: 2s;
 }
@@ -409,7 +417,7 @@ body {
   top: 22%;
   width: 140%;
   height: 90px;
-  background: linear-gradient(90deg, transparent, rgba(255, 47, 176, 0.16), rgba(250, 199, 117, 0.14), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 47, 176, 0.28), rgba(250, 199, 117, 0.24), transparent);
   filter: blur(14px);
   animation: bg-aurora-sweep 9s ease-in-out infinite alternate;
 }
