@@ -129,20 +129,20 @@ export default function LocationBackground({ id }: { id: LocationId }) {
           height: "140%",
           background: p.block1,
           opacity: p.block1Opacity,
-          clipPath: "polygon(0 0, 60% 0, 30% 100%, 0 100%)",
+          clipPath: "polygon(0 0, 34% 0, 15% 100%, 0 100%)",
         }}
       />
       <div
         ref={(el) => { refs.current[2] = el; }}
         className="bg-block"
         style={{
-          left: "70%",
+          left: "82%",
           top: "10%",
-          width: "50%",
+          width: "34%",
           height: "110%",
           background: p.block2,
           opacity: p.block2Opacity,
-          clipPath: "polygon(100% 0, 100% 100%, 40% 100%, 70% 0)",
+          clipPath: "polygon(100% 0, 100% 100%, 55% 100%, 78% 0)",
         }}
       />
 
@@ -151,10 +151,10 @@ export default function LocationBackground({ id }: { id: LocationId }) {
         data-base-transform="rotate(-2deg)"
         className="bg-pane"
         style={{
-          left: "38%",
-          top: "-8%",
-          width: "50%",
-          height: "80%",
+          left: "58%",
+          top: "8%",
+          width: "26%",
+          height: "46%",
           background: p.pane1Bg,
           border: `1px solid ${p.pane1Border}`,
           transform: "rotate(-2deg)",
@@ -165,10 +165,10 @@ export default function LocationBackground({ id }: { id: LocationId }) {
         data-base-transform="rotate(2deg)"
         className="bg-pane"
         style={{
-          left: "50%",
-          top: "22%",
-          width: "46%",
-          height: "74%",
+          left: "68%",
+          top: "34%",
+          width: "24%",
+          height: "42%",
           background: p.pane2Bg,
           border: `1px solid ${p.pane2Border}`,
           transform: "rotate(2deg)",
