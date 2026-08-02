@@ -3,13 +3,9 @@
 import { useEffect, useRef } from "react";
 import type { LocationId } from "./content";
 
-/** Attaches a passive scroll listener that offsets each ref'd wrapper by
- *  scrollY * its own speed factor, giving a parallax feel — different layers
- *  drift at different fractions of real scroll speed. Each wrapper spans the
- *  full background (inset: 0) purely so it can carry the JS transform; the
- *  CSS-animated child inside keeps its original percentage-based position.
- *  This split is necessary because a running CSS animation on `transform`
- *  silently overrides any inline transform set directly on the same element. */
+/** Attaches a passive scroll listener that offsets each ref'd layer by
+ *  scrollY * its own speed factor — the mark drifts slowest (furthest back),
+ *  the color blocks a little faster, the glass panes fastest (closest). */
 function useParallax(speeds: number[]) {
   const refs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -23,8 +19,8 @@ function useParallax(speeds: number[]) {
       const y = window.scrollY;
       refs.current.forEach((el, i) => {
         if (!el) return;
-        const speed = speeds[i] ?? 0.3;
-        el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+        const speed = speeds[i] ?? 0.15;
+        el.style.transform = `${el.dataset.baseTransform ?? ""} translate3d(0, ${y * speed}px, 0)`;
       });
       raf = 0;
     };
@@ -42,109 +38,142 @@ function useParallax(speeds: number[]) {
   return refs;
 }
 
-function Layer({
-  parallaxRef,
-  children,
-}: {
-  parallaxRef: (el: HTMLDivElement | null) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div ref={parallaxRef} style={{ position: "absolute", inset: 0 }}>
-      {children}
-    </div>
-  );
-}
+type Palette = {
+  baseGradient: string;
+  block1: string;
+  block1Opacity: number;
+  block2: string;
+  block2Opacity: number;
+  mark: string;
+  markStroke: string;
+  markLeft: string;
+  markTop: string;
+  pane1Bg: string;
+  pane1Border: string;
+  pane2Bg: string;
+  pane2Border: string;
+};
 
-function BlackSeaBg() {
-  const refs = useParallax([0.14, 0.14, 0.32, 0.36, 0.3]);
-  return (
-    <div className="loc-bg" aria-hidden="true">
-      <Layer parallaxRef={(el) => { refs.current[0] = el; }}>
-        <div className="bg-ring" style={{ left: "18%", top: "28%" }} />
-        <div className="bg-ring" style={{ left: "18%", top: "28%", animationDelay: "1.6s" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[1] = el; }}>
-        <div className="bg-ring" style={{ right: "12%", bottom: "18%", animationDelay: "0.8s" }} />
-        <div className="bg-ring" style={{ right: "12%", bottom: "18%", animationDelay: "2.4s" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[2] = el; }}>
-        <div className="bg-streak" style={{ top: "16%", width: 260, animationDuration: "5.2s" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[3] = el; }}>
-        <div className="bg-streak" style={{ top: "48%", width: 200, animationDuration: "6.4s", animationDelay: "1.4s" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[4] = el; }}>
-        <div className="bg-streak" style={{ top: "74%", width: 170, animationDuration: "5.8s", animationDelay: "2.6s" }} />
-      </Layer>
-    </div>
-  );
-}
-
-function KidsBg() {
-  const bubbles = [
-    { color: "255,138,216", size: 30, left: "8%", dur: "9s", delay: "0s", speed: 0.14 },
-    { color: "0,245,208", size: 18, left: "20%", dur: "7s", delay: "1.2s", speed: 0.32 },
-    { color: "209,153,255", size: 40, left: "34%", dur: "11s", delay: "2.4s", speed: 0.1 },
-    { color: "255,214,242", size: 16, left: "48%", dur: "8s", delay: "0.6s", speed: 0.36 },
-    { color: "125,255,240", size: 24, left: "62%", dur: "9.5s", delay: "3s", speed: 0.2 },
-    { color: "255,138,216", size: 14, left: "74%", dur: "7.5s", delay: "1.8s", speed: 0.38 },
-    { color: "209,153,255", size: 22, left: "86%", dur: "10s", delay: "0.3s", speed: 0.22 },
-    { color: "0,245,208", size: 32, left: "94%", dur: "8.6s", delay: "2.1s", speed: 0.16 },
-  ];
-  const refs = useParallax(bubbles.map((b) => b.speed));
-  return (
-    <div className="loc-bg" aria-hidden="true">
-      {bubbles.map((b, i) => (
-        <Layer key={i} parallaxRef={(el) => { refs.current[i] = el; }}>
-          <div
-            className="bg-bubble"
-            style={{
-              left: b.left,
-              width: b.size,
-              height: b.size,
-              background: `radial-gradient(circle, rgba(${b.color},0.8), transparent 72%)`,
-              animationDuration: `${b.dur}, ${(parseFloat(b.dur) * 0.55).toFixed(1)}s`,
-              animationDelay: b.delay,
-            }}
-          />
-        </Layer>
-      ))}
-    </div>
-  );
-}
-
-function ZestafoniBg() {
-  const sparkles = [
-    { top: "18%", left: "22%", delay: "0s" },
-    { top: "62%", left: "12%", delay: "0.7s" },
-    { top: "30%", left: "68%", delay: "1.3s" },
-    { top: "76%", left: "58%", delay: "0.4s" },
-    { top: "48%", left: "84%", delay: "1.8s" },
-  ];
-  const refs = useParallax([0.12, 0.16, 0.1, 0.3, 0.34, 0.28, 0.32]);
-  return (
-    <div className="loc-bg" aria-hidden="true">
-      <Layer parallaxRef={(el) => { refs.current[0] = el; }}>
-        <div className="bg-orb-warm" style={{ left: "-10%", top: "-6%" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[1] = el; }}>
-        <div className="bg-orb-warm bg-orb-warm--gold" style={{ right: "-8%", bottom: "-10%" }} />
-      </Layer>
-      <Layer parallaxRef={(el) => { refs.current[2] = el; }}>
-        <div className="bg-aurora" />
-      </Layer>
-      {sparkles.map((s, i) => (
-        <Layer key={i} parallaxRef={(el) => { refs.current[3 + i] = el; }}>
-          <div className="bg-sparkle" style={{ top: s.top, left: s.left, animationDelay: s.delay }} />
-        </Layer>
-      ))}
-    </div>
-  );
-}
+const PALETTES: Record<LocationId, Palette> = {
+  blacksea1: {
+    baseGradient: "linear-gradient(150deg, #081512, #040506)",
+    block1: "#00f5d0",
+    block1Opacity: 0.32,
+    block2: "#00c2ff",
+    block2Opacity: 0.18,
+    mark: "01",
+    markStroke: "rgba(0, 245, 208, 0.16)",
+    markLeft: "6%",
+    markTop: "54%",
+    pane1Bg: "rgba(0, 245, 208, 0.05)",
+    pane1Border: "rgba(0, 245, 208, 0.15)",
+    pane2Bg: "rgba(255, 255, 255, 0.05)",
+    pane2Border: "rgba(255, 255, 255, 0.12)",
+  },
+  blackseakids: {
+    baseGradient: "linear-gradient(150deg, #120a17, #040506)",
+    block1: "#ff8ad8",
+    block1Opacity: 0.28,
+    block2: "#7dfff0",
+    block2Opacity: 0.16,
+    mark: "KIDS",
+    markStroke: "rgba(255, 138, 216, 0.2)",
+    markLeft: "2%",
+    markTop: "58%",
+    pane1Bg: "rgba(255, 138, 216, 0.06)",
+    pane1Border: "rgba(255, 138, 216, 0.16)",
+    pane2Bg: "rgba(255, 255, 255, 0.05)",
+    pane2Border: "rgba(255, 255, 255, 0.12)",
+  },
+  zestafoni: {
+    baseGradient: "linear-gradient(150deg, #170d08, #040506)",
+    block1: "#ff2fb0",
+    block1Opacity: 0.26,
+    block2: "#facf75",
+    block2Opacity: 0.22,
+    mark: "HOTEL",
+    markStroke: "rgba(250, 199, 117, 0.22)",
+    markLeft: "2%",
+    markTop: "60%",
+    pane1Bg: "rgba(255, 47, 176, 0.06)",
+    pane1Border: "rgba(255, 47, 176, 0.16)",
+    pane2Bg: "rgba(250, 199, 117, 0.06)",
+    pane2Border: "rgba(250, 199, 117, 0.16)",
+  },
+};
 
 export default function LocationBackground({ id }: { id: LocationId }) {
-  if (id === "blackseakids") return <KidsBg />;
-  if (id === "zestafoni") return <ZestafoniBg />;
-  return <BlackSeaBg />;
+  const p = PALETTES[id];
+  // speeds: mark (furthest back) drifts slowest, blocks mid, panes (closest) fastest
+  const refs = useParallax([0.04, 0.07, 0.1, 0.16, 0.13]);
+
+  return (
+    <div className="loc-bg" aria-hidden="true">
+      <div style={{ position: "absolute", inset: 0, background: p.baseGradient }} />
+
+      <div
+        ref={(el) => { refs.current[0] = el; }}
+        className="bg-mark"
+        style={{ left: p.markLeft, top: p.markTop, WebkitTextStroke: `1px ${p.markStroke}` }}
+      >
+        {p.mark}
+      </div>
+
+      <div
+        ref={(el) => { refs.current[1] = el; }}
+        className="bg-block"
+        style={{
+          left: "55%",
+          top: "-20%",
+          width: "70%",
+          height: "140%",
+          background: p.block1,
+          opacity: p.block1Opacity,
+          clipPath: "polygon(0 0, 60% 0, 30% 100%, 0 100%)",
+        }}
+      />
+      <div
+        ref={(el) => { refs.current[2] = el; }}
+        className="bg-block"
+        style={{
+          left: "70%",
+          top: "10%",
+          width: "50%",
+          height: "110%",
+          background: p.block2,
+          opacity: p.block2Opacity,
+          clipPath: "polygon(100% 0, 100% 100%, 40% 100%, 70% 0)",
+        }}
+      />
+
+      <div
+        ref={(el) => { refs.current[3] = el; }}
+        data-base-transform="rotate(-2deg)"
+        className="bg-pane"
+        style={{
+          left: "38%",
+          top: "-8%",
+          width: "50%",
+          height: "80%",
+          background: p.pane1Bg,
+          border: `1px solid ${p.pane1Border}`,
+          transform: "rotate(-2deg)",
+        }}
+      />
+      <div
+        ref={(el) => { refs.current[4] = el; }}
+        data-base-transform="rotate(2deg)"
+        className="bg-pane"
+        style={{
+          left: "50%",
+          top: "22%",
+          width: "46%",
+          height: "74%",
+          background: p.pane2Bg,
+          border: `1px solid ${p.pane2Border}`,
+          transform: "rotate(2deg)",
+        }}
+      />
+    </div>
+  );
 }
