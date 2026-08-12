@@ -194,9 +194,25 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                 key={i}
                 className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
               >
-                <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
-                  {t(g.label, lang)}
-                </div>
+                {g.image ? (
+                  <>
+                    <img
+                      src={g.image}
+                      alt={t(g.label, lang)}
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                    <div
+                      className="absolute inset-x-0 bottom-0 px-3 py-2 text-[11px] uppercase tracking-[1.5px] text-white/80"
+                      style={{ background: "linear-gradient(180deg, transparent, rgba(3,4,5,0.85))" }}
+                    >
+                      {t(g.label, lang)}
+                    </div>
+                  </>
+                ) : (
+                  <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
+                    {t(g.label, lang)}
+                  </div>
+                )}
               </div>
             ))}
           </div>
