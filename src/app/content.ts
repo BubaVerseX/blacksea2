@@ -33,6 +33,7 @@ export interface PricingGroup {
 
 export interface GalleryTile {
   label: Bi;
+  image?: string;
 }
 
 export interface LocationContent {
@@ -62,6 +63,7 @@ export interface LocationContent {
   gallery: GalleryTile[];
   facebook?: string;
   instagram?: string;
+  photo?: string;
   accent: "gold" | "blue";
 }
 
@@ -212,6 +214,7 @@ export const locations: Record<LocationId, LocationContent> = {
     accent: "blue",
     facebook: "https://www.facebook.com/profile.php?id=100063646506343",
     instagram: "https://www.instagram.com/blacksea_zestafoni/?hl=en",
+    photo: "/zestafoni/hero.jpg",
     gateTag: { en: "Pool · Gym · Hotel", ka: "აუზი · დარბაზი · სასტუმრო" },
     gateBlurb: {
       en: "Three pools, a fitness floor, and an on-site hotel for longer stays.",
@@ -328,11 +331,13 @@ export const locations: Record<LocationId, LocationContent> = {
       ka: "დახურული აუზის წყლის ტემპერატურა იზომება დღეში ორჯერ, კონტროლდება და სრულად შეესაბამება სანიტარულ და უსაფრთხოების ნორმებს.",
     },
     gallery: [
-      { label: { en: "Large pool", ka: "დიდი აუზი" } },
-      { label: { en: "Hotel room", ka: "სასტუმროს ნომერი" } },
-      { label: { en: "Gym floor", ka: "სავარჯიშო დარბაზი" } },
-      { label: { en: "Small pool", ka: "პატარა აუზი" } },
-      { label: { en: "Kids lessons", ka: "ბავშვთა გაკვეთილები" } },
+      { image: "/zestafoni/gallery-1.jpg", label: { en: "Large pool", ka: "დიდი აუზი" } },
+      { image: "/zestafoni/gallery-2.jpg", label: { en: "Indoor pool", ka: "დახურული აუზი" } },
+      { image: "/zestafoni/gallery-3.jpg", label: { en: "Treadmills", ka: "ტრედმილები" } },
+      { image: "/zestafoni/gallery-4.jpg", label: { en: "Squat rack", ka: "სკვოთ რეკი" } },
+      { image: "/zestafoni/gallery-5.jpg", label: { en: "Fitness floor", ka: "სავარჯიშო დარბაზი" } },
+      { image: "/zestafoni/gallery-6.jpg", label: { en: "Stair climber", ka: "კიბის ტრენაჟორი" } },
+      { image: "/zestafoni/gallery-7.jpg", label: { en: "Free weights", ka: "თავისუფალი წონები" } },
     ],
   },
 };

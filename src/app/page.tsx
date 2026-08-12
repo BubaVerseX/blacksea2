@@ -41,6 +41,19 @@ export default function Page() {
                   className="gate-card glass-panel group relative block h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
                   <div className="gate-bg absolute inset-0 overflow-hidden transition-transform duration-700" style={{ background: pal.baseGradient }}>
+                    {l.photo && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          backgroundImage: `url(${l.photo})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          opacity: 0.32,
+                          filter: "grayscale(15%) contrast(105%)",
+                        }}
+                      />
+                    )}
                     <div
                       style={{
                         position: "absolute",
