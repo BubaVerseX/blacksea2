@@ -56,13 +56,14 @@ export interface LocationContent {
   pricingGroups?: PricingGroup[];
   visitorNote?: Bi;
   rules?: Bi[];
+  rulesLabel?: Bi;
+  poolRules?: Bi[];
+  poolRulesNote?: Bi;
   gallery: GalleryTile[];
   facebook?: string;
+  instagram?: string;
   accent: "gold" | "blue";
 }
-
-// TODO: replace with real Instagram handle once available
-export const instagramUrl = "";
 
 // Route slugs for the multi-page structure — one dedicated page per location.
 export const locationSlugs: Record<LocationId, string> = {
@@ -108,6 +109,8 @@ export const ui = {
   hoursLabel: { en: "Hours", ka: "სამუშაო საათები" } as Bi,
   directions: { en: "Directions", ka: "მიმართულება" } as Bi,
   rulesHeading: { en: "House rules", ka: "შიდა წესები" } as Bi,
+  fitnessRulesHeading: { en: "Fitness rules", ka: "ფიტნეს წესები" } as Bi,
+  poolRulesHeading: { en: "Pool rules", ka: "აუზის წესები" } as Bi,
   footNote: {
     en: "Placeholder content, pricing and photography. To be replaced with final assets.",
     ka: "დროებითი კონტენტი, ფასები და ფოტოები. საბოლოო მასალებით შეიცვლება.",
@@ -208,16 +211,17 @@ export const locations: Record<LocationId, LocationContent> = {
     shortName: { en: "Zestafoni", ka: "ზესტაფონი" },
     accent: "blue",
     facebook: "https://www.facebook.com/profile.php?id=100063646506343",
+    instagram: "https://www.instagram.com/blacksea_zestafoni/?hl=en",
     gateTag: { en: "Pool · Gym · Hotel", ka: "აუზი · დარბაზი · სასტუმრო" },
     gateBlurb: {
       en: "Three pools, a fitness floor, and an on-site hotel for longer stays.",
       ka: "სამი აუზი, სავარჯიშო დარბაზი და ადგილზე სასტუმრო — ხანგრძლივი ვიზიტებისთვის.",
     },
     areaLabel: { en: "Zestafoni", ka: "ზესტაფონი" },
-    hoursShort: { en: "Daily 09:00–20:00", ka: "ყოველდღე 09:00–20:00" },
+    hoursShort: { en: "Daily 09:00–21:00", ka: "ყოველდღე 09:00–21:00" },
     address: { en: "Aghmashenebeli St 37, Zestafoni, Georgia", ka: "აღმაშენებლის 37, ზესტაფონი, საქართველო" },
-    phones: ["+995 596 20 40 90", "032 2 560276", "+995 32 256 02 76"],
-    hoursDetailed: [{ day: { en: "Every day", ka: "ყოველდღე" }, time: "09:00 – 20:00" }],
+    phones: ["+995 596 20 40 90", "032 2 560276"],
+    hoursDetailed: [{ day: { en: "Every day", ka: "ყოველდღე" }, time: "09:00 – 21:00" }],
     introHeading: { en: "Three pools, a gym, and a hotel.", ka: "სამი აუზი, დარბაზი და სასტუმრო." },
     introLede: {
       en: "The Zestafoni complex goes beyond a day visit — alongside the sport facilities, an on-site hotel under the same ownership makes it a place to stay, not just train.",
@@ -270,7 +274,7 @@ export const locations: Record<LocationId, LocationContent> = {
         rows: [
           { tier: { en: "Swimming — 1 visit", ka: "აუზი — 1 ვიზიტი" }, price: "15 ₾" },
           { tier: { en: "Swimming — 12 visits", ka: "აუზი — 12 ვიზიტი" }, price: "75 ₾" },
-          { tier: { en: "Boxing", ka: "ბოქსი" }, price: "50 ₾" },
+          { tier: { en: "Boxing", ka: "კრივი" }, price: "50 ₾" },
         ],
       },
       {
@@ -281,8 +285,16 @@ export const locations: Record<LocationId, LocationContent> = {
           { tier: { en: "Fitness — 12 visits", ka: "ფიტნესი — 12 ვიზიტი" }, price: "150 ₾" },
         ],
       },
+      {
+        category: { en: "Swim gear", ka: "საცურაო აქსესუარები" },
+        rows: [
+          { tier: { en: "Swimming cap", ka: "საცურაო ქუდი" }, price: "15 ₾" },
+          { tier: { en: "Swimming goggles", ka: "საცურაო სათვალე" }, price: "20 ₾" },
+        ],
+      },
     ],
     visitorNote: { en: "Visitor card: 5 GEL", ka: "ვიზიტორის ბარათი: 5 ლარი" },
+    rulesLabel: { en: "Fitness rules", ka: "ფიტნეს წესები" },
     rules: [
       {
         en: "Membership cards are non-transferable to another person. 1st violation: 30 GEL fine. 2nd violation: account blacklisted.",
@@ -297,6 +309,24 @@ export const locations: Record<LocationId, LocationContent> = {
         ka: "შენობის/გამოსაცვლელი ფეხსაცმელი სავალდებულოა. 1-ლი დარღვევა: გაფრთხილება. მე-2 დარღვევა: შესვლაზე უარი.",
       },
     ],
+    poolRules: [
+      {
+        en: "Entering the swimming pool without a swimming cap is not allowed.",
+        ka: "საცურაო აუზზე ქუდის გარეშე შესვლა დაუშვებელია.",
+      },
+      {
+        en: "Pausing your membership or refunding payment is not permitted.",
+        ka: "აბონიმენტის დაპაუზება ან თანხის დაბრუნება დაუშვებელია.",
+      },
+      {
+        en: "Group classes missed by the customer are not refunded or made up.",
+        ka: "მომხმარებლის მიერ გაცდენილი ჯგუფური ვარჯიშები არ ანაზღაურდება.",
+      },
+    ],
+    poolRulesNote: {
+      en: "The indoor pool's water temperature is measured twice a day, monitored, and fully complies with sanitary and safety standards.",
+      ka: "დახურული აუზის წყლის ტემპერატურა იზომება დღეში ორჯერ, კონტროლდება და სრულად შეესაბამება სანიტარულ და უსაფრთხოების ნორმებს.",
+    },
     gallery: [
       { label: { en: "Large pool", ka: "დიდი აუზი" } },
       { label: { en: "Hotel room", ka: "სასტუმროს ნომერი" } },

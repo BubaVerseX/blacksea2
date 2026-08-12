@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type Lang, instagramUrl, locationOrder, locationSlugs, locations, ui } from "./content";
+import { type Lang, locationOrder, locationSlugs, locations, ui } from "./content";
 import { FacebookIcon, InstagramIcon, SocialLink, t } from "./site-ui";
 
 export default function SiteFooter({ lang }: { lang: Lang }) {
@@ -22,7 +22,7 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
               <SocialLink href={locations.blacksea1.facebook!} tone="gold" label="Facebook">
                 <FacebookIcon className="h-full w-full" />
               </SocialLink>
-              <SocialLink href={instagramUrl || "#"} tone="gold" label="Instagram">
+              <SocialLink href={locations.zestafoni.instagram!} tone="gold" label="Instagram">
                 <InstagramIcon className="h-full w-full" />
               </SocialLink>
             </div>
