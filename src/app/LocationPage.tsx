@@ -223,7 +223,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
 
           {loc.rules && (
             <div data-reveal className="mt-10 max-w-md">
-              <b className="mb-3 block text-[15px] font-medium text-white">{t(ui.rulesHeading, lang)}</b>
+              <b className="mb-3 block text-[15px] font-medium text-white">{t(loc.rulesLabel ?? ui.rulesHeading, lang)}</b>
               <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
                 {loc.rules.map((r, i) => (
                   <li key={i} className="flex gap-2.5">
@@ -232,6 +232,23 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   </li>
                 ))}
               </ol>
+            </div>
+          )}
+
+          {loc.poolRules && (
+            <div data-reveal className="mt-10 max-w-md">
+              <b className="mb-3 block text-[15px] font-medium text-white">{t(ui.poolRulesHeading, lang)}</b>
+              <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
+                {loc.poolRules.map((r, i) => (
+                  <li key={i} className="flex gap-2.5">
+                    <span style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
+                    <span>{t(r, lang)}</span>
+                  </li>
+                ))}
+              </ol>
+              {loc.poolRulesNote && (
+                <p className="mt-3 text-[12px] text-white/50">{t(loc.poolRulesNote, lang)}</p>
+              )}
             </div>
           )}
 
