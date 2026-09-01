@@ -136,6 +136,10 @@ body {
   );
 }
 
+.premium-card.tone-ice::before {
+  background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(224,247,255,0.22), transparent 42%);
+}
+
 /* Glassmorphism — floating panels (cards, badges, pills) */
 .glass-panel {
   backdrop-filter: blur(18px) saturate(160%);
@@ -169,6 +173,11 @@ body {
 .glass-fit {
   background: linear-gradient(135deg, rgba(10, 20, 22, 0.55), rgba(125, 255, 240, 0.1));
   border-color: rgba(125, 255, 240, 0.28);
+}
+
+.glass-ice {
+  background: linear-gradient(135deg, rgba(224,247,255,0.12), rgba(56,189,248,0.08));
+  border-color: rgba(224,247,255,0.28);
 }
 
 /* Dual-tone typography — spa: elegant italic, neon-pink glow */
@@ -205,6 +214,21 @@ body {
   border-color: rgba(125, 255, 240, 0.4);
   color: var(--fit-steel);
   text-shadow: 0 0 8px rgba(125, 255, 240, 0.4);
+}
+
+/* Dual-tone typography — ice: pale, crisp, icy-blue glow */
+.ice-heading {
+  color: #eaf9ff;
+  font-family: var(--font-head);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(56,189,248,0.45);
+}
+
+.badge-ice {
+  border-color: rgba(56,189,248,0.4);
+  color: #a7e8ff;
+  text-shadow: 0 0 8px rgba(56,189,248,0.4);
 }
 
 .gallery-card::after {
