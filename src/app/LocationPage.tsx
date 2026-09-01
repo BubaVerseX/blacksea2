@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { type Lang, type LocationId, locations, ui } from "./content";
 import LocationBackground from "./LocationBackground";
 import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal } from "./site-ui";
@@ -9,6 +10,16 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
   const loc = locations[id];
   const accentVar = loc.accent === "gold" ? "var(--gold)" : "var(--blue)";
   const revealRef = useReveal([lang]);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIndex(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxIndex]);
 
   return (
     <div ref={revealRef}>
@@ -91,17 +102,12 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
               );
             })}
             {loc.hotel && (
-              <div className="premium-card tone-spa glass-panel glass-spa col-span-1 grid grid-cols-1 items-center gap-7 rounded-md p-9 sm:col-span-2 lg:col-span-3 lg:grid-cols-2">
-                <div>
-                  <span className="badge-spa mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]">
-                    {lang === "en" ? "Hotel" : "სასტუმრო"}
-                  </span>
-                  <h3 className="spa-heading mb-2.5 text-[22px]">{t(loc.hotel.title, lang)}</h3>
-                  <p className="spa-body text-[13px] leading-relaxed">{t(loc.hotel.desc, lang)}</p>
-                </div>
-                <div className="flex h-[150px] items-center justify-center rounded text-[11px] uppercase tracking-[1.5px] text-white/50" style={{ background: "linear-gradient(135deg,#12151c,#08090c)" }}>
-                  {lang === "en" ? "Photo pending — hotel" : "ფოტო მალე — სასტუმრო"}
-                </div>
+              <div className="premium-card tone-spa glass-panel glass-spa col-span-1 rounded-md p-9 sm:col-span-2 lg:col-span-3">
+                <span className="badge-spa mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]">
+                  {lang === "en" ? "Hotel" : "სასტუმრო"}
+                </span>
+                <h3 className="spa-heading mb-2.5 text-[22px]">{t(loc.hotel.title, lang)}</h3>
+                <p className="spa-body max-w-2xl text-[13px] leading-relaxed">{t(loc.hotel.desc, lang)}</p>
               </div>
             )}
           </div>
@@ -131,23 +137,44 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                 </div>
               )}
               <div data-reveal className="mt-8 flex flex-col gap-6">
-                {loc.pricingGroups.map((group, gi) => (
-                  <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
-                    <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
-                      {t(group.category, lang)}
-                    </h3>
-                    <div className="flex flex-col divide-y divide-white/10">
-                      {group.rows.map((row, ri) => (
-                        <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
-                          <span className="text-white/70">{t(row.tier, lang)}</span>
-                          <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
-                            {row.price}
-                          </span>
+                {loc.pricingGroups.map((group, gi) => {
+                  const hasPhotos = group.rows.some((r) => r.image);
+                  return (
+                    <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
+                      <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
+                        {t(group.category, lang)}
+                      </h3>
+                      {hasPhotos ? (
+                        <div className="grid grid-cols-2 gap-4">
+                          {group.rows.map((row, ri) => (
+                            <div key={ri} className="glass-panel overflow-hidden rounded-md">
+                              {row.image && (
+                                <img src={row.image} alt={t(row.tier, lang)} className="h-32 w-full object-cover" />
+                              )}
+                              <div className="flex items-center justify-between gap-3 p-3 text-[14px]">
+                                <span className="text-white/70">{t(row.tier, lang)}</span>
+                                <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
+                                  {row.price}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      ) : (
+                        <div className="flex flex-col divide-y divide-white/10">
+                          {group.rows.map((row, ri) => (
+                            <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
+                              <span className="text-white/70">{t(row.tier, lang)}</span>
+                              <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
+                                {row.price}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </>
           ) : (
@@ -203,7 +230,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
             {loc.gallery.map((g, i) => (
               <div
                 key={i}
-                className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"}`}
+                onClick={g.image ? () => setLightboxIndex(i) : undefined}
+                className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"} ${g.image ? "cursor-pointer" : ""}`}
               >
                 {g.image ? (
                   <>
@@ -314,6 +342,20 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
           </div>
         </div>
       </section>
+
+      {lightboxIndex !== null && loc.gallery[lightboxIndex]?.image && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6" onClick={() => setLightboxIndex(null)}>
+          <button className="absolute right-6 top-6 text-[28px] text-white/70 hover:text-white" onClick={() => setLightboxIndex(null)} aria-label="Close">×</button>
+          {lightboxIndex > 0 && (
+            <button className="absolute left-4 text-[36px] text-white/60 hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i - 1 : i)); }} aria-label="Previous">‹</button>
+          )}
+          {lightboxIndex < loc.gallery.length - 1 && (
+            <button className="absolute right-4 text-[36px] text-white/60 hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i + 1 : i)); }} aria-label="Next">›</button>
+          )}
+          <img src={loc.gallery[lightboxIndex].image} alt={t(loc.gallery[lightboxIndex].label, lang)} className="max-h-[85vh] max-w-[90vw] rounded-md object-contain" onClick={(e) => e.stopPropagation()} />
+          <div className="absolute bottom-8 text-[13px] uppercase tracking-[1.5px] text-white/70">{t(loc.gallery[lightboxIndex].label, lang)}</div>
+        </div>
+      )}
     </div>
   );
 }

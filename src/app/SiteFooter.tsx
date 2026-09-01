@@ -9,9 +9,9 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
     <footer className="glass-bar border-t border-white/10 px-8 pb-10 pt-12">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-5">
-          <div className="flex items-center gap-2.5 text-[15px] tracking-[2px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
+          <div className="flex items-center gap-3 text-[15px] tracking-[2px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
             <img src="/logo.png" alt="Black Sea" className="h-8 w-8 object-contain" />
-            <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+            BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
           </div>
           <div className="flex items-center gap-6 text-[13px] text-white/60">
             {locationOrder.map((id) => (

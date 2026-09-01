@@ -17,8 +17,36 @@ export default function Page() {
       <HomeBackground />
       <SiteNav lang={lang} setLang={setLang} />
 
+      {/* FLAGSHIP BRAND BAND */}
+      <section className="relative overflow-hidden px-8 pb-6 pt-32 text-center">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{ background: "linear-gradient(180deg, #050f24 0%, #081633 55%, #040506 100%)" }}
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-[380px] -z-10"
+          style={{ background: "radial-gradient(circle at 50% 0%, rgba(56,189,248,0.16), transparent 60%)" }}
+        />
+        <div className="mx-auto max-w-3xl">
+          <img src="/logo.png" alt="Black Sea" className="mx-auto mb-5 h-20 w-20 object-contain md:h-28 md:w-28" />
+          <div
+            className="text-[14px] tracking-[6px] text-white/80 md:text-[16px]"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
+          >
+            BLACK SEA
+          </div>
+          <div
+            className="text-[36px] tracking-[4px] md:text-[54px]"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "var(--gold)", textShadow: "0 0 24px rgba(250,199,117,0.35)" }}
+          >
+            COMPLEX
+          </div>
+          <div className="mx-auto mt-6 h-[2px] w-32" style={{ background: "linear-gradient(90deg, transparent, var(--gold), transparent)" }} />
+        </div>
+      </section>
+
       {/* HERO / GATE */}
-      <section className="px-8 pb-16 pt-44 text-center">
+      <section className="px-8 pb-16 pt-10 text-center">
         <div className="mx-auto max-w-6xl">
           <span className="glass-panel mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[2px] text-white/60">
             {t(ui.heroBadge, lang)}
@@ -28,7 +56,7 @@ export default function Page() {
           </h1>
           <p className="mx-auto mt-5 max-w-md text-[16px] text-white/60">{t(ui.heroSub, lang)}</p>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {locationOrder.map((id) => {
               const l = locations[id];
               const isGold = l.accent === "gold";
