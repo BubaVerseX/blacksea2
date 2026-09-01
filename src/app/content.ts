@@ -1,6 +1,6 @@
 export type Lang = "ka" | "en";
-export type LocationId = "blacksea1" | "blackseakids" | "zestafoni";
-export type Category = "pool" | "gym" | "hotel";
+export type LocationId = "blacksea1" | "blackseakids" | "blackseaice" | "zestafoni";
+export type Category = "pool" | "gym" | "hotel" | "ice";
 
 export interface Bi {
   en: string;
@@ -58,6 +58,7 @@ export interface LocationContent {
   visitorNote?: Bi;
   rules?: Bi[];
   rulesLabel?: Bi;
+  notes?: Bi[];
   poolRules?: Bi[];
   poolRulesNote?: Bi;
   gallery: GalleryTile[];
@@ -71,6 +72,7 @@ export interface LocationContent {
 export const locationSlugs: Record<LocationId, string> = {
   blacksea1: "black-sea",
   blackseakids: "black-sea-kids",
+  blackseaice: "black-sea-ice",
   zestafoni: "zestafoni",
 };
 
@@ -78,11 +80,11 @@ export const ui = {
   navCall: { en: "Call", ka: "დარეკვა" } as Bi,
   langEn: "EN",
   langKa: "KA",
-  heroBadge: { en: "Three locations · Georgia", ka: "სამი ლოკაცია · საქართველო" } as Bi,
+  heroBadge: { en: "Four locations · Georgia", ka: "ოთხი ლოკაცია · საქართველო" } as Bi,
   heroTitle: { en: "Choose your Black Sea.", ka: "აირჩიეთ თქვენი Black Sea." } as Bi,
   heroSub: {
-    en: "Three sport complexes across Georgia, each built around a different kind of visit — pick a location to see what's inside, what it costs, and how to visit.",
-    ka: "სამი სპორტული კომპლექსი საქართველოში, თითოეული განსხვავებული ვიზიტისთვისაა აგებული — აირჩიეთ ლოკაცია და ნახეთ, რა არის შიგნით, რა ღირს და როგორ ეწვიოთ.",
+    en: "Four sport complexes across Georgia, each built around a different kind of visit — pick a location to see what's inside, what it costs, and how to visit.",
+    ka: "ოთხი სპორტული კომპლექსი საქართველოში, თითოეული განსხვავებული ვიზიტისთვისაა აგებული — აირჩიეთ ლოკაცია და ნახეთ, რა არის შიგნით, რა ღირს და როგორ ეწვიოთ.",
   } as Bi,
   viewLocation: { en: "View location", ka: "ლოკაციის ნახვა" } as Bi,
   backToLocations: { en: "All locations", ka: "ყველა ლოკაცია" } as Bi,
@@ -111,6 +113,7 @@ export const ui = {
   hoursLabel: { en: "Hours", ka: "სამუშაო საათები" } as Bi,
   directions: { en: "Directions", ka: "მიმართულება" } as Bi,
   rulesHeading: { en: "House rules", ka: "შიდა წესები" } as Bi,
+  notesHeading: { en: "Good to know", ka: "მნიშვნელოვანი ინფორმაცია" } as Bi,
   fitnessRulesHeading: { en: "Fitness rules", ka: "ფიტნეს წესები" } as Bi,
   poolRulesHeading: { en: "Pool rules", ka: "აუზის წესები" } as Bi,
   footNote: {
@@ -134,10 +137,10 @@ export const locations: Record<LocationId, LocationContent> = {
     areaLabel: { en: "Gldani, Tbilisi", ka: "გლდანი, თბილისი" },
     hoursShort: { en: "Mon–Sat 07:00–22:00", ka: "ორშ–შაბ 07:00–22:00" },
     address: {
-      en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane, Tbilisi, 0141",
-      ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი, თბილისი, 0141",
+      en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane #5, Entrance 1, Tbilisi, 0141",
+      ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი #5, შესასვლელი 1, თბილისი, 0141",
     },
-    phones: ["+995 595 981 100", "+995 591 204 050"],
+    phones: ["+995 595 981 100"],
     hoursDetailed: [
       { day: { en: "Monday – Saturday", ka: "ორშაბათი – შაბათი" }, time: "07:00 – 22:00" },
       { day: { en: "Sunday", ka: "კვირა" }, time: "09:00 – 21:00" },
@@ -155,11 +158,77 @@ export const locations: Record<LocationId, LocationContent> = {
       { category: "pool", title: { en: "Aqua Aerobics", ka: "Aqua Aerobics" }, desc: { en: "Low-impact, high-energy group training in the water.", ka: "დაბალი დატვირთვის, მაღალი ენერგიის ჯგუფური ვარჯიში წყალში." } },
       { category: "gym", title: { en: "Group Aerobics", ka: "ჯგუფური აერობიკა" }, desc: { en: "Studio sessions built around mobility and tempo.", ka: "სტუდიური მეცადინეობები მოძრაობასა და ტემპზე." } },
     ],
-    pricing: [
-      { label: { en: "Day pass", ka: "ერთჯერადი ვიზიტი" }, unit: { en: " ₾ / visit", ka: " ₾ / ვიზიტი" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Full pool access", ka: "სრული წვდომა აუზზე" }, { en: "Gym floor access", ka: "წვდომა სავარჯიშო დარბაზზე" }, { en: "Locker included", ka: "კარადა შედის" } ] },
-      { label: { en: "Monthly", ka: "თვიური" }, unit: { en: " ₾ / month", ka: " ₾ / თვე" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Unlimited pool + gym", ka: "ულიმიტო აუზი + დარბაზი" }, { en: "All group classes", ka: "ყველა ჯგუფური მეცადინეობა" }, { en: "Guest passes", ka: "სტუმრის ბარათები" } ], accent: true },
-      { label: { en: "Annual", ka: "წლიური" }, unit: { en: " ₾ / year", ka: " ₾ / წელი" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Everything in Monthly", ka: "ყველაფერი თვიურიდან" }, { en: "Best value", ka: "საუკეთესო ღირებულება" }, { en: "Priority class booking", ka: "პრიორიტეტული ჯავშანი" } ] },
+    pricingGroups: [
+      {
+        category: { en: "Pool", ka: "აუზი" },
+        rows: [
+          { tier: { en: "1 visit (07:00–15:00)", ka: "1 ვიზიტი (07:00–15:00)" }, price: "20 ₾" },
+          { tier: { en: "1 visit (07:00–22:00)", ka: "1 ვიზიტი (07:00–22:00)" }, price: "20 ₾" },
+          { tier: { en: "8 visits (07:00–15:00)", ka: "8 ვიზიტი (07:00–15:00)" }, price: "100 ₾" },
+          { tier: { en: "8 visits (07:00–22:00)", ka: "8 ვიზიტი (07:00–22:00)" }, price: "120 ₾" },
+          { tier: { en: "12 visits (07:00–15:00)", ka: "12 ვიზიტი (07:00–15:00)" }, price: "130 ₾" },
+          { tier: { en: "12 visits (07:00–22:00)", ka: "12 ვიზიტი (07:00–22:00)" }, price: "150 ₾" },
+          { tier: { en: "Unlimited (07:00–15:00)", ka: "ულიმიტო (07:00–15:00)" }, price: "200 ₾" },
+          { tier: { en: "Unlimited (07:00–22:00)", ka: "ულიმიტო (07:00–22:00)" }, price: "220 ₾" },
+        ],
+      },
+      {
+        category: { en: "Fitness", ka: "ფიტნესი" },
+        rows: [
+          { tier: { en: "1 visit (07:00–15:00)", ka: "1 ვიზიტი (07:00–15:00)" }, price: "15 ₾" },
+          { tier: { en: "1 visit (07:00–22:00)", ka: "1 ვიზიტი (07:00–22:00)" }, price: "15 ₾" },
+          { tier: { en: "12 visits (07:00–15:00)", ka: "12 ვიზიტი (07:00–15:00)" }, price: "60 ₾" },
+          { tier: { en: "12 visits (07:00–22:00)", ka: "12 ვიზიტი (07:00–22:00)" }, price: "80 ₾" },
+          { tier: { en: "Unlimited (07:00–15:00)", ka: "ულიმიტო (07:00–15:00)" }, price: "80 ₾" },
+          { tier: { en: "Unlimited (07:00–22:00)", ka: "ულიმიტო (07:00–22:00)" }, price: "100 ₾" },
+        ],
+      },
+      {
+        category: { en: "Pool + Fitness", ka: "აუზი და ფიტნესი" },
+        rows: [
+          { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "30 ₾" },
+          { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "180 ₾" },
+          { tier: { en: "Unlimited", ka: "ულიმიტო" }, price: "250 ₾" },
+        ],
+      },
+      {
+        category: { en: "Group classes", ka: "ჯგუფური ვარჯიშები" },
+        rows: [
+          { tier: { en: "Aqua aerobics — 1 visit", ka: "Aqua Aerobics — 1 ვიზიტი" }, price: "20 ₾" },
+          { tier: { en: "Aqua aerobics — 8 visits", ka: "Aqua Aerobics — 8 ვიზიტი" }, price: "110 ₾" },
+          { tier: { en: "Aqua aerobics — 12 visits", ka: "Aqua Aerobics — 12 ვიზიტი" }, price: "130 ₾" },
+          { tier: { en: "Learn to swim — 1 visit", ka: "ცურვის სწავლება — 1 ვიზიტი" }, price: "20 ₾" },
+          { tier: { en: "Learn to swim — 8 visits", ka: "ცურვის სწავლება — 8 ვიზიტი" }, price: "110 ₾" },
+          { tier: { en: "Learn to swim — 12 visits", ka: "ცურვის სწავლება — 12 ვიზიტი" }, price: "130 ₾" },
+          { tier: { en: "Aerobics mix — 1 visit", ka: "აერობიკა მიქსი — 1 ვიზიტი" }, price: "15 ₾" },
+          { tier: { en: "Aerobics mix — 8 visits", ka: "აერობიკა მიქსი — 8 ვიზიტი" }, price: "75 ₾" },
+          { tier: { en: "Aerobics mix — 12 visits", ka: "აერობიკა მიქსი — 12 ვიზიტი" }, price: "90 ₾" },
+          { tier: { en: "Pilates — 1 visit", ka: "პილატესი — 1 ვიზიტი" }, price: "15 ₾" },
+          { tier: { en: "Pilates — 8 visits", ka: "პილატესი — 8 ვიზიტი" }, price: "75 ₾" },
+          { tier: { en: "Pilates — 12 visits", ka: "პილატესი — 12 ვიზიტი" }, price: "90 ₾" },
+          { tier: { en: "CrossFit — 1 visit", ka: "CrossFit — 1 ვიზიტი" }, price: "15 ₾" },
+          { tier: { en: "CrossFit — 8 visits", ka: "CrossFit — 8 ვიზიტი" }, price: "75 ₾" },
+          { tier: { en: "CrossFit — 12 visits", ka: "CrossFit — 12 ვიზიტი" }, price: "90 ₾" },
+        ],
+      },
+      {
+        category: { en: "Personal training", ka: "პერსონალური ვარჯიშები" },
+        rows: [
+          { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "35 ₾" },
+          { tier: { en: "8 visits", ka: "8 ვიზიტი" }, price: "240 ₾" },
+          { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "320 ₾" },
+        ],
+      },
+      {
+        category: { en: "Sport groups", ka: "სპორტული ჯგუფები" },
+        rows: [
+          { tier: { en: "1 visit", ka: "1 ვიზიტი" }, price: "20 ₾" },
+          { tier: { en: "12 visits", ka: "12 ვიზიტი" }, price: "140 ₾" },
+          { tier: { en: "24 visits", ka: "24 ვიზიტი" }, price: "210 ₾" },
+        ],
+      },
     ],
+    visitorNote: { en: "Visitor card: 5 GEL", ka: "ვიზიტორის ბარათი: 5 ლარი" },
     gallery: [
       { label: { en: "Main pool", ka: "მთავარი აუზი" } },
       { label: { en: "Gym floor", ka: "სავარჯიშო დარბაზი" } },
@@ -175,30 +244,53 @@ export const locations: Record<LocationId, LocationContent> = {
     accent: "gold",
     gateTag: { en: "Kids Swim · Kids Fitness", ka: "ცურვა ბავშვებისთვის · ფიტნესი ბავშვებისთვის" },
     gateBlurb: {
-      en: "A brand-new kids-focused facility one lane over from Black Sea 1 in Gldani — programme details coming soon.",
-      ka: "ახალი, ბავშვებზე ორიენტირებული კომპლექსი Black Sea 1-ის მეზობლად, გლდანში — პროგრამის დეტალები მალე დაზუსტდება.",
+      en: "A kids-focused facility one lane over from Black Sea's main Gldani complex — group and personal swim lessons plus kids fitness.",
+      ka: "ბავშვებზე ორიენტირებული კომპლექსი Black Sea-ს მთავარი გლდანური კომპლექსის მეზობლად — ჯგუფური და პერსონალური ცურვის გაკვეთილები და ბავშვთა ფიტნესი.",
     },
     areaLabel: { en: "Gldani, Tbilisi", ka: "გლდანი, თბილისი" },
     hoursShort: { en: "Hours to be confirmed", ka: "საათები დაზუსტდება" },
     address: {
-      en: "Gldani, A District, Teimuraz Bochorishvili St, 2nd Lane, Tbilisi, 0141",
-      ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 2 ჩიხი, თბილისი, 0141",
+      en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane #8, Tbilisi, 0141",
+      ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი #8, თბილისი, 0141",
     },
-    phones: [],
+    phones: ["+995 591 204 050"],
     hoursDetailed: [{ day: { en: "To be confirmed", ka: "დასაზუსტებელია" }, time: "—" }],
-    introHeading: { en: "A kids-first complex, coming together in Gldani.", ka: "ბავშვებზე ორიენტირებული კომპლექსი, რომელიც გლდანში იქმნება." },
+    introHeading: { en: "A kids-first complex, one lane over from Black Sea.", ka: "ბავშვებზე ორიენტირებული კომპლექსი, Black Sea-ს გვერდით." },
     introLede: {
-      en: "One lane over from Black Sea 1, this new location is being built specifically around kids' swimming and fitness programming. Full details are still being finalised with the owners.",
-      ka: "Black Sea 1-ის მეზობლად, ეს ახალი ლოკაცია სპეციალურად ბავშვთა ცურვისა და ფიტნეს პროგრამებზეა ორიენტირებული. სრული დეტალები ჯერ კიდევ მუშავდება მფლობელებთან ერთად.",
+      en: "One lane over from Black Sea's main complex, this location is built specifically around kids' swimming and fitness — group and personal lessons for children.",
+      ka: "Black Sea-ს მთავარი კომპლექსის მეზობლად, ეს ლოკაცია სპეციალურად ბავშვთა ცურვისა და ფიტნეს პროგრამებზეა ორიენტირებული — ჯგუფური და პერსონალური გაკვეთილები ბავშვებისთვის.",
     },
     services: [
       { category: "pool", title: { en: "Kids Swim Lessons", ka: "ცურვის გაკვეთილები ბავშვებისთვის" }, desc: { en: "Placeholder — programme details pending confirmation from the owners.", ka: "დროებითი — პროგრამის დეტალები დაზუსტდება მფლობელებთან." } },
       { category: "gym", title: { en: "Kids Fitness", ka: "ფიტნესი ბავშვებისთვის" }, desc: { en: "Placeholder — programme details pending confirmation from the owners.", ka: "დროებითი — პროგრამის დეტალები დაზუსტდება მფლობელებთან." } },
     ],
-    pricing: [
-      { label: { en: "Single visit", ka: "ერთჯერადი ვიზიტი" }, unit: { en: " ₾ / visit", ka: " ₾ / ვიზიტი" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Kids swim lesson access", ka: "წვდომა ცურვის გაკვეთილზე" }, { en: "Kids fitness access", ka: "წვდომა ბავშვთა ფიტნესზე" } ] },
-      { label: { en: "Monthly", ka: "თვიური" }, unit: { en: " ₾ / month", ka: " ₾ / თვე" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Unlimited kids programming", ka: "ულიმიტო ბავშვთა პროგრამები" }, { en: "Locker included", ka: "კარადა შედის" } ], accent: true },
-      { label: { en: "Term package", ka: "სასწავლო პერიოდი" }, unit: { en: " ₾ / term", ka: " ₾ / სასწავლო პერიოდი" }, note: { en: "Placeholder — pending final pricing", ka: "დროებითი — ფასი დაზუსტდება" }, features: [ { en: "Everything in Monthly", ka: "ყველაფერი თვიურიდან" }, { en: "Priority class booking", ka: "პრიორიტეტული ჯავშანი" } ] },
+    pricingGroups: [
+      {
+        category: { en: "Group lessons — Learn to swim (ages 5+)", ka: "ჯგუფური გაკვეთილები — ცურვის სწავლება (5 წლიდან)" },
+        rows: [
+          { tier: { en: "Single lesson", ka: "ერთი გაკვეთილი" }, price: "20 ₾" },
+          { tier: { en: "12 lessons", ka: "12 გაკვეთილი" }, price: "120 ₾" },
+          { tier: { en: "8 lessons (weekends)", ka: "8 გაკვეთილი (შაბათი-კვირა)" }, price: "100 ₾" },
+        ],
+      },
+      {
+        category: { en: "Personal lessons — Learn to swim", ka: "პერსონალური გაკვეთილები — ცურვის სწავლება" },
+        rows: [
+          { tier: { en: "1 lesson", ka: "1 გაკვეთილი" }, price: "35 ₾" },
+          { tier: { en: "8 lessons", ka: "8 გაკვეთილი" }, price: "240 ₾" },
+          { tier: { en: "12 lessons", ka: "12 გაკვეთილი" }, price: "320 ₾" },
+        ],
+      },
+      {
+        category: { en: "Personal lessons — Therapy", ka: "პერსონალური გაკვეთილები — თერაპია" },
+        rows: [{ tier: { en: "1 lesson", ka: "1 გაკვეთილი" }, price: "40 ₾" }],
+      },
+    ],
+    visitorNote: { en: "Visitor card: 5 GEL", ka: "ვიზიტორის ბარათი: 5 ლარი" },
+    notes: [
+      { en: "Lesson duration: 45 minutes.", ka: "გაკვეთილის ხანგრძლივობა 45 წუთი." },
+      { en: "Subscription valid for 28 days.", ka: "აბონემენტის ვადა 28 დღე." },
+      { en: "Sibling discount: 2+ children from the same family get 10% off.", ka: "შეღავათი: ოჯახიდან 2 და მეტი ბავშვი -10%." },
     ],
     gallery: [
       { label: { en: "Kids pool", ka: "საბავშვო აუზი" } },
@@ -340,6 +432,67 @@ export const locations: Record<LocationId, LocationContent> = {
       { image: "/zestafoni/gallery-7.jpg", label: { en: "Free weights", ka: "თავისუფალი წონები" } },
     ],
   },
+  blackseaice: {
+    id: "blackseaice",
+    brandName: "Black Sea Ice",
+    shortName: { en: "Black Sea Ice", ka: "ბლექ სი აისი" },
+    accent: "blue",
+    gateTag: { en: "Figure Skating", ka: "ფიგურული სრიალი" },
+    gateBlurb: {
+      en: "An indoor ice rink for figure skating lessons and open skating, right next to Black Sea's main Gldani complex.",
+      ka: "ფიგურული სრიალის შიდა ბანი — ჯგუფური და პერსონალური გაკვეთილები და თავისუფალი სრიალი, Black Sea-ს მთავარი კომპლექსის გვერდით.",
+    },
+    areaLabel: { en: "Gldani, Tbilisi", ka: "გლდანი, თბილისი" },
+    hoursShort: { en: "Hours to be confirmed", ka: "საათები დაზუსტდება" },
+    address: {
+      en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane #5, Entrance 2, Tbilisi, 0141",
+      ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი #5, შესასვლელი 2, თბილისი, 0141",
+    },
+    phones: ["+995 595 981 100"],
+    hoursDetailed: [{ day: { en: "To be confirmed", ka: "დასაზუსტებელია" }, time: "—" }],
+    introHeading: { en: "Figure skating, right next to the main complex.", ka: "ფიგურული სრიალი, მთავარი კომპლექსის გვერდით." },
+    introLede: {
+      en: "Group and personal figure skating lessons for kids and adults, plus open skate time — skates available to rent if you don't have your own.",
+      ka: "ჯგუფური და პერსონალური ფიგურული სრიალის გაკვეთილები ბავშვებისა და მოზრდილებისთვის, ასევე თავისუფალი სრიალი — ციგურების გაქირავებაც შესაძლებელია.",
+    },
+    services: [
+      { category: "ice", title: { en: "Group Lessons", ka: "ჯგუფური გაკვეთილები" }, desc: { en: "Figure skating lessons for kids from age 4. 45 minutes, own skates or rental.", ka: "ფიგურული სრიალის გაკვეთილები ბავშვებისთვის 4 წლის ასაკიდან. 45 წუთი, საკუთარი ან ნაქირავები ციგურებით." } },
+      { category: "ice", title: { en: "Personal Lessons", ka: "პერსონალური გაკვეთილები" }, desc: { en: "One-on-one coaching for faster progress.", ka: "ინდივიდუალური მწვრთნელობა უფრო სწრაფი პროგრესისთვის." } },
+      { category: "ice", title: { en: "Open Skating", ka: "თავისუფალი სრიალი" }, desc: { en: "Free skate time by the hour, own skates or rental available.", ka: "თავისუფალი სრიალი საათობრივად, საკუთარი ან ნაქირავები ციგურებით." } },
+    ],
+    pricingGroups: [
+      { category: { en: "Group lessons — ages 4+", ka: "ჯგუფური გაკვეთილები — 4 წლიდან" }, rows: [
+        { tier: { en: "1 lesson", ka: "1 გაკვეთილი" }, price: "15 ₾" },
+        { tier: { en: "8 lessons (weekends)", ka: "8 გაკვეთილი (შაბათი-კვირა)" }, price: "90 ₾" },
+        { tier: { en: "12 lessons", ka: "12 გაკვეთილი" }, price: "110 ₾" },
+      ]},
+      { category: { en: "Skate rental (add-on)", ka: "ციგურების ქირა (დამატებით)" }, rows: [
+        { tier: { en: "1 lesson", ka: "1 გაკვეთილი" }, price: "5 ₾" },
+        { tier: { en: "8 lessons", ka: "8 გაკვეთილი" }, price: "20 ₾" },
+        { tier: { en: "12 lessons", ka: "12 გაკვეთილი" }, price: "30 ₾" },
+      ]},
+      { category: { en: "Personal lessons", ka: "პერსონალური გაკვეთილები" }, rows: [
+        { tier: { en: "1 lesson", ka: "1 გაკვეთილი" }, price: "35 ₾" },
+        { tier: { en: "8 lessons", ka: "8 გაკვეთილი" }, price: "240 ₾" },
+        { tier: { en: "12 lessons", ka: "12 გაკვეთილი" }, price: "320 ₾" },
+      ]},
+      { category: { en: "Open skating", ka: "თავისუფალი სრიალი" }, rows: [
+        { tier: { en: "1 hour", ka: "1 საათი" }, price: "15 ₾" },
+        { tier: { en: "Skate rental (add-on)", ka: "ციგურების ქირა (დამატებით)" }, price: "5 ₾" },
+      ]},
+    ],
+    visitorNote: { en: "Visitor card: 5 GEL", ka: "ვიზიტორის ბარათი: 5 ლარი" },
+    notes: [
+      { en: "Lesson duration: 45 minutes.", ka: "გაკვეთილის ხანგრძლივობა 45 წუთი." },
+      { en: "Subscription valid for 28 days.", ka: "აბონემენტის ვადა 28 დღე." },
+      { en: "Sibling discount: 2+ children from the same family get 10% off.", ka: "შეღავათი: ოჯახიდან 2 და მეტი ბავშვი -10%." },
+    ],
+    gallery: [
+      { label: { en: "Ice rink", ka: "სრიალის ბანი" } },
+      { label: { en: "Group lesson", ka: "ჯგუფური გაკვეთილი" } },
+      { label: { en: "Open skating", ka: "თავისუფალი სრიალი" } },
+    ],
+  },
 };
 
-export const locationOrder: LocationId[] = ["blacksea1", "blackseakids", "zestafoni"];
+export const locationOrder: LocationId[] = ["blacksea1", "blackseakids", "blackseaice", "zestafoni"];

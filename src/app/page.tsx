@@ -28,7 +28,7 @@ export default function Page() {
           </h1>
           <p className="mx-auto mt-5 max-w-md text-[16px] text-white/60">{t(ui.heroSub, lang)}</p>
 
-          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2">
             {locationOrder.map((id) => {
               const l = locations[id];
               const isGold = l.accent === "gold";

@@ -65,16 +65,24 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
           </h2>
           <div data-reveal className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {loc.services.map((s, i) => {
-              const tone = s.category === "gym" ? "fit" : "spa";
+              const tone = s.category === "gym" ? "fit" : s.category === "ice" ? "ice" : "spa";
+              const badgeClass = tone === "fit" ? "badge-fit" : tone === "ice" ? "badge-ice" : "badge-spa";
+              const headingClass = tone === "fit" ? "fit-heading" : tone === "ice" ? "ice-heading" : "spa-heading";
+              const badgeLabel =
+                s.category === "gym"
+                  ? lang === "en" ? "Gym" : "დარბაზი"
+                  : s.category === "ice"
+                    ? lang === "en" ? "Ice Rink" : "სრიალის ბანი"
+                    : lang === "en" ? "Pool" : "აუზი";
               return (
                 <div
                   key={i}
                   className={`premium-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
                 >
-                  <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${tone === "fit" ? "badge-fit" : "badge-spa"}`}>
-                    {s.category === "gym" ? (lang === "en" ? "Gym" : "დარბაზი") : lang === "en" ? "Pool" : "აუზი"}
+                  <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${badgeClass}`}>
+                    {badgeLabel}
                   </span>
-                  <h3 className={`mb-2.5 text-[22px] ${tone === "fit" ? "fit-heading" : "spa-heading"}`}>
+                  <h3 className={`mb-2.5 text-[22px] ${headingClass}`}>
                     {t(s.title, lang)}
                   </h3>
                   <p className={`text-[13px] leading-relaxed ${tone === "fit" ? "text-white/70" : "spa-body"}`}>{t(s.desc, lang)}</p>
@@ -248,6 +256,17 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   </li>
                 ))}
               </ol>
+            </div>
+          )}
+
+          {loc.notes && (
+            <div data-reveal className="mt-10 max-w-md">
+              <b className="mb-3 block text-[15px] font-medium text-white">{t(ui.notesHeading, lang)}</b>
+              <ul className="flex flex-col gap-2 text-[13px] leading-relaxed text-white/60">
+                {loc.notes.map((n, i) => (
+                  <li key={i}>— {t(n, lang)}</li>
+                ))}
+              </ul>
             </div>
           )}
 
