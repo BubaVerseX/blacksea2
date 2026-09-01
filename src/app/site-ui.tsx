@@ -107,9 +107,28 @@ export function PrimaryButton({
   ...props
 }: React.ComponentPropsWithoutRef<"a"> & { tone: "gold" | "blue" }) {
   const bg = tone === "gold" ? "bg-[var(--gold)] text-black" : "bg-[var(--blue)] text-black";
+  const ref = useRef<HTMLAnchorElement>(null);
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    el.style.transform = `translate(${x * 0.15}px, ${y * 0.3}px)`;
+  };
+  const onMouseLeave = () => {
+    if (ref.current) ref.current.style.transform = "translate(0,0)";
+  };
+
   return (
     <a
       {...props}
+      ref={ref}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      style={{ transition: "transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms ease, border-color 300ms ease" }}
       className={`premium-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border px-6 py-3 text-[13px] font-semibold tracking-wide transition-all duration-300 ${bg} border-transparent hover:-translate-y-px hover:shadow-[0_0_28px_rgba(0,245,208,0.45)]`}
     >
       {children}
