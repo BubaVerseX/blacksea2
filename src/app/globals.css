@@ -47,6 +47,45 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* Subtle film-grain overlay so the glossy neon panels don't feel flat/digital */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Custom cursor — small glowing dot that tracks the pointer and grows over clickables */
+.app-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 200ms ease, height 200ms ease, transform 80ms linear, border-color 200ms ease;
+  mix-blend-mode: screen;
+}
+
+.app-cursor.cursor-hover {
+  width: 40px;
+  height: 40px;
+  border-color: rgba(56, 189, 248, 1);
+  background: rgba(56, 189, 248, 0.08);
+}
+
+@media (pointer: coarse) {
+  .app-cursor {
+    display: none;
+  }
+}
+
 ::selection {
   background: #00f5d0;
   color: #030405;
@@ -91,7 +130,30 @@ body {
 
 .premium-card {
   position: relative;
+  overflow: hidden;
   box-shadow: 0 22px 80px rgba(0, 0, 0, 0.24);
+}
+
+.premium-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, transparent 30%, rgba(56, 189, 248, 0.5), transparent 70%);
+  background-size: 250% 250%;
+  background-position: 0% 0%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 300ms ease, background-position 800ms ease;
+  pointer-events: none;
+}
+
+.premium-card:hover::after {
+  opacity: 1;
+  background-position: 100% 100%;
 }
 
 .premium-card::before {
@@ -308,6 +370,11 @@ body {
   background: rgba(6, 7, 10, 0.58);
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.35), transparent);
 }
 
 /* Editorial glass system — bold diagonal color glimpses + stacked frosted glass

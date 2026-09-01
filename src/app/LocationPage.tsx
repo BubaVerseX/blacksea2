@@ -55,7 +55,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section className="section-glass border-y border-white/10 px-8 py-20">
+      <section className="section-glass px-8 py-20">
+        <div className="section-divider" />
         <div className="mx-auto max-w-6xl">
           <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
             {t(ui.includedEyebrow, lang)}
@@ -105,6 +106,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
             )}
           </div>
         </div>
+        <div className="section-divider" />
       </section>
 
       {/* PRICING */}
@@ -188,7 +190,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       </section>
 
       {/* GALLERY */}
-      <section className="section-glass border-y border-white/10 px-8 py-20">
+      <section className="section-glass px-8 py-20">
+        <div className="section-divider" />
         <div className="mx-auto max-w-6xl">
           <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
             {t(ui.galleryEyebrow, lang)}
@@ -225,6 +228,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
             ))}
           </div>
         </div>
+        <div className="section-divider" />
       </section>
 
       {/* HOURS + CONTACT */}
