@@ -33,11 +33,11 @@ export default function SiteNav({
       <div className="mx-auto flex max-w-6xl items-center justify-between px-8">
         <Link
           href="/"
-          className="flex items-center gap-2.5 whitespace-nowrap text-[16px] tracking-[2.5px]"
+          className="flex items-center gap-3 whitespace-nowrap text-[16px] tracking-[2.5px]"
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
         >
           <img src="/logo.png" alt="Black Sea" className="h-9 w-9 object-contain" />
-          <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+          BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
         </Link>
         <div className="hidden gap-2 text-[13px] md:flex">
           {locationOrder.map((id) => (
