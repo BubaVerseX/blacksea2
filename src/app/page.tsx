@@ -6,11 +6,12 @@ import HomeBackground from "./HomeBackground";
 import { PALETTES } from "./LocationBackground";
 import SiteFooter from "./SiteFooter";
 import SiteNav from "./SiteNav";
-import { ArrowIcon, t, useLang, useReveal } from "./site-ui";
+import { ArrowIcon, t, useLang, useReveal, useTilt } from "./site-ui";
 
 export default function Page() {
   const [lang, setLang] = useLang();
   const revealRef = useReveal([lang]);
+  const tilt = useTilt();
 
   return (
     <div ref={revealRef}>
@@ -36,8 +37,8 @@ export default function Page() {
             BLACK SEA
           </div>
           <div
-            className="text-[36px] tracking-[4px] md:text-[54px]"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: "var(--gold)", textShadow: "0 0 24px rgba(250,199,117,0.35)" }}
+            className="gradient-text text-[36px] tracking-[4px] md:text-[54px]"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
           >
             COMPLEX
           </div>
@@ -66,7 +67,8 @@ export default function Page() {
                   key={id}
                   href={`/${locationSlugs[id]}`}
                   data-reveal
-                  className="gate-card glass-panel group relative block h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
+                  {...tilt}
+                  className="gate-card tilt-card glass-panel group relative block h-[440px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
                   <div className="gate-bg absolute inset-0 overflow-hidden transition-transform duration-700" style={{ background: pal.baseGradient }}>
                     {l.photo && (

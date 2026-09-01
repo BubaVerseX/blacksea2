@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type Lang, type LocationId, locations, ui } from "./content";
 import LocationBackground from "./LocationBackground";
-import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal } from "./site-ui";
+import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal, useTilt } from "./site-ui";
 
 export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang }) {
   const loc = locations[id];
   const accentVar = loc.accent === "gold" ? "var(--gold)" : "var(--blue)";
   const revealRef = useReveal([lang]);
+  const tilt = useTilt(5);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [priceListOpen, setPriceListOpen] = useState(false);
 
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -20,6 +22,15 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxIndex]);
+
+  useEffect(() => {
+    if (!priceListOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPriceListOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [priceListOpen]);
 
   return (
     <div ref={revealRef}>
@@ -89,7 +100,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
               return (
                 <div
                   key={i}
-                  className={`premium-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
+                  {...tilt}
+                  className={`premium-card tilt-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
                 >
                   <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${badgeClass}`}>
                     {badgeLabel}
@@ -127,55 +139,74 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
 
           {loc.pricingGroups ? (
             <>
-              {loc.visitorNote && (
-                <div
-                  data-reveal
-                  className="glass-panel mt-10 inline-block rounded-md px-4 py-2.5 text-[13px] leading-relaxed"
-                  style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}
-                >
-                  {t(loc.visitorNote, lang)}
-                </div>
-              )}
-              <div data-reveal className="mt-8 flex flex-col gap-6">
-                {loc.pricingGroups.map((group, gi) => {
-                  const hasPhotos = group.rows.some((r) => r.image);
-                  return (
-                    <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
-                      <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
-                        {t(group.category, lang)}
-                      </h3>
-                      {hasPhotos ? (
-                        <div className="grid grid-cols-2 gap-4">
-                          {group.rows.map((row, ri) => (
-                            <div key={ri} className="glass-panel overflow-hidden rounded-md">
-                              {row.image && (
-                                <img src={row.image} alt={t(row.tier, lang)} className="h-32 w-full object-cover" />
-                              )}
-                              <div className="flex items-center justify-between gap-3 p-3 text-[14px]">
+              <div data-reveal className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,380px)_1fr] lg:items-start">
+                {loc.priceListImage && (
+                  <button
+                    type="button"
+                    onClick={() => setPriceListOpen(true)}
+                    className="glass-panel group relative overflow-hidden rounded-md"
+                  >
+                    <img src={loc.priceListImage} alt={`${loc.brandName} price list`} className="w-full transition-transform duration-500 group-hover:scale-105" />
+                    <div className="absolute inset-x-0 bottom-0 px-4 py-3 text-[12px] uppercase tracking-[1.5px] text-white/70" style={{ background: "linear-gradient(180deg, transparent, rgba(3,4,5,0.85))" }}>
+                      {lang === "en" ? "Tap to enlarge" : "დააჭირეთ გასადიდებლად"}
+                    </div>
+                  </button>
+                )}
+                <div className="flex flex-col gap-6">
+                  {loc.visitorNote && (
+                    <div
+                      className="glass-panel inline-block self-start rounded-md px-4 py-2.5 text-[13px] leading-relaxed"
+                      style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}
+                    >
+                      {t(loc.visitorNote, lang)}
+                    </div>
+                  )}
+                  {loc.pricingGroups.map((group, gi) => {
+                    const hasPhotos = group.rows.some((r) => r.image);
+                    return (
+                      <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
+                        <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
+                          {t(group.category, lang)}
+                        </h3>
+                        {hasPhotos ? (
+                          <div className="grid grid-cols-2 gap-4">
+                            {group.rows.map((row, ri) => (
+                              <div key={ri} className="glass-panel overflow-hidden rounded-md">
+                                {row.image && (
+                                  <img src={row.image} alt={t(row.tier, lang)} className="h-32 w-full object-cover" />
+                                )}
+                                <div className="flex items-center justify-between gap-3 p-3 text-[14px]">
+                                  <span className="text-white/70">{t(row.tier, lang)}</span>
+                                  <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
+                                    {row.price}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="flex flex-col divide-y divide-white/10">
+                            {group.rows.map((row, ri) => (
+                              <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
                                 <span className="text-white/70">{t(row.tier, lang)}</span>
                                 <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
                                   {row.price}
                                 </span>
                               </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="flex flex-col divide-y divide-white/10">
-                          {group.rows.map((row, ri) => (
-                            <div key={ri} className="flex items-center justify-between gap-4 py-3 text-[14px]">
-                              <span className="text-white/70">{t(row.tier, lang)}</span>
-                              <span className="font-semibold whitespace-nowrap" style={{ fontFamily: "var(--font-head)" }}>
-                                {row.price}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+              {loc.priceListImage && priceListOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6" onClick={() => setPriceListOpen(false)}>
+                  <button className="absolute right-6 top-6 text-[28px] text-white/70 hover:text-white" onClick={() => setPriceListOpen(false)} aria-label="Close">×</button>
+                  <img src={loc.priceListImage} alt={`${loc.brandName} price list`} className="max-h-[90vh] max-w-[92vw] rounded-md object-contain" onClick={(e) => e.stopPropagation()} />
+                </div>
+              )}
             </>
           ) : (
             <>

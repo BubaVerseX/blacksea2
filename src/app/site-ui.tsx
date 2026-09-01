@@ -48,6 +48,21 @@ export function useReveal(deps: unknown[]) {
   return rootRef;
 }
 
+export function useTilt(strength = 8) {
+  const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    el.style.transform = `perspective(800px) rotateX(${y * -strength}deg) rotateY(${x * strength}deg) translateY(-4px)`;
+  };
+  const onMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "";
+  };
+  return { onMouseMove, onMouseLeave };
+}
+
 export function FacebookIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} className={className}>

@@ -66,6 +66,7 @@ export interface LocationContent {
   facebook?: string;
   instagram?: string;
   photo?: string;
+  priceListImage?: string;
   accent: "gold" | "blue";
 }
 
@@ -128,6 +129,7 @@ export const locations: Record<LocationId, LocationContent> = {
     brandName: "Black Sea",
     shortName: { en: "Black Sea", ka: "ბლექ სი" },
     accent: "gold",
+    priceListImage: "/black-sea/price-list.jpg",
     facebook: "https://www.facebook.com/bscomplex.ge",
     gateTag: { en: "Gym · Pool · Ice Rink", ka: "დარბაზი · აუზი · სრიალის ბანი" },
     gateBlurb: {
@@ -285,6 +287,7 @@ export const locations: Record<LocationId, LocationContent> = {
     brandName: "Black Sea Kids",
     shortName: { en: "Black Sea Kids", ka: "ბლექ სი კიდსი" },
     accent: "gold",
+    priceListImage: "/black-sea-kids/price-list.jpg",
     gateTag: { en: "Kids Swim · Kids Fitness", ka: "ცურვა ბავშვებისთვის · ფიტნესი ბავშვებისთვის" },
     gateBlurb: {
       en: "A kids-focused facility one lane over from Black Sea's main Gldani complex — group and personal swim lessons plus kids fitness.",
@@ -349,6 +352,7 @@ export const locations: Record<LocationId, LocationContent> = {
     brandName: "Black Sea — Zestafoni",
     shortName: { en: "Zestafoni", ka: "ზესტაფონი" },
     accent: "blue",
+    priceListImage: "/zestafoni/price-list.jpg",
     facebook: "https://www.facebook.com/profile.php?id=100063646506343",
     instagram: "https://www.instagram.com/blacksea_zestafoni/?hl=en",
     photo: "/zestafoni/hero.jpg",
