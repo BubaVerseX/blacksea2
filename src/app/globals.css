@@ -58,6 +58,19 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+.gradient-text {
+  background: linear-gradient(90deg, #facf75, #fff2d0, #facf75);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
 /* Custom cursor — small glowing dot that tracks the pointer and grows over clickables */
 .app-cursor {
   position: fixed;
@@ -132,6 +145,12 @@ body::after {
   position: relative;
   overflow: hidden;
   box-shadow: 0 22px 80px rgba(0, 0, 0, 0.24);
+}
+
+.tilt-card {
+  transition: transform 150ms ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .premium-card::after {
@@ -232,14 +251,26 @@ body::after {
   border-color: rgba(255, 138, 216, 0.28);
 }
 
+/* Fitness — sportier: angular cut corner instead of rounded, subtle diagonal texture */
 .glass-fit {
-  background: linear-gradient(135deg, rgba(10, 20, 22, 0.55), rgba(125, 255, 240, 0.1));
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+  background-image: linear-gradient(135deg, rgba(10, 20, 22, 0.55), rgba(125, 255, 240, 0.1)), repeating-linear-gradient(135deg, rgba(125,255,240,0.035) 0px, rgba(125,255,240,0.035) 2px, transparent 2px, transparent 10px);
   border-color: rgba(125, 255, 240, 0.28);
 }
 
+/* Ice — frostier: subtle frost hairline texture, cooler */
 .glass-ice {
-  background: linear-gradient(135deg, rgba(224,247,255,0.12), rgba(56,189,248,0.08));
+  background-image: linear-gradient(135deg, rgba(224,247,255,0.12), rgba(56,189,248,0.08)), repeating-linear-gradient(60deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 8px);
   border-color: rgba(224,247,255,0.28);
+}
+
+/* Pulsing glow on category badges, subtle */
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0px currentColor; }
+  50% { box-shadow: 0 0 8px currentColor; }
+}
+.badge-fit, .badge-spa, .badge-ice {
+  animation: badge-pulse 3.5s ease-in-out infinite;
 }
 
 /* Dual-tone typography — spa: elegant italic, neon-pink glow */
