@@ -8,7 +8,7 @@ import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, use
 
 export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang }) {
   const loc = locations[id];
-  const accentVar = loc.accent === "gold" ? "var(--gold)" : "var(--blue)";
+  const accent = "var(--accent)";
   const revealRef = useReveal([lang]);
   const tilt = useTilt(5);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
@@ -52,7 +52,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       {/* INTRO */}
       <section className="px-8 pb-10 pt-8">
         <div className="mx-auto max-w-6xl" data-reveal>
-          <div className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
+          <div className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
             {loc.brandName}
           </div>
           <h1 className="max-w-2xl text-[30px] md:text-[48px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -80,7 +80,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       <section className="section-glass px-8 py-20">
         <div className="section-divider" />
         <div className="mx-auto max-w-6xl">
-          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
+          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
             {t(ui.includedEyebrow, lang)}
           </div>
           <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -128,9 +128,9 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       </section>
 
       {/* PRICING */}
-      <section className="px-8 py-20">
+      <section id="pricing" className="px-8 py-20">
         <div className="mx-auto max-w-6xl">
-          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
+          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
             {t(ui.membershipEyebrow, lang)}
           </div>
           <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -156,7 +156,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   {loc.visitorNote && (
                     <div
                       className="glass-panel inline-block self-start rounded-md px-4 py-2.5 text-[13px] leading-relaxed"
-                      style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}
+                      style={{ color: accent, textShadow: "0 0 8px currentColor" }}
                     >
                       {t(loc.visitorNote, lang)}
                     </div>
@@ -164,8 +164,8 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   {loc.pricingGroups.map((group, gi) => {
                     const hasPhotos = group.rows.some((r) => r.image);
                     return (
-                      <div key={gi} className="premium-card tone-blue glass-panel rounded-md p-6 md:p-8">
-                        <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accentVar, textShadow: "0 0 8px currentColor" }}>
+                      <div key={gi} className="premium-card glass-panel rounded-md p-6 md:p-8">
+                        <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accent, textShadow: "0 0 8px currentColor" }}>
                           {t(group.category, lang)}
                         </h3>
                         {hasPhotos ? (
@@ -215,7 +215,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   <div
                     key={i}
                     className="glass-panel rounded-md p-8 transition-all duration-300 hover:-translate-y-1.5"
-                    style={p.accent ? { borderColor: accentVar } : undefined}
+                    style={p.accent ? { borderColor: accent } : undefined}
                   >
                     <div className="mb-3.5 text-[12px] uppercase tracking-[2px] text-white/60">{t(p.label, lang)}</div>
                     <div className="mb-1 text-[40px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -228,7 +228,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                       ))}
                     </ul>
                     {p.accent ? (
-                      <PrimaryButton tone={loc.accent} href="#contact" className="w-full">
+                      <PrimaryButton href="#contact" className="w-full">
                         {t(ui.contactUs, lang)}
                       </PrimaryButton>
                     ) : (
@@ -239,7 +239,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   </div>
                 ))}
               </div>
-              <div data-reveal className="glass-panel mt-10 rounded-md p-4 text-[13px] leading-relaxed" style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>
+              <div data-reveal className="glass-panel mt-10 rounded-md p-4 text-[13px] leading-relaxed" style={{ color: accent, textShadow: "0 0 8px currentColor" }}>
                 {t(ui.pricingNote, lang)}
               </div>
             </>
@@ -251,7 +251,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       <section className="section-glass px-8 py-20">
         <div className="section-divider" />
         <div className="mx-auto max-w-6xl">
-          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
+          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
             {t(ui.galleryEyebrow, lang)}
           </div>
           <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -293,7 +293,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
       {/* HOURS + CONTACT */}
       <section id="contact" className="px-8 py-20">
         <div className="mx-auto max-w-6xl">
-          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accentVar, textShadow: "0 0 10px currentColor" }}>
+          <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
             {t(ui.hoursContactEyebrow, lang)}
           </div>
           <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
@@ -314,7 +314,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
               <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
                 {loc.rules.map((r, i) => (
                   <li key={i} className="flex gap-2.5">
-                    <span style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
+                    <span style={{ color: accent, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
                     <span>{t(r, lang)}</span>
                   </li>
                 ))}
@@ -339,7 +339,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
               <ol className="flex flex-col gap-3 text-[13px] leading-relaxed text-white/60">
                 {loc.poolRules.map((r, i) => (
                   <li key={i} className="flex gap-2.5">
-                    <span style={{ color: accentVar, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
+                    <span style={{ color: accent, textShadow: "0 0 8px currentColor" }}>{i + 1}.</span>
                     <span>{t(r, lang)}</span>
                   </li>
                 ))}
@@ -357,7 +357,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
             </div>
             <div className="flex items-center gap-3">
               {loc.phones[0] && (
-                <PrimaryButton tone={loc.accent} href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
+                <PrimaryButton href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
                   {t(ui.navCall, lang)}
                 </PrimaryButton>
               )}
@@ -365,7 +365,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                 {t(ui.directions, lang)}
               </GhostButton>
               {loc.facebook && (
-                <SocialLink href={loc.facebook} tone={loc.accent} label={`Facebook — ${loc.brandName}`}>
+                <SocialLink href={loc.facebook} label={`Facebook — ${loc.brandName}`}>
                   <FacebookIcon className="h-full w-full" />
                 </SocialLink>
               )}

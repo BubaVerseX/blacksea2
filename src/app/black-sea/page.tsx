@@ -9,7 +9,7 @@ export default function BlackSeaPage() {
   const [lang, setLang] = useLang();
 
   return (
-    <div>
+    <div data-theme="blacksea1">
       <SiteNav activeId="blacksea1" lang={lang} setLang={setLang} />
       <LocationPage id="blacksea1" lang={lang} />
       <SiteFooter lang={lang} />

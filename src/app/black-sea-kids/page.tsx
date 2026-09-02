@@ -9,7 +9,7 @@ export default function BlackSeaKidsPage() {
   const [lang, setLang] = useLang();
 
   return (
-    <div>
+    <div data-theme="blackseakids">
       <SiteNav activeId="blackseakids" lang={lang} setLang={setLang} />
       <LocationPage id="blackseakids" lang={lang} />
       <SiteFooter lang={lang} />

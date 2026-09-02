@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { Orbitron, Rajdhani } from "next/font/google";
 import Cursor from "./Cursor";
 import "./globals.css";
+
+const orbitron = Orbitron({ subsets: ["latin"], weight: ["600", "700", "900"], variable: "--font-display" });
+const rajdhani = Rajdhani({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-head" });
 
 export const metadata: Metadata = {
   title: "Black Sea Complex | Tbilisi (Gldani) & Zestafoni",
@@ -24,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ka" className="h-full antialiased">
+    <html lang="ka" className={`h-full antialiased ${orbitron.variable} ${rajdhani.variable}`}>
       <body className="min-h-full flex flex-col">
         <Cursor />
         {children}

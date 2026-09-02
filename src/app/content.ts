@@ -67,7 +67,6 @@ export interface LocationContent {
   instagram?: string;
   photo?: string;
   priceListImage?: string;
-  accent: "gold" | "blue";
 }
 
 // Route slugs for the multi-page structure — one dedicated page per location.
@@ -92,6 +91,8 @@ export const ui = {
   includedEyebrow: { en: "What's included", ka: "რას მოიცავს" } as Bi,
   includedHeading: { en: "Everything on one membership.", ka: "ყველაფერი ერთ საწევრო ბარათში." } as Bi,
   membershipEyebrow: { en: "Membership", ka: "საწევრო" } as Bi,
+  pricingPreviewHeading: { en: "A quick look at membership.", ka: "საწევრო — მოკლედ." } as Bi,
+  viewFullPricing: { en: "View full pricing", ka: "სრული ფასები" } as Bi,
   pricingHeading: (loc: Bi) => ({
     en: `Pricing — ${loc.en}`,
     ka: `ფასები — ${loc.ka}`,
@@ -128,9 +129,9 @@ export const locations: Record<LocationId, LocationContent> = {
     id: "blacksea1",
     brandName: "Black Sea",
     shortName: { en: "Black Sea", ka: "ბლექ სი" },
-    accent: "gold",
     priceListImage: "/black-sea/price-list.jpg",
     facebook: "https://www.facebook.com/bscomplex.ge",
+    photo: "/black-sea-2-hero-real.jpg",
     gateTag: { en: "Gym · Pool · Ice Rink", ka: "დარბაზი · აუზი · სრიალის ბანი" },
     gateBlurb: {
       en: "Gldani's flagship complex — two pools, full gym floor, group classes, and an ice rink for figure skating.",
@@ -272,12 +273,12 @@ export const locations: Record<LocationId, LocationContent> = {
       { en: "Sibling discount: 2+ children from the same family get 10% off.", ka: "შეღავათი: ოჯახიდან 2 და მეტი ბავშვი -10%." },
     ],
     gallery: [
-      { label: { en: "Main pool", ka: "მთავარი აუზი" } },
+      { image: "/black-sea-2-gallery-main-pool.jpg", label: { en: "Main pool", ka: "მთავარი აუზი" } },
       { label: { en: "Gym floor", ka: "სავარჯიშო დარბაზი" } },
-      { label: { en: "Swim lanes", ka: "საცურაო ბილიკები" } },
-      { label: { en: "Lockers", ka: "კარადები" } },
+      { image: "/black-sea-2-gallery-lanes.jpg", label: { en: "Swim lanes", ka: "საცურაო ბილიკები" } },
+      { image: "/black-sea-2-gallery-lockers.jpg", label: { en: "Lockers", ka: "კარადები" } },
       { label: { en: "Group class", ka: "ჯგუფური მეცადინეობა" } },
-      { label: { en: "Ice rink", ka: "სრიალის ბანი" } },
+      { image: "/black-sea-2-gallery-arena.jpg", label: { en: "Ice rink", ka: "სრიალის ბანი" } },
       { label: { en: "Figure skating lesson", ka: "ფიგურული სრიალის გაკვეთილი" } },
       { label: { en: "Open skating", ka: "თავისუფალი სრიალი" } },
     ],
@@ -286,7 +287,6 @@ export const locations: Record<LocationId, LocationContent> = {
     id: "blackseakids",
     brandName: "Black Sea Kids",
     shortName: { en: "Black Sea Kids", ka: "ბლექ სი კიდსი" },
-    accent: "gold",
     priceListImage: "/black-sea-kids/price-list.jpg",
     gateTag: { en: "Kids Swim · Kids Fitness", ka: "ცურვა ბავშვებისთვის · ფიტნესი ბავშვებისთვის" },
     gateBlurb: {
@@ -351,7 +351,6 @@ export const locations: Record<LocationId, LocationContent> = {
     id: "zestafoni",
     brandName: "Black Sea — Zestafoni",
     shortName: { en: "Zestafoni", ka: "ზესტაფონი" },
-    accent: "blue",
     priceListImage: "/zestafoni/price-list.jpg",
     facebook: "https://www.facebook.com/profile.php?id=100063646506343",
     instagram: "https://www.instagram.com/blacksea_zestafoni/?hl=en",

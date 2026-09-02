@@ -1,10 +1,46 @@
 "use client";
 
+import { Dumbbell, Hotel, Snowflake, Waves } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { type Bi, type Lang } from "./content";
+import { type Bi, type Category, type Lang, type LocationContent } from "./content";
 
 export function t(bi: Bi, lang: Lang) {
   return bi[lang];
+}
+
+const AMENITY_ICON: Record<Category | "hotel", React.ComponentType<{ className?: string }>> = {
+  pool: Waves,
+  gym: Dumbbell,
+  ice: Snowflake,
+  hotel: Hotel,
+};
+
+const AMENITY_LABEL: Record<Category | "hotel", Bi> = {
+  pool: { en: "Pool", ka: "აუზი" },
+  gym: { en: "Gym", ka: "დარბაზი" },
+  ice: { en: "Ice Rink", ka: "სრიალის ბანი" },
+  hotel: { en: "Hotel", ka: "სასტუმრო" },
+};
+
+/** Small pill row on a location card summarising what's inside — derived
+ *  straight from the location's services/hotel data, never hand-maintained. */
+export function AmenityBadges({ loc, lang }: { loc: LocationContent; lang: Lang }) {
+  const categories = Array.from(new Set(loc.services.map((s) => s.category))) as Category[];
+  const keys: (Category | "hotel")[] = loc.hotel ? [...categories, "hotel"] : categories;
+
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {keys.map((key) => {
+        const Icon = AMENITY_ICON[key];
+        return (
+          <span key={key} className="amenity-badge">
+            <Icon className="h-3 w-3" />
+            {t(AMENITY_LABEL[key], lang)}
+          </span>
+        );
+      })}
+    </div>
+  );
 }
 
 const LANG_STORAGE_KEY = "blacksea-lang";
@@ -56,6 +92,8 @@ export function useTilt(strength = 8) {
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     el.style.transform = `perspective(800px) rotateX(${y * -strength}deg) rotateY(${x * strength}deg) translateY(-4px)`;
+    el.style.setProperty("--glow-x", `${(x + 0.5) * 100}%`);
+    el.style.setProperty("--glow-y", `${(y + 0.5) * 100}%`);
   };
   const onMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.transform = "";
@@ -92,36 +130,27 @@ export function ArrowIcon({ className }: { className?: string }) {
 
 export function SocialLink({
   href,
-  tone,
   children,
   label,
 }: {
   href: string;
-  tone: "gold" | "blue";
   children: React.ReactNode;
   label: string;
 }) {
-  const hoverClass =
-    tone === "gold" ? "hover:text-[var(--gold)] hover:border-[var(--gold)]" : "hover:text-[var(--blue)] hover:border-[var(--blue)]";
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all duration-300 ${hoverClass}`}
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/60 transition-all duration-300 hover:text-[var(--accent)] hover:border-[var(--accent)]"
     >
       <span className="h-4 w-4">{children}</span>
     </a>
   );
 }
 
-export function PrimaryButton({
-  tone,
-  children,
-  ...props
-}: React.ComponentPropsWithoutRef<"a"> & { tone: "gold" | "blue" }) {
-  const bg = tone === "gold" ? "bg-[var(--gold)] text-black" : "bg-[var(--blue)] text-black";
+export function PrimaryButton({ children, ...props }: React.ComponentPropsWithoutRef<"a">) {
   const ref = useRef<HTMLAnchorElement>(null);
 
   const onMouseMove = (e: React.MouseEvent) => {
@@ -144,7 +173,7 @@ export function PrimaryButton({
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{ transition: "transform 200ms cubic-bezier(0.16,1,0.3,1), box-shadow 300ms ease, border-color 300ms ease" }}
-      className={`premium-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border px-6 py-3 text-[13px] font-semibold tracking-wide transition-all duration-300 ${bg} border-transparent hover:-translate-y-px hover:shadow-[0_0_28px_rgba(0,245,208,0.45)]`}
+      className="premium-button inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border px-6 py-3 text-[13px] font-semibold tracking-wide text-black transition-all duration-300 bg-[var(--accent)] border-transparent hover:-translate-y-px hover:shadow-[0_0_28px_rgba(var(--accent-rgb),0.45)]"
     >
       {children}
     </a>
@@ -155,7 +184,7 @@ export function GhostButton({ children, ...props }: React.ComponentPropsWithoutR
   return (
     <a
       {...props}
-      className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-[rgba(0,245,208,0.35)] px-6 py-3 text-[13px] tracking-wide text-white transition-all duration-300 hover:border-white hover:shadow-[0_0_20px_rgba(0,245,208,0.25)]"
+      className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-[rgba(var(--accent-rgb),0.35)] px-6 py-3 text-[13px] tracking-wide text-white transition-all duration-300 hover:border-white hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.25)]"
     >
       {children}
     </a>

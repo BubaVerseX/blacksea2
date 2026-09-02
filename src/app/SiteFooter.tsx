@@ -11,7 +11,7 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
         <div className="flex flex-wrap items-center justify-between gap-5">
           <div className="flex items-center gap-3 text-[15px] tracking-[2px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
             <img src="/logo.png" alt="Black Sea" className="h-8 w-8 object-contain" />
-            BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+            BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
           </div>
           <div className="flex items-center gap-6 text-[13px] text-white/60">
             {locationOrder.map((id) => (
@@ -20,10 +20,10 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
               </Link>
             ))}
             <div className="flex gap-2.5">
-              <SocialLink href={locations.blacksea1.facebook!} tone="gold" label="Facebook">
+              <SocialLink href={locations.blacksea1.facebook!} label="Facebook">
                 <FacebookIcon className="h-full w-full" />
               </SocialLink>
-              <SocialLink href={locations.zestafoni.instagram!} tone="gold" label="Instagram">
+              <SocialLink href={locations.zestafoni.instagram!} label="Instagram">
                 <InstagramIcon className="h-full w-full" />
               </SocialLink>
             </div>

@@ -37,7 +37,7 @@ export default function SiteNav({
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
         >
           <img src="/logo.png" alt="Black Sea" className="h-9 w-9 object-contain" />
-          BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+          BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
         </Link>
         <div className="hidden gap-2 text-[13px] md:flex">
           {locationOrder.map((id) => (

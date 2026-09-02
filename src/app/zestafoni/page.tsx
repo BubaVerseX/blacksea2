@@ -9,7 +9,7 @@ export default function ZestafoniPage() {
   const [lang, setLang] = useLang();
 
   return (
-    <div>
+    <div data-theme="zestafoni">
       <SiteNav activeId="zestafoni" lang={lang} setLang={setLang} />
       <LocationPage id="zestafoni" lang={lang} />
       <SiteFooter lang={lang} />
