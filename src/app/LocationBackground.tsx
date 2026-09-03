@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { LocationId } from "./content";
+import FluidBackground from "./FluidBackground";
 
 /** Attaches a passive scroll listener that offsets each ref'd layer by
  *  scrollY * its own speed factor — the mark drifts slowest (furthest back),
@@ -105,53 +106,56 @@ export type Palette = {
 };
 
 export const PALETTES: Record<LocationId, Palette> = {
+  // Gldani flagship — Energetic Cyan & Deep Blue
   blacksea1: {
-    baseGradient: "linear-gradient(150deg, #05101f, #040506)",
-    block1: "#38bdf8",
-    block1Opacity: 0.14,
-    block2: "#1a3fae",
-    block2Opacity: 0.09,
+    baseGradient: "linear-gradient(150deg, #071827, #070a11)",
+    block1: "#00f2fe",
+    block1Opacity: 0.13,
+    block2: "#3b82f6",
+    block2Opacity: 0.1,
     mark: "01",
-    markStroke: "rgba(56, 189, 248, 0.18)",
+    markStroke: "rgba(0, 242, 254, 0.18)",
     markLeft: "6%",
     markTop: "54%",
     cardMarkSize: "150px",
-    pane1Bg: "rgba(56, 189, 248, 0.06)",
-    pane1Border: "rgba(56, 189, 248, 0.16)",
-    pane2Bg: "rgba(26, 63, 174, 0.08)",
-    pane2Border: "rgba(26, 63, 174, 0.2)",
+    pane1Bg: "rgba(0, 242, 254, 0.06)",
+    pane1Border: "rgba(0, 242, 254, 0.18)",
+    pane2Bg: "rgba(59, 130, 246, 0.08)",
+    pane2Border: "rgba(59, 130, 246, 0.2)",
   },
+  // Black Sea Kids — Playful Soft Turquoise & Warm Yellow
   blackseakids: {
-    baseGradient: "linear-gradient(150deg, #0a1420, #040506)",
-    block1: "#7dd8ff",
-    block1Opacity: 0.13,
-    block2: "#ff8ad8",
-    block2Opacity: 0.05,
+    baseGradient: "linear-gradient(150deg, #0a1c1c, #070a11)",
+    block1: "#4fe3d1",
+    block1Opacity: 0.14,
+    block2: "#ffc857",
+    block2Opacity: 0.07,
     mark: "KIDS",
-    markStroke: "rgba(125, 216, 255, 0.22)",
+    markStroke: "rgba(79, 227, 209, 0.22)",
     markLeft: "2%",
     markTop: "58%",
     cardMarkSize: "80px",
-    pane1Bg: "rgba(125, 216, 255, 0.07)",
-    pane1Border: "rgba(125, 216, 255, 0.18)",
-    pane2Bg: "rgba(255, 255, 255, 0.05)",
-    pane2Border: "rgba(255, 255, 255, 0.12)",
+    pane1Bg: "rgba(79, 227, 209, 0.07)",
+    pane1Border: "rgba(79, 227, 209, 0.2)",
+    pane2Bg: "rgba(255, 200, 87, 0.06)",
+    pane2Border: "rgba(255, 200, 87, 0.18)",
   },
+  // Zestafoni Hotel — Luxurious Ice Gold & Aqua
   zestafoni: {
-    baseGradient: "linear-gradient(150deg, #0d1420, #040506)",
-    block1: "#1a3fae",
-    block1Opacity: 0.11,
-    block2: "#facf75",
+    baseGradient: "linear-gradient(150deg, #171407, #070a11)",
+    block1: "#e8c077",
+    block1Opacity: 0.12,
+    block2: "#4facfe",
     block2Opacity: 0.09,
     mark: "HOTEL",
-    markStroke: "rgba(250, 199, 117, 0.22)",
+    markStroke: "rgba(232, 192, 119, 0.22)",
     markLeft: "2%",
     markTop: "60%",
     cardMarkSize: "70px",
-    pane1Bg: "rgba(26, 63, 174, 0.07)",
-    pane1Border: "rgba(26, 63, 174, 0.18)",
-    pane2Bg: "rgba(250, 199, 117, 0.06)",
-    pane2Border: "rgba(250, 199, 117, 0.16)",
+    pane1Bg: "rgba(232, 192, 119, 0.07)",
+    pane1Border: "rgba(232, 192, 119, 0.2)",
+    pane2Bg: "rgba(79, 172, 254, 0.07)",
+    pane2Border: "rgba(79, 172, 254, 0.18)",
   },
 };
 
@@ -164,6 +168,11 @@ export default function LocationBackground({ id }: { id: LocationId }) {
     <div className="loc-bg" aria-hidden="true">
       <div style={{ position: "absolute", inset: 0, background: p.baseGradient }} />
 
+      <FluidBackground />
+      <div className="micro-grid" />
+      <div className="ambient-orb ambient-orb-1" />
+      <div className="ambient-orb ambient-orb-2" />
+      <div className="ambient-orb ambient-orb-3" />
       <StarField />
 
       <div

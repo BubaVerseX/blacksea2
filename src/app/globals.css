@@ -1,28 +1,56 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;900&family=Rajdhani:ital,wght@0,500;0,600;0,700;1,600&display=swap');
 
 :root {
-  --background: #030405;
-  --panel: #0a0c10;
-  --panel-2: #0e1015;
-  --foreground: #eafffb;
-  --gold: #00f5d0;
-  --blue: #ff2fb0;
-  --line: rgba(0, 245, 208, 0.1);
-  --line-strong: rgba(0, 245, 208, 0.22);
-  --font-display: "Orbitron", ui-sans-serif, sans-serif;
-  --font-head: "Rajdhani", ui-sans-serif, sans-serif;
+  /* Premium Oceanic Elegance — deep abyss backgrounds, electric cyan/aqua accents */
+  --background: #070a11;
+  --panel: #0f1420;
+  --panel-2: #131a2b;
+  --foreground: #eaf6ff;
+  --gold: var(--accent);
+  --blue: var(--accent-2);
+  --line: rgba(0, 242, 254, 0.1);
+  --line-strong: rgba(0, 242, 254, 0.22);
 
-  /* Spa tone — pool & hotel/wellness services: neon magenta/violet lounge glow */
-  --spa-sage: #ff8ad8;
-  --spa-sand: #ffd6f2;
-  --spa-lavender: #d199ff;
-  --spa-text: #fff0fb;
-  --spa-text-muted: rgba(255, 240, 251, 0.7);
+  /* Default site accent (home hub + Gldani flagship) — Electric Cyan / Aqua Neon */
+  --accent: #00f2fe;
+  --accent-2: #4facfe;
+  --accent-rgb: 0, 242, 254;
+  --accent-2-rgb: 79, 172, 254;
+
+  /* Spa/wellness tone — pool & hotel services: cool indigo-lavender glow */
+  --spa-sage: #a5b4fc;
+  --spa-sand: #dce8ff;
+  --spa-lavender: #818cf8;
+  --spa-text: #f2f5ff;
+  --spa-text-muted: rgba(242, 245, 255, 0.7);
 
   /* Fitness tone — gym services: crisp cyan energy */
   --fit-graphite: #0a1416;
-  --fit-steel: #7dfff0;
+  --fit-steel: #6ee7f5;
+}
+
+/* Per-location accent theming — cascades from a data-theme wrapper on the
+   home hero card, or the whole page for a location route, down to every
+   var(--accent)/var(--accent-2) consumer beneath it. */
+[data-theme="blacksea1"] {
+  --accent: #00f2fe;
+  --accent-2: #3b82f6;
+  --accent-rgb: 0, 242, 254;
+  --accent-2-rgb: 59, 130, 246;
+}
+
+[data-theme="blackseakids"] {
+  --accent: #4fe3d1;
+  --accent-2: #ffc857;
+  --accent-rgb: 79, 227, 209;
+  --accent-2-rgb: 255, 200, 87;
+}
+
+[data-theme="zestafoni"] {
+  --accent: #e8c077;
+  --accent-2: #4facfe;
+  --accent-rgb: 232, 192, 119;
+  --accent-2-rgb: 79, 172, 254;
 }
 
 @theme inline {
@@ -59,7 +87,7 @@ body::after {
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #facf75, #fff2d0, #facf75);
+  background: linear-gradient(90deg, var(--accent), #eafcff, var(--accent-2));
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -79,7 +107,7 @@ body::after {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.6);
+  border: 1px solid rgba(var(--accent-rgb), 0.6);
   pointer-events: none;
   z-index: 9999;
   transition: width 200ms ease, height 200ms ease, transform 80ms linear, border-color 200ms ease;
@@ -89,8 +117,8 @@ body::after {
 .app-cursor.cursor-hover {
   width: 40px;
   height: 40px;
-  border-color: rgba(56, 189, 248, 1);
-  background: rgba(56, 189, 248, 0.08);
+  border-color: rgba(var(--accent-rgb), 1);
+  background: rgba(var(--accent-rgb), 0.08);
 }
 
 @media (pointer: coarse) {
@@ -100,8 +128,8 @@ body::after {
 }
 
 ::selection {
-  background: #00f5d0;
-  color: #030405;
+  background: var(--accent);
+  color: var(--background);
 }
 
 @keyframes fade-up {
@@ -159,7 +187,7 @@ body::after {
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(120deg, transparent 30%, rgba(56, 189, 248, 0.5), transparent 70%);
+  background: linear-gradient(120deg, transparent 30%, rgba(var(--accent-rgb), 0.5), transparent 70%);
   background-size: 250% 250%;
   background-position: 0% 0%;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -178,7 +206,7 @@ body::after {
 .premium-card::before {
   background: radial-gradient(
     circle at var(--glow-x, 50%) var(--glow-y, 0%),
-    rgba(0, 245, 208, 0.16),
+    rgba(var(--accent-rgb), 0.18),
     transparent 42%
   );
   content: "";
@@ -193,18 +221,10 @@ body::after {
   opacity: 1;
 }
 
-.premium-card.tone-blue::before {
-  background: radial-gradient(
-    circle at var(--glow-x, 50%) var(--glow-y, 0%),
-    rgba(255, 47, 176, 0.2),
-    transparent 42%
-  );
-}
-
 .premium-card.tone-spa::before {
   background: radial-gradient(
     circle at var(--glow-x, 50%) var(--glow-y, 0%),
-    rgba(255, 138, 216, 0.24),
+    rgba(129, 140, 248, 0.24),
     transparent 42%
   );
 }
@@ -212,7 +232,7 @@ body::after {
 .premium-card.tone-fit::before {
   background: radial-gradient(
     circle at var(--glow-x, 50%) var(--glow-y, 0%),
-    rgba(125, 255, 240, 0.22),
+    rgba(110, 231, 245, 0.22),
     transparent 42%
   );
 }
@@ -221,14 +241,17 @@ body::after {
   background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 0%), rgba(224,247,255,0.22), transparent 42%);
 }
 
-/* Glassmorphism — floating panels (cards, badges, pills) */
+/* Glassmorphism — floating panels (cards, badges, pills). The two insets
+   are a top light-seam + bottom shade, the classic "glass edge" cue that
+   sells the frosted-pane read at a glance. */
 .glass-panel {
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  background: rgba(0, 245, 208, 0.035);
-  border: 1px solid rgba(0, 245, 208, 0.12);
+  background: rgba(var(--accent-rgb), 0.035);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
     0 12px 40px rgba(0, 0, 0, 0.28);
 }
 
@@ -238,24 +261,24 @@ body::after {
 .glass-bar {
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
-  background: rgba(3, 4, 5, 0.72);
+  background: rgba(7, 10, 17, 0.72);
 }
 
 .glass-spa {
   background: linear-gradient(
     135deg,
-    rgba(255, 138, 216, 0.14),
-    rgba(255, 214, 242, 0.1) 45%,
-    rgba(209, 153, 255, 0.14)
+    rgba(129, 140, 248, 0.14),
+    rgba(220, 232, 255, 0.1) 45%,
+    rgba(165, 180, 252, 0.14)
   );
-  border-color: rgba(255, 138, 216, 0.28);
+  border-color: rgba(129, 140, 248, 0.28);
 }
 
 /* Fitness — sportier: angular cut corner instead of rounded, subtle diagonal texture */
 .glass-fit {
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
-  background-image: linear-gradient(135deg, rgba(10, 20, 22, 0.55), rgba(125, 255, 240, 0.1)), repeating-linear-gradient(135deg, rgba(125,255,240,0.035) 0px, rgba(125,255,240,0.035) 2px, transparent 2px, transparent 10px);
-  border-color: rgba(125, 255, 240, 0.28);
+  background-image: linear-gradient(135deg, rgba(10, 20, 22, 0.55), rgba(110,231,245, 0.1)), repeating-linear-gradient(135deg, rgba(110,231,245,0.035) 0px, rgba(110,231,245,0.035) 2px, transparent 2px, transparent 10px);
+  border-color: rgba(110, 231, 245, 0.28);
 }
 
 /* Ice — frostier: subtle frost hairline texture, cooler */
@@ -280,7 +303,7 @@ body::after {
   font-style: italic;
   font-weight: 600;
   letter-spacing: 0.3px;
-  text-shadow: 0 0 10px rgba(255, 138, 216, 0.45);
+  text-shadow: 0 0 10px rgba(129, 140, 248, 0.45);
 }
 
 .spa-body {
@@ -288,9 +311,9 @@ body::after {
 }
 
 .badge-spa {
-  border-color: rgba(255, 138, 216, 0.4);
+  border-color: rgba(129, 140, 248, 0.4);
   color: var(--spa-sand);
-  text-shadow: 0 0 8px rgba(255, 138, 216, 0.4);
+  text-shadow: 0 0 8px rgba(129, 140, 248, 0.4);
 }
 
 /* Dual-tone typography — fitness: clean, sharp, cyan glow */
@@ -300,13 +323,13 @@ body::after {
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(125, 255, 240, 0.4);
+  text-shadow: 0 0 10px rgba(110, 231, 245, 0.4);
 }
 
 .badge-fit {
-  border-color: rgba(125, 255, 240, 0.4);
+  border-color: rgba(110, 231, 245, 0.4);
   color: var(--fit-steel);
-  text-shadow: 0 0 8px rgba(125, 255, 240, 0.4);
+  text-shadow: 0 0 8px rgba(110, 231, 245, 0.4);
 }
 
 /* Dual-tone typography — ice: pale, crisp, icy-blue glow */
@@ -325,7 +348,7 @@ body::after {
 }
 
 .gallery-card::after {
-  background: linear-gradient(180deg, transparent, rgba(0, 245, 208, 0.16));
+  background: linear-gradient(180deg, transparent, rgba(var(--accent-rgb), 0.16));
   content: "";
   inset: auto 0 0;
   height: 45%;
@@ -378,8 +401,8 @@ body::after {
 
 .gate-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(0, 245, 208, 0.35);
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+  border-color: rgba(var(--accent-rgb), 0.35);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4), 0 0 60px rgba(var(--accent-rgb), 0.12);
 }
 
 .gate-card:hover .gate-bg {
@@ -398,14 +421,43 @@ body::after {
 /* Translucent section bands — let the animated background stay visible under
    content bands that need a readability scrim, instead of a flat opaque panel. */
 .section-glass {
-  background: rgba(6, 7, 10, 0.58);
+  background: rgba(7, 10, 17, 0.6);
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
 }
 
 .section-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.35), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.35), transparent);
+}
+
+/* Fluid interactive canvas — painted as a child of .loc-bg, directly over its
+   opaque base gradient. mix-blend-mode: screen lets the soft cyan/aqua blobs
+   glow into the dark backdrop without ever occluding it, while later
+   siblings (blocks, panes, starfield) still paint normally on top. */
+.fluid-canvas {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+/* Amenity micro-badges — small pill row on location gate cards signalling
+   what's inside (Pool / Gym / Ice Rink / Hotel) at a glance. */
+.amenity-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  background: rgba(var(--accent-rgb), 0.08);
+  padding: 4px 9px 4px 7px;
+  font-size: 10.5px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(234, 246, 255, 0.85);
+  backdrop-filter: blur(6px);
 }
 
 /* Editorial glass system — bold diagonal color glimpses + stacked frosted glass
@@ -459,6 +511,120 @@ body::after {
 
   100% {
     transform: translate(var(--dx, 24px), var(--dy, -20px));
+  }
+}
+
+/* Circular logo badge — clips the (opaque, square-cropped) source file into
+   a ring and adds a themed dark glow, entirely in CSS so the art file
+   itself never needs touching. */
+.logo-badge {
+  position: relative;
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-rgb), 0.4),
+    0 2px 10px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(var(--accent-rgb), 0.3);
+  transition: box-shadow 400ms ease;
+}
+
+.logo-badge:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-rgb), 0.65),
+    0 2px 10px rgba(0, 0, 0, 0.55),
+    0 0 28px rgba(var(--accent-rgb), 0.5);
+}
+
+/* Ambient mesh-gradient orbs — a handful of large, heavily blurred blobs
+   that drift very slowly to add depth behind the glass composition.
+   Distinct from FluidBackground (which reacts to the cursor): these are
+   always-on, autonomous, and cheap (pure CSS, no canvas/raf). */
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  will-change: transform;
+  animation: orb-float 26s ease-in-out infinite alternate;
+}
+
+.ambient-orb-1 {
+  left: -6%;
+  top: 8%;
+  width: 38vw;
+  height: 38vw;
+  max-width: 520px;
+  max-height: 520px;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.4), transparent 70%);
+  animation-duration: 24s;
+}
+
+.ambient-orb-2 {
+  right: -8%;
+  top: 32%;
+  width: 30vw;
+  height: 30vw;
+  max-width: 420px;
+  max-height: 420px;
+  background: radial-gradient(circle, rgba(var(--accent-2-rgb), 0.34), transparent 70%);
+  animation-duration: 30s;
+  animation-delay: -6s;
+}
+
+.ambient-orb-3 {
+  left: 30%;
+  bottom: -10%;
+  width: 26vw;
+  height: 26vw;
+  max-width: 380px;
+  max-height: 380px;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.24), transparent 70%);
+  animation-duration: 34s;
+  animation-delay: -14s;
+}
+
+@keyframes orb-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+  }
+}
+
+/* Micro-grid — a faint dot lattice for texture on large empty bands.
+   Kept extremely low-opacity; it should read as material, not pattern. */
+.micro-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(var(--accent-rgb), 0.5) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: 0.05;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+}
+
+/* Slow rotating conic-gradient ring for the home hero's location cards —
+   a real element (site-ui.tsx's OrbitBorder), not a pseudo-element, so it
+   layers on top of premium-card's own ::before/::after without clashing. */
+@property --orbit-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.orbit-border {
+  --orbit-angle: 0deg;
+  padding: 1px;
+  background: conic-gradient(from var(--orbit-angle), transparent 0%, rgba(var(--accent-rgb), 0.65) 8%, transparent 22%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.7;
+  animation: orbit-spin 7s linear infinite;
+}
+
+@keyframes orbit-spin {
+  to {
+    --orbit-angle: 360deg;
   }
 }
 

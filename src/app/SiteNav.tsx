@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type Lang, type LocationId, locationOrder, locationSlugs, locations, ui } from "./content";
-import { GhostButton, LangSwitcher, t } from "./site-ui";
+import { GhostButton, LangSwitcher, Logo, t } from "./site-ui";
 
 export default function SiteNav({
   activeId,
@@ -36,8 +36,8 @@ export default function SiteNav({
           className="flex items-center gap-3 whitespace-nowrap text-[16px] tracking-[2.5px]"
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
         >
-          <img src="/logo.png" alt="Black Sea" className="h-9 w-9 object-contain" />
-          BLACK SEA <span style={{ color: "var(--gold)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+          <Logo className="h-9 w-9" />
+          BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
         </Link>
         <div className="hidden gap-2 text-[13px] md:flex">
           {locationOrder.map((id) => (
