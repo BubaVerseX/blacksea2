@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { type Lang, locationOrder, locationSlugs, locations, ui } from "./content";
-import { FacebookIcon, InstagramIcon, SocialLink, t } from "./site-ui";
+import { FacebookIcon, InstagramIcon, Logo, SocialLink, t } from "./site-ui";
 
 export default function SiteFooter({ lang }: { lang: Lang }) {
   return (
@@ -10,7 +10,7 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap items-center justify-between gap-5">
           <div className="flex items-center gap-3 text-[15px] tracking-[2px]" style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}>
-            <img src="/logo.png" alt="Black Sea" className="h-8 w-8 object-contain" />
+            <Logo className="h-8 w-8" />
             BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
           </div>
           <div className="flex items-center gap-6 text-[13px] text-white/60">

@@ -8,6 +8,38 @@ export function t(bi: Bi, lang: Lang) {
   return bi[lang];
 }
 
+/** Circular badge for the (non-transparent, square-cropped) logo file —
+ *  clips it into a ring and adds a themed glow, without touching the
+ *  source image. object-cover intentionally overfills so the artwork's
+ *  own circular mark reaches the badge edge instead of leaving a visible
+ *  square corner peeking out past a smaller inscribed circle. */
+export function Logo({ className = "h-9 w-9" }: { className?: string }) {
+  return (
+    <span className={`logo-badge inline-block shrink-0 overflow-hidden rounded-full ${className}`}>
+      <img src="/logo.png" alt="Black Sea" className="h-full w-full scale-[1.14] object-cover" />
+    </span>
+  );
+}
+
+/** Diagonal light-sweep overlay for hover micro-interactions — a real
+ *  element (not a pseudo-element) so it can be dropped into cards that
+ *  already use ::before/::after for other effects (glow, gradient border)
+ *  without clobbering them. Parent needs `group` + `relative overflow-hidden`. */
+export function CardShine() {
+  return (
+    <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
+      <span className="absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/12 to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out group-hover:translate-x-[250%] group-hover:opacity-100" />
+    </span>
+  );
+}
+
+/** Slow, low-opacity rotating conic-gradient ring — a real element (see
+ *  CardShine) so it layers cleanly on top of premium-card's own
+ *  ::before/::after glow + border-sheen without a pseudo-element clash. */
+export function OrbitBorder() {
+  return <span aria-hidden className="orbit-border pointer-events-none absolute inset-0 rounded-[inherit]" />;
+}
+
 const AMENITY_ICON: Record<Category | "hotel", React.ComponentType<{ className?: string }>> = {
   pool: Waves,
   gym: Dumbbell,

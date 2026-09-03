@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { type Lang, type LocationId, locations, ui } from "./content";
 import LocationBackground from "./LocationBackground";
-import { ArrowIcon, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal, useTilt } from "./site-ui";
+import { ArrowIcon, CardShine, FacebookIcon, GhostButton, PrimaryButton, SocialLink, t, useReveal, useTilt } from "./site-ui";
 
 export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang }) {
   const loc = locations[id];
@@ -101,7 +101,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                 <div
                   key={i}
                   {...tilt}
-                  className={`premium-card tilt-card glass-panel glass-${tone} tone-${tone} rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
+                  className={`premium-card tilt-card glass-panel glass-${tone} tone-${tone} group rounded-md p-9 transition-transform duration-300 hover:-translate-y-1`}
                 >
                   <span className={`mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px] ${badgeClass}`}>
                     {badgeLabel}
@@ -110,16 +110,18 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                     {t(s.title, lang)}
                   </h3>
                   <p className={`text-[13px] leading-relaxed ${tone === "fit" ? "text-white/70" : "spa-body"}`}>{t(s.desc, lang)}</p>
+                  <CardShine />
                 </div>
               );
             })}
             {loc.hotel && (
-              <div className="premium-card tone-spa glass-panel glass-spa col-span-1 rounded-md p-9 sm:col-span-2 lg:col-span-3">
+              <div className="premium-card tone-spa glass-panel glass-spa group col-span-1 rounded-md p-9 sm:col-span-2 lg:col-span-3">
                 <span className="badge-spa mb-4 inline-block rounded-full border px-2.5 py-1 text-[11px] uppercase tracking-[2px]">
                   {lang === "en" ? "Hotel" : "სასტუმრო"}
                 </span>
                 <h3 className="spa-heading mb-2.5 text-[22px]">{t(loc.hotel.title, lang)}</h3>
                 <p className="spa-body max-w-2xl text-[13px] leading-relaxed">{t(loc.hotel.desc, lang)}</p>
+                <CardShine />
               </div>
             )}
           </div>
@@ -164,7 +166,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   {loc.pricingGroups.map((group, gi) => {
                     const hasPhotos = group.rows.some((r) => r.image);
                     return (
-                      <div key={gi} className="premium-card glass-panel rounded-md p-6 md:p-8">
+                      <div key={gi} className="premium-card glass-panel group rounded-md p-6 md:p-8">
                         <h3 className="mb-5 text-[18px]" style={{ fontFamily: "var(--font-head)", color: accent, textShadow: "0 0 8px currentColor" }}>
                           {t(group.category, lang)}
                         </h3>
@@ -196,6 +198,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                             ))}
                           </div>
                         )}
+                        <CardShine />
                       </div>
                     );
                   })}

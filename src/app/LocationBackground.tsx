@@ -169,6 +169,10 @@ export default function LocationBackground({ id }: { id: LocationId }) {
       <div style={{ position: "absolute", inset: 0, background: p.baseGradient }} />
 
       <FluidBackground />
+      <div className="micro-grid" />
+      <div className="ambient-orb ambient-orb-1" />
+      <div className="ambient-orb ambient-orb-2" />
+      <div className="ambient-orb ambient-orb-3" />
       <StarField />
 
       <div

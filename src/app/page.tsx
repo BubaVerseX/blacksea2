@@ -8,7 +8,7 @@ import { PALETTES } from "./LocationBackground";
 import PricingPreview from "./PricingPreview";
 import SiteFooter from "./SiteFooter";
 import SiteNav from "./SiteNav";
-import { AmenityBadges, ArrowIcon, t, useLang, useReveal, useTilt } from "./site-ui";
+import { AmenityBadges, ArrowIcon, CardShine, Logo, OrbitBorder, t, useLang, useReveal, useTilt } from "./site-ui";
 
 export default function Page() {
   const [lang, setLang] = useLang();
@@ -30,13 +30,16 @@ export default function Page() {
           className="absolute inset-x-0 top-0 h-[380px] -z-10"
           style={{ background: "radial-gradient(circle at 50% 0%, rgba(0,242,254,0.16), transparent 60%)" }}
         />
+        <div className="micro-grid -z-10" aria-hidden="true" />
+        <div className="ambient-orb ambient-orb-1 -z-10" aria-hidden="true" />
+        <div className="ambient-orb ambient-orb-2 -z-10" aria-hidden="true" />
         <motion.div
           className="mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img src="/logo.png" alt="Black Sea" className="mx-auto mb-5 h-20 w-20 object-contain md:h-28 md:w-28" />
+          <Logo className="mx-auto mb-5 h-20 w-20 md:h-28 md:w-28" />
           <div
             className="text-[14px] tracking-[6px] text-white/80 md:text-[16px]"
             style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
@@ -153,6 +156,8 @@ export default function Page() {
                       </span>
                     </div>
                   </div>
+                  <OrbitBorder />
+                  <CardShine />
                 </Link>
               );
             })}

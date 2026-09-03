@@ -21,6 +21,10 @@ export default function HomeBackground() {
         }}
       />
       <FluidBackground />
+      <div className="micro-grid" />
+      <div className="ambient-orb ambient-orb-1" />
+      <div className="ambient-orb ambient-orb-2" />
+      <div className="ambient-orb ambient-orb-3" />
       <StarField />
     </div>
   );

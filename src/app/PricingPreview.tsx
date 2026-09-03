@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { type Lang, type LocationId, locationOrder, locationSlugs, locations, ui } from "./content";
-import { PrimaryButton, t } from "./site-ui";
+import { CardShine, PrimaryButton, t } from "./site-ui";
 
 /** Interactive membership/pricing teaser for the home hub — switching the
  *  location tab both swaps the visible price rows and re-themes the whole
@@ -52,7 +52,7 @@ export default function PricingPreview({ lang }: { lang: Lang }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -14 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="premium-card glass-panel rounded-md p-8"
+                className="premium-card glass-panel group rounded-md p-8"
               >
                 {group ? (
                   <>
@@ -82,6 +82,7 @@ export default function PricingPreview({ lang }: { lang: Lang }) {
                     ))}
                   </div>
                 )}
+                <CardShine />
               </motion.div>
             </AnimatePresence>
           </div>
