@@ -307,8 +307,8 @@ export const locations: Record<LocationId, LocationContent> = {
       ka: "Black Sea-ს მთავარი კომპლექსის მეზობლად, ეს ლოკაცია სპეციალურად ბავშვთა ცურვისა და ფიტნეს პროგრამებზეა ორიენტირებული — ჯგუფური და პერსონალური გაკვეთილები ბავშვებისთვის.",
     },
     services: [
-      { category: "pool", title: { en: "Kids Swim Lessons", ka: "ცურვის გაკვეთილები ბავშვებისთვის" }, desc: { en: "Placeholder — programme details pending confirmation from the owners.", ka: "დროებითი — პროგრამის დეტალები დაზუსტდება მფლობელებთან." } },
-      { category: "gym", title: { en: "Kids Fitness", ka: "ფიტნესი ბავშვებისთვის" }, desc: { en: "Placeholder — programme details pending confirmation from the owners.", ka: "დროებითი — პროგრამის დეტალები დაზუსტდება მფლობელებთან." } },
+      { category: "pool", title: { en: "Kids Swim Lessons", ka: "ცურვის გაკვეთილები ბავშვებისთვის" }, desc: { en: "Contact us for details.", ka: "დეტალებისთვის დაგვიკავშირდით." } },
+      { category: "gym", title: { en: "Kids Fitness", ka: "ფიტნესი ბავშვებისთვის" }, desc: { en: "Contact us for details.", ka: "დეტალებისთვის დაგვიკავშირდით." } },
       { category: "pool", title: { en: "Medium Pool", ka: "საშუალო აუზი" }, desc: { en: "15m × 6m, 1.35m deep — ideal for guided lessons and lighter sessions.", ka: "15 მ × 6 მ, სიღრმე 1.35 მ — შესაფერისი გაკვეთილებისა და მსუბუქი ვარჯიშისთვის." } },
       { category: "pool", title: { en: "Large Pool", ka: "დიდი აუზი" }, desc: { en: "22m × 6m, 1.80m deep — for more advanced swim practice.", ka: "22 მ × 6 მ, სიღრმე 1.80 მ — უფრო მოწინავე ცურვის ვარჯიშისთვის." } },
     ],
@@ -340,12 +340,7 @@ export const locations: Record<LocationId, LocationContent> = {
       { en: "Subscription valid for 28 days.", ka: "აბონემენტის ვადა 28 დღე." },
       { en: "Sibling discount: 2+ children from the same family get 10% off.", ka: "შეღავათი: ოჯახიდან 2 და მეტი ბავშვი -10%." },
     ],
-    gallery: [
-      { label: { en: "Kids pool", ka: "საბავშვო აუზი" } },
-      { label: { en: "Kids fitness area", ka: "საბავშვო ფიტნეს სივრცე" } },
-      { label: { en: "Lockers", ka: "კარადები" } },
-      { label: { en: "Group session", ka: "ჯგუფური მეცადინეობა" } },
-    ],
+    gallery: [],
   },
   zestafoni: {
     id: "zestafoni",
