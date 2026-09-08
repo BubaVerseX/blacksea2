@@ -138,7 +138,7 @@ export const locations: Record<LocationId, LocationContent> = {
       ka: "გლდანის მთავარი კომპლექსი — ორი აუზი, სრული სავარჯიშო დარბაზი, ჯგუფური ვარჯიშები და ფიგურული სრიალის ბანი.",
     },
     areaLabel: { en: "Gldani, Tbilisi", ka: "გლდანი, თბილისი" },
-    hoursShort: { en: "Mon–Sat 07:00–22:00", ka: "ორშ–შაბ 07:00–22:00" },
+    hoursShort: { en: "Mon–Sat 07:00–22:00, Sun 09:00–21:00", ka: "ორშ–შაბ 07:00–22:00, კვირა 09:00–21:00" },
     address: {
       en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane #5, Tbilisi, 0141",
       ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი #5, თბილისი, 0141",
@@ -294,13 +294,16 @@ export const locations: Record<LocationId, LocationContent> = {
       ka: "ბავშვებზე ორიენტირებული კომპლექსი Black Sea-ს მთავარი გლდანური კომპლექსის მეზობლად — ჯგუფური და პერსონალური ცურვის გაკვეთილები და ბავშვთა ფიტნესი.",
     },
     areaLabel: { en: "Gldani, Tbilisi", ka: "გლდანი, თბილისი" },
-    hoursShort: { en: "Hours to be confirmed", ka: "საათები დაზუსტდება" },
+    hoursShort: { en: "Mon–Sat 09:00–21:00, Sun 09:00–15:00", ka: "ორშ–შაბ 09:00–21:00, კვირა 09:00–15:00" },
     address: {
       en: "Gldani, A District, Teimuraz Bochorishvili St, 1st Lane #8, Tbilisi, 0141",
       ka: "გლდანის \"ა\" მ/რ, თეიმურაზ ბოჭორიშვილის 1 ჩიხი #8, თბილისი, 0141",
     },
     phones: ["+995 591 204 050"],
-    hoursDetailed: [{ day: { en: "To be confirmed", ka: "დასაზუსტებელია" }, time: "—" }],
+    hoursDetailed: [
+      { day: { en: "Monday – Saturday", ka: "ორშაბათი – შაბათი" }, time: "09:00 – 21:00" },
+      { day: { en: "Sunday", ka: "კვირა" }, time: "09:00 – 15:00" },
+    ],
     introHeading: { en: "A kids-first complex, one lane over from Black Sea.", ka: "ბავშვებზე ორიენტირებული კომპლექსი, Black Sea-ს გვერდით." },
     introLede: {
       en: "One lane over from Black Sea's main complex, this location is built specifically around kids' swimming and fitness — group and personal lessons for children.",
