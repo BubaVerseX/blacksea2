@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { Dumbbell, Hotel, Snowflake, Waves } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { type Bi, type Category, type Lang, type LocationContent } from "./content";
@@ -38,6 +39,45 @@ export function CardShine() {
  *  ::before/::after glow + border-sheen without a pseudo-element clash. */
 export function OrbitBorder() {
   return <span aria-hidden className="orbit-border pointer-events-none absolute inset-0 rounded-[inherit]" />;
+}
+
+/** Homepage gate-card photography. A single photo renders statically; two or
+ *  more crossfade on a timer so a location with a real gallery (Zestafoni,
+ *  Black Sea) shows more than one pool/facility shot without any extra
+ *  chrome (no arrows/dots) — it's meant to read as ambient photography, not
+ *  a carousel control. Locations with no real photos yet render nothing
+ *  here, falling back to the card's decorative gradient/mark. */
+export function GateCardPhoto({ photos }: { photos: string[] }) {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (photos.length < 2) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % photos.length), 4500);
+    return () => clearInterval(id);
+  }, [photos.length]);
+
+  if (photos.length === 0) return null;
+
+  return (
+    <div aria-hidden className="absolute inset-0">
+      <AnimatePresence>
+        <motion.div
+          key={photos[index]}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.1, ease: "easeInOut" }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url(${photos[index]})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "contrast(106%) saturate(108%)",
+          }}
+        />
+      </AnimatePresence>
+    </div>
+  );
 }
 
 const AMENITY_ICON: Record<Category | "hotel", React.ComponentType<{ className?: string }>> = {

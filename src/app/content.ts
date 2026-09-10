@@ -65,7 +65,10 @@ export interface LocationContent {
   gallery: GalleryTile[];
   facebook?: string;
   instagram?: string;
-  photo?: string;
+  // Real photos for the homepage gate card. First image shows immediately;
+  // additional images crossfade in on a timer. Omit entirely if no real
+  // photography exists yet for this location — never fill with a placeholder.
+  homePhotos?: string[];
   priceListImage?: string;
 }
 
@@ -123,7 +126,7 @@ export const locations: Record<LocationId, LocationContent> = {
     shortName: { en: "Black Sea", ka: "ბლექ სი" },
     priceListImage: "/black-sea/price-list.jpg",
     facebook: "https://www.facebook.com/bscomplex.ge",
-    photo: "/black-sea-2-hero-real.jpg",
+    homePhotos: ["/black-sea-2-hero-real.jpg", "/black-sea-2-gallery-main-pool.jpg", "/black-sea-2-gallery-lanes.jpg"],
     gateTag: { en: "Gym · Pool · Ice Rink", ka: "დარბაზი · აუზი · სრიალის ბანი" },
     gateBlurb: {
       en: "Gldani's flagship complex — two pools, full gym floor, group classes, and an ice rink for figure skating.",
@@ -344,7 +347,7 @@ export const locations: Record<LocationId, LocationContent> = {
     priceListImage: "/zestafoni/price-list.jpg",
     facebook: "https://www.facebook.com/profile.php?id=100063646506343",
     instagram: "https://www.instagram.com/blacksea_zestafoni/?hl=en",
-    photo: "/zestafoni/hero.jpg",
+    homePhotos: ["/zestafoni/gallery-1.jpg", "/zestafoni/gallery-2.jpg", "/zestafoni/hero.jpg"],
     gateTag: { en: "Pool · Gym · Hotel", ka: "აუზი · დარბაზი · სასტუმრო" },
     gateBlurb: {
       en: "Three pools, a fitness floor, and an on-site hotel for longer stays.",
