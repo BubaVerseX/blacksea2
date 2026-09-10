@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type Lang, locationOrder, locationSlugs, locations, ui } from "./content";
+import { type Lang, locationOrder, locationSlugs, locations } from "./content";
 import { FacebookIcon, InstagramIcon, Logo, SocialLink, t } from "./site-ui";
 
 export default function SiteFooter({ lang }: { lang: Lang }) {
@@ -29,7 +29,6 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
             </div>
           </div>
         </div>
-        <div className="mt-6 text-[12px] text-white/50">{t(ui.footNote, lang)}</div>
       </div>
     </footer>
   );
