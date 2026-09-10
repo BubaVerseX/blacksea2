@@ -76,6 +76,50 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
         </div>
       </section>
 
+      {/* GALLERY */}
+      {loc.gallery.length > 0 && (
+        <section className="section-glass px-8 py-20">
+          <div className="section-divider" />
+          <div className="mx-auto max-w-6xl">
+            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
+              {t(ui.galleryEyebrow, lang)}
+            </div>
+            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
+              {t(ui.galleryHeading(loc.shortName), lang)}
+            </h2>
+            <div data-reveal className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
+              {loc.gallery.map((g, i) => (
+                <div
+                  key={i}
+                  onClick={g.image ? () => setLightboxIndex(i) : undefined}
+                  className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"} ${g.image ? "cursor-pointer" : ""}`}
+                >
+                  {g.image ? (
+                    <>
+                      <img
+                        src={g.image}
+                        alt={t(g.label, lang)}
+                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                      <div
+                        className="absolute inset-x-0 bottom-0 px-3 py-2 text-[11px] uppercase tracking-[1.5px] text-white/80"
+                        style={{ background: "linear-gradient(180deg, transparent, rgba(3,4,5,0.85))" }}
+                      >
+                        {t(g.label, lang)}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
+                      {t(g.label, lang)}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* WHAT'S INCLUDED */}
       <section className="section-glass px-8 py-20">
         <div className="section-divider" />
@@ -246,51 +290,6 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
           )}
         </div>
       </section>
-
-      {/* GALLERY */}
-      {loc.gallery.length > 0 && (
-        <section className="section-glass px-8 py-20">
-          <div className="section-divider" />
-          <div className="mx-auto max-w-6xl">
-            <div data-reveal className="mb-4 text-[12px] uppercase tracking-[3px]" style={{ color: accent, textShadow: "0 0 10px currentColor" }}>
-              {t(ui.galleryEyebrow, lang)}
-            </div>
-            <h2 data-reveal className="max-w-2xl text-[28px] md:text-[42px]" style={{ fontFamily: "var(--font-head)" }}>
-              {t(ui.galleryHeading(loc.shortName), lang)}
-            </h2>
-            <div data-reveal className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4" style={{ gridAutoRows: "170px" }}>
-              {loc.gallery.map((g, i) => (
-                <div
-                  key={i}
-                  onClick={g.image ? () => setLightboxIndex(i) : undefined}
-                  className={`gallery-card relative overflow-hidden rounded ${i === 0 ? "col-span-2 row-span-2" : "col-span-1"} ${g.image ? "cursor-pointer" : ""}`}
-                >
-                  {g.image ? (
-                    <>
-                      <img
-                        src={g.image}
-                        alt={t(g.label, lang)}
-                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                      <div
-                        className="absolute inset-x-0 bottom-0 px-3 py-2 text-[11px] uppercase tracking-[1.5px] text-white/80"
-                        style={{ background: "linear-gradient(180deg, transparent, rgba(3,4,5,0.85))" }}
-                      >
-                        {t(g.label, lang)}
-                      </div>
-                    </>
-                  ) : (
-                    <div className="glass-panel flex h-full items-center justify-center text-[11px] uppercase tracking-[1.5px] text-white/50 transition-transform duration-500 hover:scale-105">
-                      {t(g.label, lang)}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="section-divider" />
-        </section>
-      )}
 
       {/* HOURS + CONTACT */}
       <section id="contact" className="px-8 py-20">
