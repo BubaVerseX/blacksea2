@@ -8,7 +8,7 @@ import { PALETTES } from "./LocationBackground";
 import PricingPreview from "./PricingPreview";
 import SiteFooter from "./SiteFooter";
 import SiteNav from "./SiteNav";
-import { AmenityBadges, ArrowIcon, CardShine, Logo, OrbitBorder, t, useLang, useReveal, useTilt } from "./site-ui";
+import { AmenityBadges, ArrowIcon, CardShine, GateCardPhoto, Logo, OrbitBorder, t, useLang, useReveal, useTilt } from "./site-ui";
 
 export default function Page() {
   const [lang, setLang] = useLang();
@@ -81,19 +81,7 @@ export default function Page() {
                   className="gate-card tilt-card premium-card glass-panel group relative block h-[460px] cursor-pointer overflow-hidden rounded-md text-left"
                 >
                   <div className="gate-bg absolute inset-0 overflow-hidden transition-transform duration-700" style={{ background: pal.baseGradient }}>
-                    {l.photo && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          backgroundImage: `url(${l.photo})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          opacity: 0.32,
-                          filter: "grayscale(15%) contrast(105%)",
-                        }}
-                      />
-                    )}
+                    {l.homePhotos && <GateCardPhoto photos={l.homePhotos} />}
                     <div
                       style={{
                         position: "absolute",
