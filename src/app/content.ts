@@ -97,10 +97,6 @@ export const ui = {
     en: `Pricing — ${loc.en}`,
     ka: `ფასები — ${loc.ka}`,
   }),
-  pricingNote: {
-    en: "Prices are placeholders — swap in real numbers once the owners confirm packages.",
-    ka: "ფასები დროებითია — რეალურით შეიცვლება მფლობელების დადასტურების შემდეგ.",
-  } as Bi,
   contactUs: { en: "Contact us", ka: "დაგვიკავშირდით" } as Bi,
   galleryEyebrow: { en: "Gallery", ka: "გალერეა" } as Bi,
   galleryHeading: (loc: Bi) => ({
@@ -118,10 +114,6 @@ export const ui = {
   notesHeading: { en: "Good to know", ka: "მნიშვნელოვანი ინფორმაცია" } as Bi,
   fitnessRulesHeading: { en: "Fitness rules", ka: "ფიტნეს წესები" } as Bi,
   poolRulesHeading: { en: "Pool rules", ka: "აუზის წესები" } as Bi,
-  footNote: {
-    en: "Placeholder content, pricing and photography. To be replaced with final assets.",
-    ka: "დროებითი კონტენტი, ფასები და ფოტოები. საბოლოო მასალებით შეიცვლება.",
-  } as Bi,
 };
 
 export const locations: Record<LocationId, LocationContent> = {

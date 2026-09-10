@@ -242,9 +242,6 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   </div>
                 ))}
               </div>
-              <div data-reveal className="glass-panel mt-10 rounded-md p-4 text-[13px] leading-relaxed" style={{ color: accent, textShadow: "0 0 8px currentColor" }}>
-                {t(ui.pricingNote, lang)}
-              </div>
             </>
           )}
         </div>
