@@ -252,11 +252,11 @@ export function PrimaryButton({ children, ...props }: React.ComponentPropsWithou
   );
 }
 
-export function GhostButton({ children, ...props }: React.ComponentPropsWithoutRef<"a">) {
+export function GhostButton({ children, className = "", ...props }: React.ComponentPropsWithoutRef<"a">) {
   return (
     <a
       {...props}
-      className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-sm border border-[rgba(var(--accent-rgb),0.35)] px-6 py-3 text-[13px] tracking-wide text-white transition-all duration-300 hover:border-white hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.25)]"
+      className={`inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-sm border border-[rgba(var(--accent-rgb),0.35)] px-6 py-3 text-[13px] tracking-wide text-white transition-all duration-300 hover:border-white hover:shadow-[0_0_20px_rgba(var(--accent-rgb),0.25)] ${className}`}
     >
       {children}
     </a>
