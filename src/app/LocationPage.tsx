@@ -362,7 +362,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
                   {t(ui.navCall, lang)}
                 </PrimaryButton>
               )}
-              <GhostButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.brandName)}`}>
+              <GhostButton href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(t(loc.address, lang))}`}>
                 {t(ui.directions, lang)}
               </GhostButton>
               {loc.facebook && (
