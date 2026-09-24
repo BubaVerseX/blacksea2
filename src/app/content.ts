@@ -381,10 +381,10 @@ export const locations: Record<LocationId, LocationContent> = {
       { category: "gym", title: { en: "Boxing", ka: "კრივი" }, desc: { en: "Boxing training sessions on the fitness floor.", ka: "კრივის ვარჯიშები სავარჯიშო დარბაზში." } },
     ],
     hotel: {
-      title: { en: "Hotel, Wellness & Spa", ka: "სასტუმრო, უელნესი და სპა" },
+      title: { en: "Stay On Site", ka: "სასტუმრო კომპლექსში" },
       desc: {
-        en: "An on-site hotel, wellness centre and spa under the same ownership — rooms, sauna, treatments and event space, all steps from the pools and gym. Details pending confirmation from the owners.",
-        ka: "იმავე მფლობელობის სასტუმრო, უელნეს-ცენტრი და სპა ადგილზე — ნომრები, საუნა, პროცედურები და ღონისძიებების სივრცე, აუზებისა და დარბაზის გვერდით. დეტალები დაზუსტდება მფლობელებთან.",
+        en: "Comfortable on-site accommodation at the Zestafoni complex — a convenient stay right next to the pools, gym, and fitness facilities.",
+        ka: "კომფორტული სასტუმრო ზესტაფონის კომპლექსში — მოხერხებული განთავსება პირდაპირ აუზებისა და სავარჯიშო დარბაზის გვერდით.",
       },
     },
     pricingGroups: [

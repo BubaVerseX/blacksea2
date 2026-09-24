@@ -356,7 +356,7 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
               <b className="mb-1 block text-[16px] font-medium text-white">{loc.brandName}</b>
               {t(loc.address, lang)}
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               {loc.phones[0] && (
                 <PrimaryButton href={`tel:${loc.phones[0].replace(/\s/g, "")}`}>
                   {t(ui.navCall, lang)}
@@ -377,12 +377,12 @@ export default function LocationPage({ id, lang }: { id: LocationId; lang: Lang 
 
       {lightboxIndex !== null && loc.gallery[lightboxIndex]?.image && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-6" onClick={() => setLightboxIndex(null)}>
-          <button className="absolute right-6 top-6 text-[28px] text-white/70 hover:text-white" onClick={() => setLightboxIndex(null)} aria-label="Close">×</button>
+          <button className="absolute right-3 top-5 z-10 px-3 py-1 text-[28px] text-white/70 hover:text-white" onClick={() => setLightboxIndex(null)} aria-label="Close">×</button>
           {lightboxIndex > 0 && (
-            <button className="absolute left-4 text-[36px] text-white/60 hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i - 1 : i)); }} aria-label="Previous">‹</button>
+            <button className="absolute left-0 z-10 px-4 py-3 text-[36px] text-white/60 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i - 1 : i)); }} aria-label="Previous">‹</button>
           )}
           {lightboxIndex < loc.gallery.length - 1 && (
-            <button className="absolute right-4 text-[36px] text-white/60 hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i + 1 : i)); }} aria-label="Next">›</button>
+            <button className="absolute right-0 z-10 px-4 py-3 text-[36px] text-white/60 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] hover:text-white" onClick={(e) => { e.stopPropagation(); setLightboxIndex((i) => (i !== null ? i + 1 : i)); }} aria-label="Next">›</button>
           )}
           <img src={loc.gallery[lightboxIndex].image} alt={t(loc.gallery[lightboxIndex].label, lang)} className="max-h-[85vh] max-w-[90vw] rounded-md object-contain" onClick={(e) => e.stopPropagation()} />
           <div className="absolute bottom-8 text-[13px] uppercase tracking-[1.5px] text-white/70">{t(loc.gallery[lightboxIndex].label, lang)}</div>

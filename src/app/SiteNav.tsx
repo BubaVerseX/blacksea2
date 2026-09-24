@@ -30,14 +30,17 @@ export default function SiteNav({
         scrolled ? "py-3.5" : "py-5.5"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 sm:px-8">
         <Link
           href="/"
-          className="flex items-center gap-3 whitespace-nowrap text-[16px] tracking-[2.5px]"
+          className="flex items-center gap-2 whitespace-nowrap text-[13px] tracking-[1.5px] sm:gap-3 sm:text-[16px] sm:tracking-[2.5px]"
           style={{ fontFamily: "var(--font-display)", fontWeight: 700 }}
         >
-          <Logo className="h-9 w-9" />
-          BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
+          <Logo className="h-8 w-8 sm:h-9 sm:w-9" />
+          BLACK SEA{" "}
+          <span className="hidden sm:inline" style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>
+            COMPLEX
+          </span>
         </Link>
         <div className="hidden gap-2 text-[13px] md:flex">
           {locationOrder.map((id) => (
@@ -52,10 +55,10 @@ export default function SiteNav({
             </Link>
           ))}
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           <LangSwitcher lang={lang} setLang={setLang} />
           {callPhone && (
-            <GhostButton href={`tel:${callPhone.replace(/\s/g, "")}`} className="!px-5 !py-2.5 !text-[12px]">
+            <GhostButton href={`tel:${callPhone.replace(/\s/g, "")}`} className="!px-3 !py-2 !text-[12px] sm:!px-5 sm:!py-2.5">
               {t(ui.navCall, lang)}
             </GhostButton>
           )}

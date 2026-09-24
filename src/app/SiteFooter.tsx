@@ -13,9 +13,9 @@ export default function SiteFooter({ lang }: { lang: Lang }) {
             <Logo className="h-8 w-8" />
             BLACK SEA <span style={{ color: "var(--accent)", textShadow: "0 0 10px currentColor" }}>COMPLEX</span>
           </div>
-          <div className="flex items-center gap-6 text-[13px] text-white/60">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[13px] text-white/60">
             {locationOrder.map((id) => (
-              <Link key={id} href={`/${locationSlugs[id]}`} className="hover:text-white/90">
+              <Link key={id} href={`/${locationSlugs[id]}`} className="whitespace-nowrap hover:text-white/90">
                 {t(locations[id].shortName, lang)}
               </Link>
             ))}
